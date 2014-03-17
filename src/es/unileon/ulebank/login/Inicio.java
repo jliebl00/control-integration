@@ -6,10 +6,10 @@ public class Inicio {
 		GuardarDatos guardar = new GuardarDatos();
 		guardar.datosAGuardar();
 		guardar.guardarDatos();
-		guardar.leer();
+		compare.leer();
 		compare.datos();
 		compare.codificarPass();
-		compare.comparar(guardar.getSacarLogin(),guardar.getSacarPass());
+		compare.comparar(compare.getSacarLogin(),compare.getSacarPass());
 		
 	}
 
