@@ -1,5 +1,6 @@
 package es.unileon.ulebank.handler;
 
+import es.unileon.ulebank.exceptions.HandlerException;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -17,6 +18,20 @@ public class IdOfficeTest {
     public void setUp() {
         oneIdOffice = new IdOffice(1234);
         anotherIdOffice = new IdOffice(9876);
+    }
+    
+    @Test
+    public void testBuilder(){
+        oneIdOffice=new IdOffice(4637);
+        assertEquals(4637, oneIdOffice.toString());
+    }
+    
+    /**
+     * No more than 4 digits
+     */
+    @Test(expected = HandlerException.class)
+    public void testBadIdOffice(){
+        new IdOffice(12345);
     }
 
     /**
