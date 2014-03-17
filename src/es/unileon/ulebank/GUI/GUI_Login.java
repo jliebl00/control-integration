@@ -1,37 +1,8 @@
 import java.awt.EventQueue;
-import java.awt.GridBagLayout;
-
-import javax.imageio.ImageIO;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-
-import java.awt.BorderLayout;
-
-import javax.swing.ImageIcon;
-import javax.swing.JDialog;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JTextField;
-import javax.swing.JPasswordField;
-import javax.swing.JButton;
-
-import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.image.BufferedImage;
-import java.awt.Font;
-import java.io.File;
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 
 public class GUI_Login {
 	private JFrame frame;
+	private ImagePanel panel;
 	private JTextField textFieldUser;
 	private JPasswordField passwordField;
 	private JDialog d;
@@ -45,6 +16,8 @@ public class GUI_Login {
 	//esto es solo para mostrarle al cliente como se veria
 	private String usser = "adrian";
 	private String pass = "123456";
+	private JTextField textField;
+	private JTextField textField_1;
 
 	/**
 	 * Launch the application.
@@ -74,45 +47,36 @@ public class GUI_Login {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.getContentPane().setBackground(Color.LIGHT_GRAY);
 		frame.setResizable(false);
-		frame.setBounds(100, 100, 500, 300);
+		frame.setBounds(200, 50, 955, 650);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(null);
 		
-
-		JLabel lblUser = new JLabel("Usuario");
-		lblUser.setFont(new Font("Lucida Grande", Font.BOLD, 13));
-		lblUser.setForeground(new Color(0, 0, 0));
-		lblUser.setBounds(224, 28, 55, 16);
-		frame.getContentPane().add(lblUser);
-
-		JLabel lblPassword = new JLabel("Contrase\u00F1a");
-		lblPassword.setFont(new Font("Lucida Grande", Font.BOLD, 13));
-		lblPassword.setBounds(211, 124, 85, 16);
-		frame.getContentPane().add(lblPassword);
-
+		this.panel = new ImagePanel("login");
+		panel.setLayout(null);
+		panel.setVisible(true);
+		frame.getContentPane().add(panel);
+		
 		textFieldUser = new JTextField();
-		textFieldUser.setBounds(76, 56, 348, 28);
-		frame.getContentPane().add(textFieldUser);
+		textFieldUser.setBounds(577, 121, 231, 37);
+		panel.add(textFieldUser);
 		textFieldUser.setColumns(10);
 		textFieldUser.setFocusable(true);
-
+		
 		passwordField = new JPasswordField();
-		passwordField.setBounds(76, 152, 348, 28);
-		frame.getContentPane().add(passwordField);
+		passwordField.setBounds(577, 205, 231, 37);
+		panel.add(passwordField);
 
 		lblWrongUser = new JLabel("Usuario Incorrecto");
 		lblWrongUser.setForeground(Color.RED);
-		lblWrongUser.setBounds(80, 96, 135, 16);
+		lblWrongUser.setBounds(577, 160, 135, 16);
 		lblWrongUser.setVisible(false);
-		frame.getContentPane().add(lblWrongUser);
+		panel.add(lblWrongUser);
 
 		lblWrongPass = new JLabel("Contrase\u00F1a Incorrecta");
 		lblWrongPass.setForeground(Color.RED);
-		lblWrongPass.setBounds(80, 192, 160, 16);
+		lblWrongPass.setBounds(577, 245, 160, 16);
 		lblWrongPass.setVisible(false);
-		frame.getContentPane().add(lblWrongPass);
+		panel.add(lblWrongPass);
 
 		JButton btnLogin = new JButton("Login");
 		btnLogin.addActionListener(new ActionListener() {
@@ -120,13 +84,13 @@ public class GUI_Login {
 				pressLogin();
 			}
 		});
-		
-		btnLogin.setBounds(76, 226, 117, 29);
-		frame.getContentPane().add(btnLogin);
+
+		btnLogin.setBounds(548, 291, 117, 29);
+		panel.add(btnLogin);
 
 		JButton btnCancel = new JButton("Cancelar");
-		btnCancel.setBounds(307, 226, 117, 29);
-		frame.getContentPane().add(btnCancel);
+		btnCancel.setBounds(716, 291, 117, 29);
+		panel.add(btnCancel);
 
 		btnCancel.addActionListener(new ActionListener() {
 
