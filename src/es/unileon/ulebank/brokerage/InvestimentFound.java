@@ -1,7 +1,7 @@
 package es.unileon.ulebank.brokerage;
 
 import java.util.logging.Handler;
-import ulebank.Employee;
+import es.unileon.ulebank.Employee;
 
 public class InvestimentFound {
     private final Handler foundID;
