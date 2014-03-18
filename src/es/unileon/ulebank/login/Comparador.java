@@ -12,7 +12,8 @@ public class Comparador {
 	String pass;
 	String sacarLogin;
 	String sacarPass;
-	String ruta = "C:/Users/gripapc/Desktop/archivo.txt";
+	String ruta = System.getProperty("user.dir");
+	String separado = System.getProperty("file.separator");
 	ArrayList<String> array;
 	String linea = "";
 	
@@ -27,7 +28,7 @@ public class Comparador {
 	
 	public void leer() {
 
-		File archivo = new File(ruta);
+		File archivo = new File(ruta + separado +"archivo.txt");
 		try {
 		
 			FileReader leerArchivo = new FileReader(archivo);
