@@ -1,4 +1,4 @@
-package ulebank.brokerage;
+package es.unileon.ulebank.brokerage;
 
 public class FeeStep {
     private final double low;
