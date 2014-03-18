@@ -6,6 +6,9 @@ build.xml
 manifest.mf
 nbproject/
 
+# Eclipse project data
+.project
+
 *.class
 
 # Package Files #
