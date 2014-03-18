@@ -1,6 +1,7 @@
+package es.unileon.ulebank.GUI;
+
 import java.awt.EventQueue;
 
-import javax.imageio.ImageIO;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -18,15 +19,7 @@ import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.awt.Font;
 import java.awt.Color;
-import java.io.File;
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import javax.swing.ImageIcon;
-import javax.swing.SwingConstants;
 
 public class GUI_AddEmployee {
 	private JFrame frame;
@@ -39,7 +32,7 @@ public class GUI_AddEmployee {
 	private JComboBox comboBoxRole;
 	private JDialog d;
 	private JLabel lblPassWrong;
-	private BufferedImage img = null;
+	private final BufferedImage img = null;
 	private java.net.URL url;
 	private ImageIcon ic;
 
@@ -48,6 +41,7 @@ public class GUI_AddEmployee {
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
+                        @Override
 			public void run() {
 				try {
 					GUI_AddEmployee window = new GUI_AddEmployee();
