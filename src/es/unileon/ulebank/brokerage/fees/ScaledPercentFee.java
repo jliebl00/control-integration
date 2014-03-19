@@ -6,6 +6,10 @@ import java.util.Iterator;
 public class ScaledPercentFee implements FeeStrategy {
 
     private final ArrayList<FeeStep> steps;
+
+    /**
+     * Minimum value which is always added to the total fee.
+     */
     private final double minimum;
 
     public ScaledPercentFee(double minimum) {
@@ -18,7 +22,7 @@ public class ScaledPercentFee implements FeeStrategy {
         if (this.steps.size() > 0) {
             Iterator<FeeStep> it = this.steps.iterator();
             FeeStep fs;
-            
+
             do {
                 fs = it.next();
                 if (fs.collides(step)) {

@@ -7,8 +7,20 @@ package es.unileon.ulebank.brokerage.fees;
  * @author roobre
  */
 public class FeeStep {
+    /**
+     * Lower boundary of the interval.
+     */
+    
     private final double low;
+    /**
+     * Higher boundary of the interval.
+     */
     private final double high;
+    
+    /**
+     * Fee to be applied as amount multiplicator, THUS ONE (a 2% fee is storead
+     * as 0.02).
+     */
     private final double fee;
     
     public FeeStep(double low, double high, double fee) {
