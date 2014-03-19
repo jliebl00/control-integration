@@ -1,5 +1,6 @@
 package es.unileon.ulebank.brokerage;
 
+import es.unileon.ulebank.brokerage.fees.FeeStrategy;
 import java.util.logging.Handler;
 import es.unileon.ulebank.Employee;
 

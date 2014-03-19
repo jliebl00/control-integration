@@ -1,4 +1,4 @@
-package es.unileon.ulebank.brokerage;
+package es.unileon.ulebank.brokerage.fees;
 
 public class CrossedStepException extends Exception {
     public CrossedStepException(FeeStep step1, FeeStep step2) {
