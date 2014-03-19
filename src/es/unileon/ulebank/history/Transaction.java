@@ -14,12 +14,21 @@ import java.util.logging.Handler;
  * @author roobre
  */
 public abstract class Transaction {
-    private Handler id;
-    private double amount;
-    private Date date;
-    private Date effectiveDate;
-    private String subject;
-    private Enum<TransactionType> type;
+    private final Handler id;
+    private final double amount;
+    private final Date date;
+    private final Date effectiveDate;
+    private final String subject;
+    private final Enum<TransactionType> type;
+
+    public Transaction(Handler id, double amount, Date date, Date effectiveDate, String subject, Enum<TransactionType> type) {
+        this.id = id;
+        this.amount = amount;
+        this.date = date;
+        this.effectiveDate = effectiveDate;
+        this.subject = subject;
+        this.type = type;
+    }
 
     /**
      * @return the id
