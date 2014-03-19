@@ -18,4 +18,16 @@ public class History<T extends Transaction> {
     public Collection<T> getTransactions() {
         return this.transactions;
     }
+
+    public void add(T trans) {
+        this.transactions.add(trans);
+    }
+
+    public void remove(T trans) {
+        this.transactions.remove(trans);
+    }
+    
+    public void clear() {
+        this.transactions.clear();
+    }
 }
