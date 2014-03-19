@@ -14,7 +14,7 @@ public class Office {
 	 * The id of the office
 	 */
 	IdOffice idOffice;
-	// ArrayList<Account> accountList;
+	ArrayList<Account> accountList;
 	/**
 	 * The list of employees of this office
 	 */
@@ -62,11 +62,13 @@ public class Office {
 	public void deleteEmployee(Employee employee) {
 		employeeList.remove(employee);
 	}
-	// public void addAccount(Account account){
-	// employeeList.add(employee);
-	// }
-	// public void deleteAccount(Account account){
-	// employeeList.remove(employee);
-	// }
+
+	public void addAccount(Account account) {
+		accountList.add(account);
+	}
+
+	public void deleteAccount(Account account) {
+		accountList.remove(account);
+	}
 
 }
