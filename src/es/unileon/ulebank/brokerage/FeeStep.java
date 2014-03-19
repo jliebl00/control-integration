@@ -38,8 +38,22 @@ public class FeeStep {
         return high;
     }
     
+    /**
+     * Checks if the interval contains a given value
+     * @param value Value to check
+     * @return True if the interval contains a given value, false otherwise.
+     */
     public boolean wraps(double value) {
         return (value >= this.low && value < this.high);
+    }
+    
+    /**
+     * Checks if two intervals overlap
+     * @param another Another interval to check.
+     * @return True if the two intervals overlap, false otherwise.
+     */
+    public boolean collides(FeeStep another) {
+        return this.high > another.low || this.low < another.high;
     }
     
     @Override
