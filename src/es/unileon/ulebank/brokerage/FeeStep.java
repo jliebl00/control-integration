@@ -1,5 +1,11 @@
 package es.unileon.ulebank.brokerage;
 
+/**
+ * @class FeeStep
+ * This class represents the boundaries of an interval and the fee associated to that interval.
+ * LOWER boundary is included but HIGHER boundary is NOT (a.k.a. [low, high)).
+ * @author roobre
+ */
 public class FeeStep {
     private final double low;
     private final double high;
@@ -30,5 +36,14 @@ public class FeeStep {
      */
     public double getHigh() {
         return high;
+    }
+    
+    public boolean wraps(double value) {
+        return (value >= this.low && value < this.high);
+    }
+    
+    @Override
+    public String toString() {
+        return "[" + this.low + "," + this.high + ")";
     }
 }
