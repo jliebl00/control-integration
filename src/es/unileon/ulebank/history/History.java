@@ -4,8 +4,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 /**
- *
+ * 
  * @author roobre
+ * @param <T> A subclass of Transaction
  */
 public class History<T extends Transaction> {
 
