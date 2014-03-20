@@ -1,6 +1,8 @@
 package es.unileon.ulebank;
 
 import java.util.ArrayList;
+
+import es.unileon.ulebank.handler.Handler;
 import es.unileon.ulebank.handler.IdOffice;
 
 /**
@@ -13,7 +15,7 @@ public class Office {
 	/**
 	 * The id of the office
 	 */
-	private IdOffice idOffice;
+	private Handler idOffice;
 	/**
 	 * The costs of the local of the office
 	 */
@@ -42,21 +44,22 @@ public class Office {
 	/**
 	 * Constructor of the class
 	 */
-	public Office(IdOffice idOffice) {
+	public Office(Handler idOffice) {
+		//this.idOffice = new IdOffice(Integer.parseInt(idOffice.toString()));
 		this.idOffice = idOffice;
 	}
 
 	/**
 	 * Returns the id of the office
 	 */
-	public IdOffice getIdOffice() {
+	public Handler getIdOffice() {
 		return idOffice;
 	}
 
 	/**
 	 * Sets the id of the office
 	 */
-	public void setIdOffice(IdOffice idOffice) {
+	public void setIdOffice(Handler idOffice) {
 		this.idOffice = idOffice;
 	}
 
