@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import es.unileon.ulebank.handler.Handler;
 import es.unileon.ulebank.handler.IdOffice;
+import es.unileon.ulebank.handler.MalformedHandlerException;
 
 /**
  * 
@@ -43,10 +44,11 @@ public class Office {
 
 	/**
 	 * Constructor of the class
+	 * 
+	 * @throws MalformedHandlerException
 	 */
-	public Office(Handler idOffice) {
-		//this.idOffice = new IdOffice(Integer.parseInt(idOffice.toString()));
-		this.idOffice = idOffice;
+	public Office(Handler idOffice) throws MalformedHandlerException {
+		this.idOffice = new IdOffice(idOffice.toString());
 	}
 
 	/**
@@ -84,10 +86,10 @@ public class Office {
 	}
 
 	/**
-	 * Returns the list of employees of the office
+	 * Returns a copy of the list of employees of the office
 	 */
 	public ArrayList<Employee> getEmployeeList() {
-		return employeeList;
+		return new ArrayList<Employee>(employeeList);
 	}
 
 	/**
@@ -138,5 +140,4 @@ public class Office {
 	public void deleteAccount(Account account) {
 		accountList.remove(account);
 	}
-
 }
