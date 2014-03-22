@@ -80,7 +80,7 @@ public class FeeStep {
      * @return True if the two intervals overlap, false otherwise.
      */
     public boolean collides(FeeStep another) {
-        return this.high > another.low || this.low < another.high;
+        return this.high > another.low && this.low < another.high;
     }
 
     @Override
