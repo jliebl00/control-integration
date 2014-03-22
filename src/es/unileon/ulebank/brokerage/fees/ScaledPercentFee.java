@@ -12,7 +12,11 @@ public class ScaledPercentFee implements FeeStrategy {
      */
     private final double minimum;
 
-    public ScaledPercentFee(double minimum) {
+    public ScaledPercentFee(double minimum) throws InvalidFeeException {
+        if (minimum < 0) {
+            throw new InvalidFeeException();
+        }
+        
         this.steps = new ArrayList<>();
         this.minimum = minimum;
     }
