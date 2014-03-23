@@ -9,7 +9,8 @@ import javax.swing.*;
 
 public class GUI_Login {
 	private JFrame frame;
-	private ImagePanel panel;
+//	private ImagePanel panel;
+	private JPanel panel;
 	private JTextField textFieldUser;
 	private JPasswordField passwordField;
 	private JDialog d;
@@ -58,7 +59,8 @@ public class GUI_Login {
 		frame.setBounds(200, 50, 955, 650);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		this.panel = new ImagePanel("login");
+//		this.panel = new ImagePanel("login");
+		this.panel = new JPanel();
 		panel.setLayout(null);
 		panel.setVisible(true);
 		frame.getContentPane().add(panel);

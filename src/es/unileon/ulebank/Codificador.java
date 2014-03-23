@@ -1,3 +1,5 @@
+package es.unileon.ulebank;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -21,7 +23,7 @@ public class Codificador {
 		return passw;
 	}
 	
-	//Método para transformar el array de bytes en una cadena hexadecimal
+	//Mï¿½todo para transformar el array de bytes en una cadena hexadecimal
 	private static String translateToHex(byte buf[]) {
 	    StringBuilder strbuf = new StringBuilder(buf.length * 2);
 	    for (int i = 0; i < buf.length; i++) {

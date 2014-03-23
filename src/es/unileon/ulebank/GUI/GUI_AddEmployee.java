@@ -160,7 +160,7 @@ public class GUI_AddEmployee {
 		JButton btnAdd = new JButton("A\u00F1adir");
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-
+				addEmployee();
 			}
 		});
 		btnAdd.setBounds(60, 330, 120, 29);
@@ -195,5 +195,9 @@ public class GUI_AddEmployee {
 				frame.dispose();
 			}
 		});
+	}
+	
+	private void addEmployee(){
+		
 	}
 }
