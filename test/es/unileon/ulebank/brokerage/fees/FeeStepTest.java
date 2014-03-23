@@ -13,16 +13,20 @@ import static org.junit.Assert.*;
 
 /**
  *
- * @author roobre
+ * @author roobre, dain735
  */
 public class FeeStepTest {
-	
-	FeeStep feeStep1 = new FeeStep(0, 1000, 0.01);
-	FeeStep feeStep2 = new FeeStep(1000, 1200, 0.2);
-//	FeeStep feeStep3 = new FeeStep(1000, 500, 0.03);
-	FeeStep feeStep4 = new FeeStep(800, 1200, 0.5);
 
-    public FeeStepTest() {
+    public FeeStepTest() throws InvalidStepException, InvalidFeeException {
+    	FeeStep feeStep1 = new FeeStep(0, 1000, 0.01);
+    	FeeStep feeStep2 = new FeeStep(1000, 1200, 0.2);
+    	try {
+			FeeStep feeStep3 = new FeeStep(1000, 500, 0.03);
+		} catch (InvalidStepException | InvalidFeeException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	FeeStep feeStep4 = new FeeStep(800, 1200, 0.5);
     }
 
     @Before
@@ -31,31 +35,43 @@ public class FeeStepTest {
     }
 
     @Test
-    public void testGetFee() {
+    public void testGetFee() throws InvalidStepException, InvalidFeeException {
+    	FeeStep feeStep1 = new FeeStep(0, 1000, 0.01);
+    	FeeStep feeStep2 = new FeeStep(1000, 1200, 0.2);
+    	FeeStep feeStep4 = new FeeStep(800, 1200, 0.5);
+    	
         assertEquals(0.01, feeStep1.getFee(), 0.0);
         assertEquals(0.2, feeStep2.getFee(), 0.0);
-//        assertEquals(0.03, feeStep3.getFee(), 0.0);
         assertEquals(0.5, feeStep4.getFee(), 0.0);
     }
 
     @Test
-    public void testGetLow() {
+    public void testGetLow() throws InvalidStepException, InvalidFeeException {
+    	FeeStep feeStep1 = new FeeStep(0, 1000, 0.01);
+    	FeeStep feeStep2 = new FeeStep(1000, 1200, 0.2);
+    	FeeStep feeStep4 = new FeeStep(800, 1200, 0.5);
+    	
         assertEquals(0, feeStep1.getLow(), 0.0);
         assertEquals(1000, feeStep2.getLow(), 0.0);
-//        assertEquals(1000, feeStep3.getLow(), 0.0);
         assertEquals(800, feeStep4.getLow(), 0.0);
     }
 
     @Test
-    public void testGetHigh() {
+    public void testGetHigh() throws InvalidStepException, InvalidFeeException {
+    	FeeStep feeStep1 = new FeeStep(0, 1000, 0.01);
+    	FeeStep feeStep2 = new FeeStep(1000, 1200, 0.2);
+    	FeeStep feeStep4 = new FeeStep(800, 1200, 0.5);
+    	
         assertEquals(1000, feeStep1.getHigh(), 0.0);
         assertEquals(1200, feeStep2.getHigh(), 0.0);
-//        assertEquals(500, feeStep3.getHigh(), 0.0);
         assertEquals(1200, feeStep4.getHigh(), 0.0);
     }
 
     @Test
-    public void testWraps() {
+    public void testWraps() throws InvalidStepException, InvalidFeeException {
+    	FeeStep feeStep1 = new FeeStep(0, 1000, 0.01);
+    	FeeStep feeStep2 = new FeeStep(1000, 1200, 0.2);
+    	FeeStep feeStep4 = new FeeStep(800, 1200, 0.5);
         
         assertTrue(feeStep1.wraps(100));
         assertTrue(feeStep1.wraps(0));
@@ -75,9 +91,12 @@ public class FeeStepTest {
     }
 
     @Test
-    public void testCollides() {
+    public void testCollides() throws InvalidStepException, InvalidFeeException {
+    	FeeStep feeStep1 = new FeeStep(0, 1000, 0.01);
+    	FeeStep feeStep2 = new FeeStep(1000, 1200, 0.2);
+    	FeeStep feeStep4 = new FeeStep(800, 1200, 0.5);
+    	
         assertFalse(feeStep1.collides(feeStep2));
-//        assertFalse(feeStep1.collides(feeStep3));
         assertTrue(feeStep1.collides(feeStep1));
         assertTrue(feeStep1.collides(feeStep4));
         
@@ -88,7 +107,11 @@ public class FeeStepTest {
     }
 
     @Test
-    public void testToString() {
+    public void testToString() throws InvalidStepException, InvalidFeeException {
+    	FeeStep feeStep1 = new FeeStep(0, 1000, 0.01);
+    	FeeStep feeStep2 = new FeeStep(1000, 1200, 0.2);
+    	FeeStep feeStep4 = new FeeStep(800, 1200, 0.5);
+    	
         assertEquals("[0.0,1000.0)", feeStep1.toString());
         assertEquals("[1000.0,1200.0)", feeStep2.toString());
         assertEquals("[800.0,1200.0)", feeStep4.toString());
