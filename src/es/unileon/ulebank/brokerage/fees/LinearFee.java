@@ -13,7 +13,11 @@ public class LinearFee implements FeeStrategy {
      */
     private final double minimum;
 
-    public LinearFee(double fee, double minimum) {
+    public LinearFee(double fee, double minimum) throws InvalidFeeException {
+        if (fee < 0 || minimum < 0) {
+            throw new InvalidFeeException();
+        }
+        
         this.fee = fee;
         this.minimum = minimum;
     }
