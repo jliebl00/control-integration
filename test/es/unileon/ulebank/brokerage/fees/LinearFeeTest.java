@@ -16,9 +16,6 @@ import static org.junit.Assert.*;
  * @author roobre, dain735
  */
 public class LinearFeeTest {
-	
-	LinearFee linearFee1 = new LinearFee(0.2, 10);
-	LinearFee linearFee2 = new LinearFee(0.2, 0);
 
     public LinearFeeTest() {
     }
@@ -28,7 +25,10 @@ public class LinearFeeTest {
     }
 
     @Test
-    public void testGetFee() {
+    public void testGetFee() throws InvalidFeeException {
+    	LinearFee linearFee1 = new LinearFee(0.2, 10);
+    	LinearFee linearFee2 = new LinearFee(0.2, 0);
+    	
         assertEquals(100*0.2+10, linearFee1.getFee(100), 0.0);
         assertEquals(100*0.2+0, linearFee2.getFee(100), 0.0);
     }
