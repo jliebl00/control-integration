@@ -44,7 +44,7 @@ public class ScaledPercentFee implements FeeStrategy {
     public double getFee(double value) {
         boolean match;
         FeeStep fs = null;
-
+        
         if (this.steps.size() > 0) {
             Iterator<FeeStep> it = this.steps.iterator();
             do {
