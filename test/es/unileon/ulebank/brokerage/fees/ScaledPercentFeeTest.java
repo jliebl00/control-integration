@@ -9,13 +9,18 @@ package es.unileon.ulebank.brokerage.fees;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import static org.hamcrest.CoreMatchers.*;
+//import static org.hamcrest.CoreMatchers.*;
 
 /**
  *
- * @author roobre
+ * @author roobre, dain735
  */
 public class ScaledPercentFeeTest {
+	
+	FeeStep feeStep1 = new FeeStep(0, 1000, 0.01);
+	FeeStep feeStep2 = new FeeStep(1000, 1200, 0.2);
+	FeeStep feeStep3 = new FeeStep(1200, 2000, 0.03);
+	FeeStep feeStep4 = new FeeStep(800, 1200, 0.5);
 
     public ScaledPercentFeeTest() {
     }
@@ -26,22 +31,33 @@ public class ScaledPercentFeeTest {
 
     @Test
     public void testAddStep() throws Exception {
-        System.out.println("addStep");
-        FeeStep step = null;
-        ScaledPercentFee instance = null;
-        instance.addStep(step);
-        fail("The test case is a prototype.");
+        ScaledPercentFee instance = new ScaledPercentFee(0.0);
+        instance.addStep(feeStep1);
+        
+        try {
+			instance.addStep(feeStep2);
+		} catch (CrossedStepException e) {
+			e.printStackTrace();
+		}
+        
+        instance.addStep(feeStep3);		//Throws CrossedStepException but it shouldn't
+        
+        try {
+			instance.addStep(feeStep4);
+		} catch (CrossedStepException e) {
+			e.printStackTrace();
+		}
     }
 
     @Test
-    public void testGetFee() {
-        System.out.println("getFee");
-        double value = 0.0;
-        ScaledPercentFee instance = null;
-        double expResult = 0.0;
-        double result = instance.getFee(value);
-        assertEquals(expResult, result, 0.0);
-        fail("The test case is a prototype.");
+    public void testGetFee() throws CrossedStepException {
+    	ScaledPercentFee instance = new ScaledPercentFee(10);
+    	instance.addStep(feeStep1);
+//    	instance.addStep(feeStep3);
+    	assertEquals(500*0.01+10, instance.getFee(500), 0.0);
+    	assertEquals(0*0.01+10, instance.getFee(0), 0.0);
+    	assertFalse(1100*0.01+10==(instance.getFee(1100)));		//1100 is not in feeStep1 but we are considering so
+    	
     }
 
 }
