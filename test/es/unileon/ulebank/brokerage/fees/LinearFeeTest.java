@@ -9,13 +9,16 @@ package es.unileon.ulebank.brokerage.fees;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
-import static org.hamcrest.CoreMatchers.*;
+//import static org.hamcrest.CoreMatchers.*;
 
 /**
  *
- * @author roobre
+ * @author roobre, dain735
  */
 public class LinearFeeTest {
+	
+	LinearFee linearFee1 = new LinearFee(0.2, 10);
+	LinearFee linearFee2 = new LinearFee(0.2, 0);
 
     public LinearFeeTest() {
     }
@@ -26,13 +29,8 @@ public class LinearFeeTest {
 
     @Test
     public void testGetFee() {
-        System.out.println("getFee");
-        double value = 0.0;
-        LinearFee instance = null;
-        double expResult = 0.0;
-        double result = instance.getFee(value);
-        assertEquals(expResult, result, 0.0);
-        fail("The test case is a prototype.");
+        assertEquals(100*0.2+10, linearFee1.getFee(100), 0.0);
+        assertEquals(100*0.2+0, linearFee2.getFee(100), 0.0);
     }
 
 }
