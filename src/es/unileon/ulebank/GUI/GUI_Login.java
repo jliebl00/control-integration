@@ -7,6 +7,8 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import javax.swing.*;
 
+import es.unileon.ulebank.Comparador;
+
 public class GUI_Login {
 	private JFrame frame;
 //	private ImagePanel panel;
@@ -127,23 +129,16 @@ public class GUI_Login {
 	}
 	
 	public void pressLogin(){
-		String user1 = textFieldUser.getText();
-		String pass1 = new String(passwordField.getPassword());
+		Comparador compare = new Comparador(textFieldUser.getText(), new String(passwordField.getPassword()));
+		compare.leer();
+		compare.codificarPass();
 		JOptionPane login;
 		
-		if(user1.equals(usser)){
-			lblWrongUser.setVisible(false);
-			if(pass1.equals(pass)){
-				lblWrongPass.setVisible(false);
-				
-				JOptionPane.showMessageDialog(this.frame, "log in succesful", "log in", JOptionPane.INFORMATION_MESSAGE);
-				
-			}else{
-				lblWrongPass.setVisible(true);
-			}
+		if(compare.comparar(compare.getSacarLogin(), compare.getSacarPass())){
+			JOptionPane.showMessageDialog(this.frame, "log in succesful", "log in", JOptionPane.INFORMATION_MESSAGE);
+			
 		}else{
-			lblWrongUser.setVisible(true);
-			lblWrongPass.setVisible(true);
+			JOptionPane.showMessageDialog(this.frame, "user or password wrong", "user or password wrong", JOptionPane.INFORMATION_MESSAGE);
 		}
 	}
 }

@@ -20,12 +20,13 @@ public class Comparador {
 	String linea = "";
 	
 
-	public Comparador() {
+	public Comparador(String login, String pass) {
 		teclado = new Scanner(System.in);
 		codificar = new Codificador();
 		guardar = new Register();
 		array = new ArrayList<String>();
-
+		this.login = login;
+		this.pass = pass;
 	}
 	
 	public void leer() {
