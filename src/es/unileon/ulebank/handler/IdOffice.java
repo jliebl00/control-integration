@@ -9,7 +9,7 @@ public class IdOffice implements Handler {
 
 	private String numberOffice;
 
-	public IdOffice(int number) throws MalformedHandlerException {
+	public IdOffice(int number)  {
 
 		if (number >= 0) {
 
@@ -32,7 +32,14 @@ public class IdOffice implements Handler {
 		}
 	}
 
-	public IdOffice(String numberOffice) throws MalformedHandlerException {
+	public IdOffice(String numberOffice)  {
+            try {
+                Integer.parseInt(numberOffice);
+            } catch (NumberFormatException e) {
+                throw new MalformedHandlerException(
+					"The idOffice has to be a number");
+            }
+            
 		if (Integer.parseInt(numberOffice) >= 0) {
 			if (numberOffice.length() == 4) {
 				this.numberOffice = numberOffice;
@@ -51,6 +58,12 @@ public class IdOffice implements Handler {
 					"The idOffice has to be a positive number");
 		}
 	}
+
+        public int getIdOffice() {
+            return Integer.parseInt(numberOffice);
+        }
+        
+        
 
 	@Override
 	public int compareTo(Handler another) {

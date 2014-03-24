@@ -1,45 +1,122 @@
 package es.unileon.ulebank.handler;
 
 
-
-import es.unileon.ulebank.exceptions.HandlerException;
-
 public class IdDNI implements Handler {
-	
-	private char letter;
-	private int dni;
+	private static final String NIF_STRING_ASOCIATION = "TRWAGMYFPDXBNJZSQVHLCKE";
 
-	public IdDNI(int dni, char letter) throws HandlerException {
-//Comprobar mayusculas. ignoreCase
-//		if (Integer.toString(dni).length() == 8
-//				&& Character.toString(letter).compareTo("ñ") != 0) {
-			this.letter = letter;
-			this.dni = dni;
-//		} else {
-//			throw new HandlerException();
-//		}
-	}
+    private char letter;
+    private int dni;
 
-	public IdDNI(String dni) throws HandlerException {
-		
-		if (dni.length() == 9 && Character.toString(dni.charAt(dni.length()-1)).compareTo("ñ") != 0) {
-			this.letter = dni.charAt(dni.length() - 1);
-			this.dni = Integer.parseInt(dni.substring(0, dni.length() - 1));
-		} else {
-			throw new HandlerException();
-		}
-	}
+    public IdDNI(Integer dni, Character letter) {
+        boolean correct = true;
+        StringBuilder error = new StringBuilder();
 
-	@Override
-	public int compareTo(Handler another) {
-		return this.toString().compareTo(another.toString());
-	}
+        if (dni == null || letter == null) {
+            correct = false;
+            error.append("The number or letter can't be null\n");
+        } else if (dni < 0) {
+            correct = false;
+            error.append("The number of dni must be non negative.\n");
+        } else {
 
-	@Override
-	public String toString() {
-		String resultado;
-		resultado = Integer.toString(dni);
-		return resultado.concat(Character.toString(letter));
-	}
+            correct = correct & checkDNI(dni, letter);
+        }
+        if (correct) {
+            this.dni = dni;
+            this.letter = letter;
+        } else {
+            throw new MalformedHandlerException("Bad DNI: ".concat(error.toString()));
+        }
+    }
 
+    private static boolean checkDNI(Integer dni, Character letter) {
+        boolean correct = true;
+        StringBuilder error = new StringBuilder();
+
+        if (dni == null || letter == null) {
+            correct = false;
+            error.append("The number or letter can't be null");
+        } else if (dni < 0) {
+            correct = false;
+            error.append("The number of dni must be non negative.\n");
+        } else {
+
+            if (Character.toString(letter).compareToIgnoreCase(
+                    Character.toString(charDNI(dni))) != 0) {
+                correct = false;
+            }
+            
+            if(dni.toString().length()>8){
+                correct=false;
+                error.append("The number is too long. Check again");
+            }
+        }
+
+        if (correct) {
+            return correct;
+        } else {
+            throw new MalformedHandlerException("Bad DNI: ".concat(error.toString()));
+        }
+    }
+
+    public IdDNI(String dni) {
+        boolean correct = true;
+        StringBuilder error = new StringBuilder();
+
+        if (dni == null) {
+            error.append("The dni can't be null");
+            throw new MalformedHandlerException("Bad DNI: ".concat(error.toString()));
+
+        } else if (dni.length() < 2) {
+            correct = false;
+            error.append("The DNI must have at least one number and the letter");
+        } else {
+            Integer dniNumber = Integer.parseInt(dni.substring(0, dni.length() - 1));
+            Character letterDni = dni.charAt(dni.length() - 1);
+
+            if (checkDNI(dniNumber, letterDni)) {
+                this.dni = dniNumber;
+                this.letter = letterDni;
+            }
+
+        }
+
+        if (!correct) {
+            throw new MalformedHandlerException("Bad DNI: ".concat(error.toString()));
+        }
+    }
+
+    private static char charDNI(int dni) {
+        return NIF_STRING_ASOCIATION.charAt(dni % 23);
+    }
+
+    @Override
+    public int compareTo(Handler another) {
+        return this.toString().compareTo(another.toString());
+    }
+
+    @Override
+    public String toString() {
+        String resultado;
+        resultado = Integer.toString(dni);
+        return resultado.concat(Character.toString(letter));
+    }
+
+    /**
+     * return the number of dni
+     *
+     * @return the number of dni
+     */
+    public int getNif() {
+        return dni;
+    }
+
+    /**
+     * Return the letter of the dni
+     *
+     * @return the letter of the dni
+     */
+    public char getLetter() {
+        return letter;
+    }
 }

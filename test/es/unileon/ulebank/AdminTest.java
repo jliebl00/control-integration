@@ -23,6 +23,7 @@ public class AdminTest {
     IdDNI anotherDNI;
     IdOffice oneIdOffice;
     IdOffice anotherIdOffice;
+    float salary=5000;
     
     @Before
     public void setUp() {
@@ -32,8 +33,8 @@ public class AdminTest {
         oneIdOffice=new IdOffice(1234);
         anotherIdOffice=new IdOffice(9876);
         
-        oneEmployee=new Admin("name", "surname", oneIdOffice, dni);
-        anotherEmployee=new Admin("name2", "surname2", anotherIdOffice, anotherDNI);
+        oneEmployee=new Admin("name", "surname", salary, oneIdOffice, dni);
+        anotherEmployee=new Admin("name2", "surname2", salary, anotherIdOffice, anotherDNI);
     }
 
     /**

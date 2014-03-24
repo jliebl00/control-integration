@@ -7,7 +7,7 @@ package es.unileon.ulebank.handler;
  *
  * @author runix
  */
-public class MalformedHandlerException extends Exception{
+public class MalformedHandlerException extends RuntimeException{
     
     public MalformedHandlerException(String msg) {
         super(msg);

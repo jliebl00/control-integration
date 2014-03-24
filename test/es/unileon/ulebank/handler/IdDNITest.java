@@ -1,6 +1,5 @@
 package es.unileon.ulebank.handler;
 
-import es.unileon.ulebank.exceptions.HandlerException;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -11,8 +10,7 @@ import static org.junit.Assert.*;
  * @author dorian
  */
 public class IdDNITest {
-
-	IdDNI oneDNI;
+IdDNI oneDNI;
 	IdDNI anotherDNI;
 
 	@Before
@@ -50,34 +48,36 @@ public class IdDNITest {
 	 * Test the method getNif()
 	 */
 	public void testGetNif() {
-		// int nif=oneDNI.getNif();
-		// assertEquals(71463395, nif);
-		//
-		// nif=anotherDNI.getNif();
-		// assertEquals(36167364, nif);
-
-		fail("Implements the methods and descoment the test");
+		 int nif=oneDNI.getNif();
+		 assertEquals(71463395, nif);
+		
+		 nif=anotherDNI.getNif();
+		 assertEquals(36167364, nif);
 	}
 
 	/**
 	 * Test the method getLetter
 	 */
 	public void testGetLetter() {
-		// char letter=oneDNI.getLetter();
-		// assertEquals('A', letter);
-		//
-		// letter=anotherDNI.getLetter();
-		// assertEquals('W', letter);
-
-		fail("Implements the methods and descoment the test");
+		 char letter=oneDNI.getLetter();
+		 assertEquals('A', letter);
+		
+		 letter=anotherDNI.getLetter();
+		 assertEquals('W', letter);
 	}
 
-	@Test(expected = HandlerException.class)
+        /**
+         * Test if throw an exception when give null
+         */
+	@Test(expected = MalformedHandlerException.class)
 	public void testStringNull() {
 		Handler id = new IdDNI(null);
 	}
 
-	@Test(expected = HandlerException.class)
+        /**
+         * Test if throw an exception when give null
+         */
+	@Test(expected = MalformedHandlerException.class)
 	public void testIntNull() {
 		Integer number = null;
 		Handler id = new IdDNI(number, 'A');
@@ -87,10 +87,10 @@ public class IdDNITest {
 	 * Test the builder with one parameter (string) Throws an exception when
 	 * there is no number. Need at least one
 	 * 
-	 * @throws HandlerException
+	 * @throws MalformedHandlerException
 	 */
-	@Test(expected = HandlerException.class)
-	public void testBadDNIStringLenght() throws HandlerException {
+	@Test(expected = MalformedHandlerException.class)
+	public void testBadDNIStringLenght() {
 		IdDNI id = new IdDNI("A");
 	}
 
@@ -98,21 +98,21 @@ public class IdDNITest {
 	 * Test the builder with one parameter (string) Throws an exception when the
 	 * number is too long
 	 * 
-	 * @throws HandlerException
+	 * @throws MalformedHandlerException
 	 */
-	@Test(expected = HandlerException.class)
-	public void testBadDNIStringTooLenght() throws HandlerException {
-		IdDNI id = new IdDNI("7146339571469588A");
+	@Test(expected = MalformedHandlerException.class)
+	public void testBadDNIStringTooLenght() {
+		IdDNI id = new IdDNI("714633957A");
 	}
 
 	/**
 	 * Test the builder with two parameters (int and letter) Throws an exception
 	 * when the letter is not the correct letter for the nif
 	 * 
-	 * @throws HandlerException
+	 * @throws MalformedHandlerException
 	 */
-	@Test(expected = HandlerException.class)
-	public void testIncorrectLetter() throws HandlerException {
+	@Test(expected = MalformedHandlerException.class)
+	public void testIncorrectLetter() {
 		// Letter W is not the correct letter for the dni
 		IdDNI id = new IdDNI("71463395W");
 	}
@@ -121,10 +121,10 @@ public class IdDNITest {
 	 * Test the builder with two parameters (int, char) Throws an exception when
 	 * the letter not exists as a part of dni
 	 * 
-	 * @throws HandlerException
+	 * @throws MalformedHandlerException
 	 */
-	@Test(expected = HandlerException.class)
-	public void testInexistLetterWithInt() throws HandlerException {
+	@Test(expected = MalformedHandlerException.class)
+	public void testInexistLetterWithInt() {
 		// Letter O is not part of the dni
 		IdDNI id = new IdDNI(71463395, 'O');
 	}
@@ -133,10 +133,10 @@ public class IdDNITest {
 	 * Test the builder with one parameter (string) Throws an exception when the
 	 * letter not exists as a part of dni
 	 * 
-	 * @throws HandlerException
+	 * @throws MalformedHandlerException
 	 */
-	@Test(expected = HandlerException.class)
-	public void testInexistLetter() throws HandlerException {
+	@Test(expected = MalformedHandlerException.class)
+	public void testInexistLetter()  {
 		// Letter O is not part of the dni
 		IdDNI id = new IdDNI("71463395O");
 	}
@@ -145,10 +145,10 @@ public class IdDNITest {
 	 * Test the builder with two parameters (int and letter) Throws an exception
 	 * when the letter is not the correct letter for the nif
 	 * 
-	 * @throws HandlerException
+	 * @throws MalformedHandlerException
 	 */
-	@Test(expected = HandlerException.class)
-	public void testIncorrectLetterWithInt() throws HandlerException {
+	@Test(expected = MalformedHandlerException.class)
+	public void testIncorrectLetterWithInt()  {
 		// Letter W is not the correct letter for the dni
 		IdDNI id = new IdDNI(71463395, 'W');
 	}
@@ -157,10 +157,10 @@ public class IdDNITest {
 	 * Test of builder with one parameter (string). test if throws an error when
 	 * give another else instead of the letter
 	 * 
-	 * @throws HandlerException
+	 * @throws MalformedHandlerException
 	 */
-	@Test(expected = HandlerException.class)
-	public void testNoLetterString() throws HandlerException {
+	@Test(expected = MalformedHandlerException.class)
+	public void testNoLetterString() {
 		IdDNI id = new IdDNI("714633959");
 	}
 
@@ -168,10 +168,10 @@ public class IdDNITest {
 	 * Test of builder with two parameters. test if throws an error when give
 	 * another else instead of the letter
 	 * 
-	 * @throws HandlerException
+	 * @throws MalformedHandlerException
 	 */
-	@Test(expected = HandlerException.class)
-	public void testNoLetterStringWithInt() throws HandlerException {
+	@Test(expected = MalformedHandlerException.class)
+	public void testNoLetterStringWithInt() {
 		IdDNI id = new IdDNI(71463395, '5');
 	}
 
