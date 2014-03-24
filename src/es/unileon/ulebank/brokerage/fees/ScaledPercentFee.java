@@ -22,7 +22,6 @@ public class ScaledPercentFee implements FeeStrategy {
     }
 
     public void addStep(FeeStep step) throws CrossedStepException {
-
         if (this.steps.size() > 0) {
             Iterator<FeeStep> it = this.steps.iterator();
             FeeStep fs;
