@@ -3,6 +3,7 @@ package es.unileon.ulebank;
 import es.unileon.ulebank.handler.Handler;
 import es.unileon.ulebank.handler.IdDNI;
 import es.unileon.ulebank.handler.IdOffice;
+import es.unileon.ulebank.handler.MalformedHandlerException;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -18,17 +19,21 @@ public class EmployeeTest {
     IdDNI anotherDNI;
     IdOffice oneIdOffice;
     IdOffice anotherIdOffice;
+    float salary;
     
     @Before
-    public void setUp() {
+    public void setUp() throws MalformedHandlerException {
         dni=new IdDNI("71463395A");
         anotherDNI=new IdDNI("36167364W");
+        
         
         oneIdOffice=new IdOffice(1234);
         anotherIdOffice=new IdOffice(9876);
         
-        oneEmployee=new Employee("name", "surname", oneIdOffice, dni);
-        anotherEmployee=new Employee("name2", "surname2", anotherIdOffice, anotherDNI);
+        salary = 1250;
+        
+        oneEmployee=new Employee("name", "surname",salary, oneIdOffice, dni);
+        anotherEmployee=new Employee("name2", "surname2",salary, anotherIdOffice, anotherDNI);
     }
 
     /**
@@ -102,7 +107,7 @@ public class EmployeeTest {
      * Test of setIdOffice method, of class Employee.
      */
     @Test
-    public void testSetIdOffice() {
+    public void testSetIdOffice() throws MalformedHandlerException {
         System.out.println("setIdOffice");
         Handler idOffice = new IdOffice(55);
         oneEmployee.setIdOffice(idOffice);
