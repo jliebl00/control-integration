@@ -17,20 +17,30 @@ import static org.junit.Assert.*;
  */
 public class LinearFeeTest {
 
+	LinearFee linearFee1;
+	LinearFee linearFee2;
+	LinearFee linearFee3;
+	LinearFee linearFee4;
+	
     public LinearFeeTest() {
     }
 
     @Before
-    public void setUp() {
+    public void setUp() throws InvalidFeeException {
+    	linearFee1 = new LinearFee(0.2, 10);
+    	linearFee2 = new LinearFee(0.2, 0);
     }
 
     @Test
-    public void testGetFee() throws InvalidFeeException {
-    	LinearFee linearFee1 = new LinearFee(0.2, 10);
-    	LinearFee linearFee2 = new LinearFee(0.2, 0);
-    	
+    public void testGetFee() {
         assertEquals(100*0.2+10, linearFee1.getFee(100), 0.0);
         assertEquals(100*0.2+0, linearFee2.getFee(100), 0.0);
+    }
+    
+    @Test (expected = InvalidFeeException.class)
+    public void testInvalidFeeException() throws InvalidFeeException {
+    	linearFee3 = new LinearFee(-0.2, 0);
+    	
     }
 
 }
