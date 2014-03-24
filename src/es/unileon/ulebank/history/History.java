@@ -4,8 +4,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 /**
- *
+ * 
  * @author roobre
+ * @param <T> A subclass of Transaction
  */
 public class History<T extends Transaction> {
 
@@ -16,6 +17,18 @@ public class History<T extends Transaction> {
     }
 
     public Collection<T> getTransactions() {
-        return this.transactions;
+        return new ArrayList(this.transactions);
+    }
+
+    public void add(T trans) {
+        this.transactions.add(trans);
+    }
+
+    public void remove(T trans) {
+        this.transactions.remove(trans);
+    }
+    
+    public void clear() {
+        this.transactions.clear();
     }
 }

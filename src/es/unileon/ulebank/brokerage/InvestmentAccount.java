@@ -3,11 +3,11 @@ package es.unileon.ulebank.brokerage;
 import java.util.ArrayList;
 import es.unileon.ulebank.Account;
 
-public class InvestimentAccount extends Account {
+public class InvestmentAccount extends Account {
     
     private final ArrayList<StockPack> stockPacks;
     
-    public InvestimentAccount() {
+    public InvestmentAccount() {
         this.stockPacks = new ArrayList<>();
     }
 
