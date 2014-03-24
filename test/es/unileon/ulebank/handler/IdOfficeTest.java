@@ -1,6 +1,5 @@
 package es.unileon.ulebank.handler;
 
-import es.unileon.ulebank.exceptions.HandlerException;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -30,10 +29,18 @@ public class IdOfficeTest {
 	/**
 	 * No more than 4 digits
 	 */
-	@Test(expected = HandlerException.class)
+	@Test(expected = MalformedHandlerException.class)
 	public void testBadIdOffice() {
 		new IdOffice(12345);
 	}
+        
+        /**
+         * Test if throw an exception when pass letters instead of numbers
+         */
+        @Test(expected = MalformedHandlerException.class)
+        public void testBadIdOfficeLetters(){
+            new IdOffice("number");
+        }
 
 	/**
 	 * Test the builder
@@ -42,6 +49,9 @@ public class IdOfficeTest {
 	public void testIdOffice() {
 		IdOffice id = new IdOffice(1234);
 		assertEquals(0, id.compareTo(oneIdOffice));
+                
+                id = new IdOffice("1234");
+		assertEquals(0, id.compareTo(oneIdOffice));
 
 	}
 
@@ -49,13 +59,11 @@ public class IdOfficeTest {
 	 * Test the method getIdOffice()
 	 */
 	public void testGetIdOffice() {
-		// int id=oneDNI.getIdOffice();
-		// assertEquals(1234, id);
-		//
-		// id=anotherDNI.getIdOffice();
-		// assertEquals(9876, id);
-
-		fail("Implements the methods and descoment the test");
+		 int id=oneIdOffice.getIdOffice();
+		 assertEquals(1234, id);
+		
+		 id=anotherIdOffice.getIdOffice();
+		 assertEquals(9876, id);
 	}
 
 	/**

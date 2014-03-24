@@ -3,6 +3,7 @@ package es.unileon.ulebank;
 import es.unileon.ulebank.handler.Handler;
 import es.unileon.ulebank.handler.IdDNI;
 import es.unileon.ulebank.handler.IdOffice;
+import es.unileon.ulebank.handler.MalformedHandlerException;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -18,17 +19,20 @@ public class EmployeeTest {
     IdDNI anotherDNI;
     IdOffice oneIdOffice;
     IdOffice anotherIdOffice;
+    float salary;
     
     @Before
     public void setUp() {
+        salary=5000;
+        
         dni=new IdDNI("71463395A");
         anotherDNI=new IdDNI("36167364W");
         
         oneIdOffice=new IdOffice(1234);
         anotherIdOffice=new IdOffice(9876);
         
-        oneEmployee=new Employee("name", "surname", oneIdOffice, dni);
-        anotherEmployee=new Employee("name2", "surname2", anotherIdOffice, anotherDNI);
+        oneEmployee=new Employee("name", "surname", salary, oneIdOffice, dni);
+        anotherEmployee=new Employee("name2", "surname2", salary, anotherIdOffice, anotherDNI);
     }
 
     /**
@@ -183,6 +187,29 @@ public class EmployeeTest {
         
         Handler result = oneEmployee.getIdEmployee();
         assertEquals(dni, result);
+    }
+    
+    /**
+     * Test the method getSalary()
+     */
+    @Test
+    public void testGetSalary(){
+        assertEquals(5000, oneEmployee.getSalary(),0);
+    }
+    
+    /**
+     * Test the set salary
+     * a negative salary is not acepted
+     */
+    @Test
+    public void testSetSalary(){
+        float newSalary=3000;
+        float badSalary=-1000;
+        assertEquals(5000, oneEmployee.getSalary(),0);
+        oneEmployee.setSalary(newSalary);
+        assertEquals(newSalary, oneEmployee.getSalary(),0);
+        oneEmployee.setSalary(badSalary);
+        assertEquals(newSalary, oneEmployee.getSalary(),0);
     }
     
 }

@@ -1,3 +1,5 @@
+package es.unileon.ulebank;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -7,7 +9,7 @@ import java.util.Scanner;
 public class Comparador {
 	Scanner teclado;
 	Codificador codificar;
-	GuardarDatos guardar;
+	Register guardar;
 	String login;
 	String pass;
 	String sacarLogin;
@@ -21,7 +23,7 @@ public class Comparador {
 	public Comparador() {
 		teclado = new Scanner(System.in);
 		codificar = new Codificador();
-		guardar = new GuardarDatos();
+		guardar = new Register();
 		array = new ArrayList<String>();
 
 	}

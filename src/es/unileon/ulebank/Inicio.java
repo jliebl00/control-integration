@@ -1,9 +1,11 @@
+package es.unileon.ulebank;
+
 
 public class Inicio {
 
 	public static void main(String[] args) {
 		Comparador compare = new Comparador();
-		GuardarDatos guardar = new GuardarDatos();
+		Register guardar = new Register();
 		guardar.datosAGuardar();
 		guardar.guardarDatos();
 		compare.leer();
