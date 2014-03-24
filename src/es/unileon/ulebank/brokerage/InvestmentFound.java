@@ -9,6 +9,7 @@ public class InvestmentFound {
     private final Employee opener;
     private int participations;
     private double price;
+    private int boughtParticipations;
     private FeeStrategy fee;
 
     public InvestmentFound(Handler foundID, Employee opener, int participations, double price, FeeStrategy fee) {
@@ -17,14 +18,21 @@ public class InvestmentFound {
         this.participations = participations;
         this.price = price;
         this.fee = fee;
+        this.boughtParticipations = 0;
     }
     
     public void setPPP(double ppp, int participations) {
-        //TODO
+        this.price = ppp * participations;
     }
     
-    public void setPPP(double ppp, double price) {
-        //TODO
+    public void setPPP(double ppp, double price) throws InvalidNumberOfParticipationsException, TotalLowerThanBoughtException {
+        if(price % ppp != 0) {
+            throw new InvalidNumberOfParticipationsException(price, ppp);
+        } else if((int) (price / ppp) < this.boughtParticipations) {
+            throw new TotalLowerThanBoughtException();
+        }
+        
+        this.participations = (int) (price / ppp);
     }
     
     /**
@@ -51,7 +59,11 @@ public class InvestmentFound {
     /**
      * @param participations the participations to set
      */
-    public void setParticipations(int participations) {
+    public void setParticipations(int participations) throws TotalLowerThanBoughtException {
+        if(participations < this.boughtParticipations) {
+            throw new TotalLowerThanBoughtException();
+        }
+        
         this.participations = participations;
     }
 
@@ -82,4 +94,19 @@ public class InvestmentFound {
     public void setFee(FeeStrategy fee) {
         this.fee = fee;
     }
+    
+     /**
+     * @param participations the participations to buy
+     */
+    public void buy(int participations) throws NotEnoughParticipationsException {
+        if(participations > this.participations - this.boughtParticipations) {
+            throw new NotEnoughParticipationsException();
+        }
+        
+        this.boughtParticipations += participations;
+    }
+    
+   public int getBuyableParticipations() {
+       return this.participations - this.boughtParticipations;
+   }
 }
