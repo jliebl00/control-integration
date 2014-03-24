@@ -22,6 +22,7 @@ public class GUI_Login {
 	private BufferedImage img = null;
 	private java.net.URL url;
 	private ImageIcon ic;
+	private GUI_MainWindow mainWindow;
 	
 	private JTextField textField;
 	private JTextField textField_1;
@@ -133,7 +134,8 @@ public class GUI_Login {
 		
 		if(compare.comparar(compare.getSacarLogin(), compare.getSacarPass())){
 			JOptionPane.showMessageDialog(this.frame, "log in succesful", "log in", JOptionPane.INFORMATION_MESSAGE);
-			
+			mainWindow = new GUI_MainWindow();
+			this.frame.dispose();
 		}else{
 			JOptionPane.showMessageDialog(this.frame, "user or password wrong", "user or password wrong", JOptionPane.INFORMATION_MESSAGE);
 		}
