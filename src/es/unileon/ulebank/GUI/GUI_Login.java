@@ -11,8 +11,8 @@ import es.unileon.ulebank.Comparador;
 
 public class GUI_Login {
 	private JFrame frame;
-//	private ImagePanel panel;
-	private JPanel panel;
+	private ImagePanel panel;
+//	private JPanel panel;
 	private JTextField textFieldUser;
 	private JPasswordField passwordField;
 	private JDialog d;
@@ -23,9 +23,6 @@ public class GUI_Login {
 	private java.net.URL url;
 	private ImageIcon ic;
 	
-	//esto es solo para mostrarle al cliente como se veria
-	private String usser = "adrian";
-	private String pass = "123456";
 	private JTextField textField;
 	private JTextField textField_1;
 
@@ -61,8 +58,8 @@ public class GUI_Login {
 		frame.setBounds(200, 50, 955, 650);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-//		this.panel = new ImagePanel("login");
-		this.panel = new JPanel();
+		this.panel = new ImagePanel("/images/login");
+//		this.panel = new JPanel();
 		panel.setLayout(null);
 		panel.setVisible(true);
 		frame.getContentPane().add(panel);
