@@ -202,5 +202,6 @@ public class GUI_AddEmployee {
 	
 	private void addEmployee(){
 		register = new Register(textFieldUserName.getText(), new String(passwordField.getPassword()));
+		register.guardarDatos();
 	}
 }
