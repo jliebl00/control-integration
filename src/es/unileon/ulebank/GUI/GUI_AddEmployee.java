@@ -21,6 +21,8 @@ import java.awt.Font;
 import java.awt.Color;
 import javax.swing.ImageIcon;
 
+import es.unileon.ulebank.Register;
+
 public class GUI_AddEmployee {
 	private JFrame frame;
 	private JTextField textFieldDni;
@@ -35,6 +37,7 @@ public class GUI_AddEmployee {
 	private final BufferedImage img = null;
 	private java.net.URL url;
 	private ImageIcon ic;
+	private Register register;
 
 	/**
 	 * Launch the application.
@@ -198,6 +201,6 @@ public class GUI_AddEmployee {
 	}
 	
 	private void addEmployee(){
-		
+		register = new Register(textFieldUserName.getText(), new String(passwordField.getPassword()));
 	}
 }

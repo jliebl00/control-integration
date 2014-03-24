@@ -5,8 +5,7 @@ public class Inicio {
 
 	public static void main(String[] args) {
 		Comparador compare = new Comparador();
-		Register guardar = new Register();
-		guardar.datosAGuardar();
+		Register guardar = new Register("berto","0123");
 		guardar.guardarDatos();
 		compare.leer();
 		compare.datos();
