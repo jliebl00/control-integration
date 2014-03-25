@@ -12,15 +12,18 @@ public class InvestmentFund {
     private final Employee opener;
     private int participations;
     private double price;
+    private double profitability;
     private int boughtParticipations;
     private FeeStrategy fee;
 
-    public InvestmentFund(Handler fundID, Employee opener, int participations, double price, FeeStrategy fee) {
+    public InvestmentFund(Handler fundID, Employee opener, int participations, double price, double profitability, FeeStrategy fee) {
         this.fundID = fundID;
         this.opener = opener;
         this.participations = participations;
         this.price = price;
         this.fee = fee;
+        this.profitability = profitability;
+        
         this.boughtParticipations = 0;
     }
     
@@ -116,4 +119,18 @@ public class InvestmentFund {
    public int getBuyableParticipations() {
        return this.participations - this.boughtParticipations;
    }
+
+    /**
+     * @return the profitability
+     */
+    public double getProfitability() {
+        return profitability;
+    }
+
+    /**
+     * @param profitability the profitability to set
+     */
+    public void setProfitability(double profitability) {
+        this.profitability = profitability;
+    }
 }
