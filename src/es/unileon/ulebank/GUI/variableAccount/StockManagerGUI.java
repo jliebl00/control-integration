@@ -85,7 +85,6 @@ public StockManagerGUI() {
 				StockSalesGUI anotherWindow = new StockSalesGUI();
 				setVisible(true);
 			}
-			
 		});
 		GridBagConstraints gbc_stockSalesButton = new GridBagConstraints();
 		gbc_stockSalesButton.insets = new Insets(0, 0, 5, 0);
