@@ -64,12 +64,17 @@ public class ScaledPercentFeeTest {
 
     @Test
     public void testGetFee() throws InvalidFeeException, CrossedStepException {
+    	instance.addStep(feeStep1);
+    	instance.addStep(feeStep3);
     	instance2.addStep(feeStep1);
-    	instance2.addStep(feeStep3);
+    	assertEquals(500*0.01+0, instance.getFee(500), 0.0);
+    	assertEquals(0*0.01+0, instance.getFee(0), 0.0);
+    	assertFalse(1300*0.01+0==(instance.getFee(1300)));
+    	assertEquals(1300*0.03+0, instance.getFee(1300), 0.0);
+    	assertEquals(1500*0.03+0, instance.getFee(1500), 0.0);
+    	
     	assertEquals(500*0.01+10, instance2.getFee(500), 0.0);
-    	assertEquals(0*0.01+10, instance2.getFee(0), 0.0);
-    	assertFalse(1100*0.01+10==(instance2.getFee(1100)));		//1100 is not in feeStep1 but we are considering so
-    	assertEquals(1500*0.03+10, instance2.getFee(1500), 0.0);
+    	
     	
     }
 
