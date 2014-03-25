@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import javax.swing.*;
 
@@ -11,8 +13,8 @@ import es.unileon.ulebank.Comparador;
 
 public class GUI_Login {
 	private JFrame frame;
-//	private ImagePanel panel;
-	private JPanel panel;
+	private ImagePanel panel;
+//	private JPanel panel;
 	private JTextField textFieldUser;
 	private JPasswordField passwordField;
 	private JDialog d;
@@ -22,10 +24,8 @@ public class GUI_Login {
 	private BufferedImage img = null;
 	private java.net.URL url;
 	private ImageIcon ic;
+	private GUI_MainWindow mainWindow;
 	
-	//esto es solo para mostrarle al cliente como se veria
-	private String usser = "adrian";
-	private String pass = "123456";
 	private JTextField textField;
 	private JTextField textField_1;
 
@@ -60,9 +60,10 @@ public class GUI_Login {
 		frame.setResizable(false);
 		frame.setBounds(200, 50, 955, 650);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setVisible(true);
 		
-//		this.panel = new ImagePanel("login");
-		this.panel = new JPanel();
+		this.panel = new ImagePanel("/images/login");
+//		this.panel = new JPanel();
 		panel.setLayout(null);
 		panel.setVisible(true);
 		frame.getContentPane().add(panel);
@@ -72,10 +73,55 @@ public class GUI_Login {
 		panel.add(textFieldUser);
 		textFieldUser.setColumns(10);
 		textFieldUser.setFocusable(true);
+		textFieldUser.addKeyListener(new KeyListener(){
+			
+		
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyCode() == KeyEvent.VK_ENTER){
+					pressLogin();
+				}	
+			}
+		});
 		
 		passwordField = new JPasswordField();
 		passwordField.setBounds(577, 205, 231, 37);
+		passwordField.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyCode() == KeyEvent.VK_ENTER){
+					pressLogin();
+				}
+			}
+		});
 		panel.add(passwordField);
+		
 
 		lblWrongUser = new JLabel("Usuario Incorrecto");
 		lblWrongUser.setForeground(Color.RED);
@@ -136,7 +182,8 @@ public class GUI_Login {
 		
 		if(compare.comparar(compare.getSacarLogin(), compare.getSacarPass())){
 			JOptionPane.showMessageDialog(this.frame, "log in succesful", "log in", JOptionPane.INFORMATION_MESSAGE);
-			
+			mainWindow = new GUI_MainWindow();
+			this.frame.dispose();
 		}else{
 			JOptionPane.showMessageDialog(this.frame, "user or password wrong", "user or password wrong", JOptionPane.INFORMATION_MESSAGE);
 		}
