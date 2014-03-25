@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package es.unileon.ulebank.brokerage.fees;
+package es.unileon.ulebank.fees;
 
 import es.unileon.ulebank.fees.FeeStrategy;
 import org.junit.Before;
