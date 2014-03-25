@@ -7,16 +7,16 @@ import es.unileon.ulebank.fees.FeeStrategy;
 import java.util.logging.Handler;
 import es.unileon.ulebank.Employee;
 
-public class InvestmentFound {
-    private final Handler foundID;
+public class InvestmentFund {
+    private final Handler fundID;
     private final Employee opener;
     private int participations;
     private double price;
     private int boughtParticipations;
     private FeeStrategy fee;
 
-    public InvestmentFound(Handler foundID, Employee opener, int participations, double price, FeeStrategy fee) {
-        this.foundID = foundID;
+    public InvestmentFund(Handler fundID, Employee opener, int participations, double price, FeeStrategy fee) {
+        this.fundID = fundID;
         this.opener = opener;
         this.participations = participations;
         this.price = price;
@@ -39,10 +39,10 @@ public class InvestmentFound {
     }
     
     /**
-     * @return the foundID
+     * @return the fundID
      */
     public Handler getFoundID() {
-        return foundID;
+        return fundID;
     }
 
     /**
