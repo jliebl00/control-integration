@@ -1,4 +1,3 @@
-//Ya implementado en StockManager
 package es.unileon.ulebank.GUI.variableAccount;
 
 import java.awt.BorderLayout;
