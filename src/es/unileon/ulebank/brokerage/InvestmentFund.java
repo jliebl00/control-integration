@@ -24,6 +24,10 @@ public class InvestmentFund {
         this.boughtParticipations = 0;
     }
     
+    public double getPPP() {
+        return this.price / this.participations;
+    }
+    
     public void setPPP(double ppp, int participations) {
         this.price = ppp * participations;
     }
