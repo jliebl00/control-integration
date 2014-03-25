@@ -17,6 +17,10 @@ public class Employee {
 	 */
 	private String surname;
 	/**
+	 * Surname of the employee
+	 */
+	private String address;
+	/**
 	 * Salary of the employee
 	 */
 	private float salary;
@@ -41,11 +45,12 @@ public class Employee {
 	 * @param idEmployee
 	 *            the identifier of the employee
 	 */
-	public Employee(String name, String surname, float salary, Office idOffice,
-			Handler idEmployee) {
+	public Employee(String name, String surname, String address, float salary,
+			Office idOffice, Handler idEmployee) {
 		// hacer comprobaciones
 		this.name = name;
 		this.surname = surname;
+		this.address = address;
 		this.salary = salary;
 		this.idOffice = idOffice;
 		this.idEmployee = idEmployee;
@@ -63,9 +68,9 @@ public class Employee {
 	 * @param idEmployee
 	 *            the identifier of the employee
 	 */
-	public Employee(String name, String surname, float salary,
+	public Employee(String name, String surname, String address, float salary,
 			Handler idEmployee) {
-		this(name, surname, salary, null, idEmployee);
+		this(name, surname, address, salary, null, idEmployee);
 	}
 
 	/**
@@ -112,6 +117,24 @@ public class Employee {
 				this.surname = surname;
 			}
 		}
+	}
+
+	/**
+	 * Returns the address of the employee
+	 * 
+	 * @return address
+	 */
+	public String getAddress() {
+		return address;
+	}
+
+	/**
+	 * Sets the address of the employee
+	 * 
+	 * @param address
+	 */
+	public void setAddress(String address) {
+		this.address = address;
 	}
 
 	/**

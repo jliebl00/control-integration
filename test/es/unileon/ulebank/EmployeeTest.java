@@ -35,8 +35,9 @@ public class EmployeeTest {
 		oneOffice = new Office(oneIdOffice);
 		anotherOffice = new Office(anotherIdOffice);
 
-		oneEmployee = new Employee("name", "surname", salary, oneOffice, dni);
-		anotherEmployee = new Employee("name2", "surname2", salary,
+		oneEmployee = new Employee("name", "surname", "address", salary,
+				oneOffice, dni);
+		anotherEmployee = new Employee("name2", "surname2", "address2", salary,
 				anotherOffice, anotherDNI);
 	}
 
@@ -215,6 +216,24 @@ public class EmployeeTest {
 		assertEquals(newSalary, oneEmployee.getSalary(), 0);
 		oneEmployee.setSalary(badSalary);
 		assertEquals(newSalary, oneEmployee.getSalary(), 0);
+	}
+
+	/**
+	 * Test the method getAddress()
+	 */
+	@Test
+	public void testGetAddress() {
+		assertEquals("address", oneEmployee.getAddress());
+	}
+
+	/**
+	 * Test the method setAddress()
+	 */
+	@Test
+	public void testSetAddress() {
+		String address = "3th avenue";
+		oneEmployee.setAddress(address);
+		assertEquals(oneEmployee.getAddress(), address);
 	}
 
 }

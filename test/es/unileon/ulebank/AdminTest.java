@@ -38,8 +38,8 @@ public class AdminTest {
 		oneOffice = new Office(oneIdOffice);
 		anotherOffice = new Office(anotherIdOffice);
 
-		oneEmployee = new Admin("name", "surname", salary, oneOffice, dni);
-		anotherEmployee = new Admin("name2", "surname2", salary, anotherOffice,
+		oneEmployee = new Admin("name", "surname", "address", salary, oneOffice, dni);
+		anotherEmployee = new Admin("name2", "surname2", "address2", salary, anotherOffice,
 				anotherDNI);
 	}
 
