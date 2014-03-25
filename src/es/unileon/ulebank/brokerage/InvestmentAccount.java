@@ -1,24 +1,41 @@
 package es.unileon.ulebank.brokerage;
 
-import java.util.ArrayList;
 import es.unileon.ulebank.Account;
+import es.unileon.ulebank.history.FundTransaction;
+import es.unileon.ulebank.history.History;
+import es.unileon.ulebank.history.StockTransaction;
+import java.util.ArrayList;
 
 public class InvestmentAccount extends Account {
 
     private final ArrayList<StockPack> stockPacks;
-    private final ArrayList<InvestmentFundPack> fundpacks;
+    private final ArrayList<InvestmentFundPack> fundPacks;
+
+    private final History<FundTransaction> transactionHistory;
+    private final History<StockTransaction> stockHistory;
 
     public InvestmentAccount() {
         this.stockPacks = new ArrayList<>();
-        this.fundpacks = new ArrayList<>();
+        this.fundPacks = new ArrayList<>();
+
+        this.transactionHistory = new History<>();
+        this.stockHistory = new History<>();
     }
 
-    public void addStockPack(StockPack stockPack) {
-        this.stockPacks.add(stockPack);
+    public void buyStockage(Enterprise e, Account acc) {
+        /* TODO: Implement stockage buying:
+         * - Add StockPack to list.
+         * - Generate transaction.
+         * - Withdraw lulz.
+         */
     }
 
-    public void addInvestmentFundPack(InvestmentFundPack pack) {
-        this.fundpacks.add(pack);
+    public void buyInvestmentFund(InvestmentFund i, Account acc) {
+        /* TODO: Implement investment funds buying:
+         * - Add InvestmentFundPack to list.
+         * - Generate transaction.
+         * - Withdraw lulz.
+         */
     }
 
     /**
