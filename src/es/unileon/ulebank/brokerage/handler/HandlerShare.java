@@ -18,13 +18,13 @@ public class HandlerShare implements Handler {
 		 Pattern patternTicker = Pattern.compile ("[A-Z]");
 		 Matcher matcherTicker = patternTicker.matcher(ticker);
 		 
-		if(!(ticker.length() >= 3 && ticker.length() <= 4)){
-			errors.append("The tocker must be at least 3 or 4 characters.\n");
-		}
+//		if(!(ticker.length() == 3 || ticker.length() == 4)){
+//			errors.append("The tocker must be at least 3 or 4 characters.\n");
+//		}
 		
-		if (!(company.substring(0, 2).toUpperCase().compareTo(ticker) == 0 || company.substring(0, 3).toUpperCase().compareTo(ticker) == 0)) {
-			errors.append("Ticker is malformed.\n");			
-		}
+//		if (!(company.substring(0, 2).toUpperCase().compareTo(ticker) == 0 || company.substring(0, 3).toUpperCase().compareTo(ticker) == 0)) {
+//			errors.append("Ticker is malformed.\n");			
+//		}
 		
 		if (!(matcherTicker.find())){
 			errors.append("Ticker must be a character.\n");
