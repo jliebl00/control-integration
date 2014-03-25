@@ -12,30 +12,34 @@ public class HandlerShare implements Handler {
 	private String company;
 	private String stockMarket;
 
-	public HandlerShare(String ticker, String company, String stockMarket) throws MalformedHandlerException {
+	public HandlerShare(String ticker, String company, String stockMarket)
+			throws MalformedHandlerException {
 		StringBuilder errors = new StringBuilder();
-		
-		 Pattern patternTicker = Pattern.compile ("[A-Z]");
-		 Matcher matcherTicker = patternTicker.matcher(ticker);
-		 
-//		if(!(ticker.length() == 3 || ticker.length() == 4)){
-//			errors.append("The tocker must be at least 3 or 4 characters.\n");
-//		}
-		
-//		if (!(company.substring(0, 2).toUpperCase().compareTo(ticker) == 0 || company.substring(0, 3).toUpperCase().compareTo(ticker) == 0)) {
-//			errors.append("Ticker is malformed.\n");			
-//		}
-		
-		if (!(matcherTicker.find())){
-			errors.append("Ticker must be a character.\n");
-			
+
+		errors.append("");
+
+		Pattern patternTicker = Pattern.compile("[.]");
+		Matcher matcherTicker = patternTicker.matcher(ticker);
+
+		if (!(ticker.length() == 3) && !(ticker.length() == 4)) {
+			errors.append("The tocker must be at least 3 or 4 characters.\n");
 		}
 		
-		if(errors.length() > 0){
+		if ((company.substring(0, 3).toUpperCase().compareTo(ticker.toUpperCase()) != 0)
+				&& company.substring(0, 4).toUpperCase().compareTo(ticker.toUpperCase()) != 0) {
+			errors.append("Ticker is malformed.\n");
+		}
+
+		if (matcherTicker.find()) {
+			errors.append("Ticker must be a character.\n");
+
+		}
+
+		if (errors.length() > 0) {
 			throw new MalformedHandlerException(errors.toString());
 		}
-		
-		this.ticker = ticker;
+
+		this.ticker = ticker.toUpperCase();
 		this.company = company;
 		this.stockMarket = stockMarket;
 	}
