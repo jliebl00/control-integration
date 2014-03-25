@@ -1,4 +1,3 @@
-//Vender acciones, implementar en el Button vender de InvestmentFundClientGUI
 package es.unileon.ulebank.GUI.variableAccount;
 
 import java.awt.BorderLayout;
