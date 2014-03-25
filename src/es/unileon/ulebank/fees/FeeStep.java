@@ -1,4 +1,4 @@
-package es.unileon.ulebank.brokerage.fees;
+package es.unileon.ulebank.fees;
 
 /**
  * @class FeeStep This class represents the boundaries of an interval and the

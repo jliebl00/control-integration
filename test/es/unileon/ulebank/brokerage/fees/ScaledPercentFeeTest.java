@@ -6,6 +6,11 @@
 
 package es.unileon.ulebank.brokerage.fees;
 
+import es.unileon.ulebank.fees.FeeStep;
+import es.unileon.ulebank.fees.InvalidStepException;
+import es.unileon.ulebank.fees.CrossedStepException;
+import es.unileon.ulebank.fees.InvalidFeeException;
+import es.unileon.ulebank.fees.ScaledPercentFee;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;

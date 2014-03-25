@@ -1,4 +1,4 @@
-package es.unileon.ulebank.brokerage.fees;
+package es.unileon.ulebank.fees;
 
 import java.util.ArrayList;
 import java.util.Iterator;
