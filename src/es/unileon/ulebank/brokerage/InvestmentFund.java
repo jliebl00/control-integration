@@ -1,11 +1,12 @@
 package es.unileon.ulebank.brokerage;
 
+import es.unileon.ulebank.Employee;
+import es.unileon.ulebank.brokerage.exceptions.InvalidInvestmentFundException;
 import es.unileon.ulebank.brokerage.exceptions.InvalidNumberOfParticipationsException;
 import es.unileon.ulebank.brokerage.exceptions.NotEnoughParticipationsException;
 import es.unileon.ulebank.brokerage.exceptions.TotalLowerThanBoughtException;
 import es.unileon.ulebank.fees.FeeStrategy;
 import java.util.logging.Handler;
-import es.unileon.ulebank.Employee;
 
 public class InvestmentFund {
     private final Handler fundID;
@@ -16,7 +17,19 @@ public class InvestmentFund {
     private int boughtParticipations;
     private FeeStrategy fee;
 
-    public InvestmentFund(Handler fundID, Employee opener, int participations, double price, double profitability, FeeStrategy fee) {
+    public InvestmentFund(Handler fundID, Employee opener, int participations, double price, double profitability, FeeStrategy fee) throws InvalidInvestmentFundException {
+        if (participations < 0) {
+            throw new InvalidInvestmentFundException("Participations", "greater", 0);
+        }
+        
+        if (price < 0) {
+            throw new InvalidInvestmentFundException("Price", "greater", 0);
+        }
+        
+        if (profitability < 1) {
+            throw new InvalidInvestmentFundException("Price", "greater", 1);
+        }
+        
         this.fundID = fundID;
         this.opener = opener;
         this.participations = participations;
