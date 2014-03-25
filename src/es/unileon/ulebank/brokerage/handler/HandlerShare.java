@@ -41,7 +41,7 @@ public class HandlerShare implements Handler {
 	}
 
 	public String toString() {
-		return this.ticker;
+		return this.ticker + " " + this.company + " " + this.stockMarket;
 	}
 
 	public int compareTo(Handler other) {

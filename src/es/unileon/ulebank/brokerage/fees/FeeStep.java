@@ -11,8 +11,8 @@ public class FeeStep {
     /**
      * Lower boundary of the interval.
      */
-
     private final double low;
+
     /**
      * Higher boundary of the interval.
      */
