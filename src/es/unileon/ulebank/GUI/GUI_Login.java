@@ -60,6 +60,7 @@ public class GUI_Login {
 		frame.setResizable(false);
 		frame.setBounds(200, 50, 955, 650);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setVisible(true);
 		
 		this.panel = new ImagePanel("/images/login");
 //		this.panel = new JPanel();

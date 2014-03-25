@@ -5,6 +5,7 @@ import java.awt.EventQueue;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
@@ -26,8 +27,8 @@ import es.unileon.ulebank.Register;
 
 public class GUI_AddEmployee {
 	private JFrame frame;
-	private JPanel panel;
-//	private ImagePanel panel;
+//	private JPanel panel;
+	private ImagePanel panel;
 	private JTextField textFieldDni;
 	private JTextField textFieldName;
 	private JTextField textFieldSurname;
@@ -43,6 +44,7 @@ public class GUI_AddEmployee {
 	private java.net.URL url;
 	private ImageIcon ic;
 	private Register register;
+	private GUI_Login windowLogin;
 
 	/**
 	 * Launch the application.
@@ -79,8 +81,8 @@ public class GUI_AddEmployee {
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.setVisible(true);
 		
-//		panel = new ImagePanel("/images/WebUle2_2");
-		panel = new JPanel();
+		panel = new ImagePanel("/images/WebUle2_2");
+//		panel = new JPanel();
 		panel.setLayout(null);
 		panel.setVisible(true);
 		frame.getContentPane().add(panel);
@@ -233,5 +235,8 @@ public class GUI_AddEmployee {
 	private void addEmployee(){
 		register = new Register(textFieldUserName.getText(), new String(passwordField.getPassword()));
 		register.guardarDatos();
+		JOptionPane.showMessageDialog(this.frame, "añadido correctamente", "añadido", JOptionPane.INFORMATION_MESSAGE);
+		windowLogin = new GUI_Login();
+		this.frame.dispose();
 	}
 }
