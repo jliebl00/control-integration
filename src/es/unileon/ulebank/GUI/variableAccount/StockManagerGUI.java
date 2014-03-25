@@ -1,4 +1,3 @@
-//Implementar en el boton manejo de acciones de VariableAccount
 package es.unileon.ulebank.GUI.variableAccount;
 
 
