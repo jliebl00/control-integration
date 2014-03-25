@@ -1,24 +1,48 @@
 package es.unileon.ulebank.brokerage;
 
-import es.unileon.ulebank.fees.FeeStrategy;
-import java.util.logging.Handler;
 import es.unileon.ulebank.Employee;
+import es.unileon.ulebank.exceptions.InvalidInvestmentFundException;
+import es.unileon.ulebank.exceptions.InvalidNumberOfParticipationsException;
+import es.unileon.ulebank.exceptions.NotEnoughParticipationsException;
+import es.unileon.ulebank.exceptions.TotalLowerThanBoughtException;
+import es.unileon.ulebank.fees.FeeStrategy;
 
-public class InvestmentFound {
-    private final Handler foundID;
+import java.util.logging.Handler;
+
+public class InvestmentFund {
+    private final Handler fundID;
     private final Employee opener;
     private int participations;
     private double price;
+    private double profitability;
     private int boughtParticipations;
     private FeeStrategy fee;
 
-    public InvestmentFound(Handler foundID, Employee opener, int participations, double price, FeeStrategy fee) {
-        this.foundID = foundID;
+    public InvestmentFund(Handler fundID, Employee opener, int participations, double price, double profitability, FeeStrategy fee) throws InvalidInvestmentFundException {
+        if (participations < 0) {
+            throw new InvalidInvestmentFundException("Participations", "greater", 0);
+        }
+        
+        if (price < 0) {
+            throw new InvalidInvestmentFundException("Price", "greater", 0);
+        }
+        
+        if (profitability < 1) {
+            throw new InvalidInvestmentFundException("Price", "greater", 1);
+        }
+        
+        this.fundID = fundID;
         this.opener = opener;
         this.participations = participations;
         this.price = price;
         this.fee = fee;
+        this.profitability = profitability;
+        
         this.boughtParticipations = 0;
+    }
+    
+    public double getPPP() {
+        return this.price / this.participations;
     }
     
     public void setPPP(double ppp, int participations) {
@@ -36,10 +60,10 @@ public class InvestmentFound {
     }
     
     /**
-     * @return the foundID
+     * @return the fundID
      */
     public Handler getFoundID() {
-        return foundID;
+        return fundID;
     }
 
     /**
@@ -109,4 +133,18 @@ public class InvestmentFound {
    public int getBuyableParticipations() {
        return this.participations - this.boughtParticipations;
    }
+
+    /**
+     * @return the profitability
+     */
+    public double getProfitability() {
+        return profitability;
+    }
+
+    /**
+     * @param profitability the profitability to set
+     */
+    public void setProfitability(double profitability) {
+        this.profitability = profitability;
+    }
 }

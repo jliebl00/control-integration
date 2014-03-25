@@ -3,6 +3,12 @@ package es.unileon.ulebank.fees;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+/**
+ * A more complex fee which applies a variable percentage depending on the
+ * amount to tax. A minimum is always added.
+ *
+ * @author roobre
+ */
 public class ScaledPercentFee implements FeeStrategy {
 
     private final ArrayList<FeeStep> steps;
@@ -16,7 +22,7 @@ public class ScaledPercentFee implements FeeStrategy {
         if (minimum < 0) {
             throw new InvalidFeeException();
         }
-        
+
         this.steps = new ArrayList<>();
         this.minimum = minimum;
     }
@@ -47,7 +53,7 @@ public class ScaledPercentFee implements FeeStrategy {
     public double getFee(double value) {
         boolean match;
         FeeStep fs = null;
-        
+
         if (this.steps.size() > 0) {
             Iterator<FeeStep> it = this.steps.iterator();
             do {

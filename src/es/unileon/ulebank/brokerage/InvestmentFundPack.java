@@ -1,10 +1,10 @@
 package es.unileon.ulebank.brokerage;
 
-public class InvestmentFoundPack {
-    private final InvestmentFound found;
+public class InvestmentFundPack {
+    private final InvestmentFund found;
     private final int count;
     
-    public InvestmentFoundPack(InvestmentFound found, int count) {
+    public InvestmentFundPack(InvestmentFund found, int count) {
         this.found = found;
         this.count = count;
     }
@@ -12,7 +12,7 @@ public class InvestmentFoundPack {
     /**
      * @return the found
      */
-    public InvestmentFound getFound() {
+    public InvestmentFund getFound() {
         return found;
     }
 
