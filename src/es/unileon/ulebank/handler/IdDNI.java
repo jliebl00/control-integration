@@ -1,5 +1,7 @@
 package es.unileon.ulebank.handler;
 
+import es.unileon.ulebank.exceptions.MalformedHandlerException;
+
 
 public class IdDNI implements Handler {
 	private static final String NIF_STRING_ASOCIATION = "TRWAGMYFPDXBNJZSQVHLCKE";

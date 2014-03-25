@@ -2,9 +2,9 @@ package es.unileon.ulebank;
 
 import java.util.ArrayList;
 
+import es.unileon.ulebank.exceptions.MalformedHandlerException;
 import es.unileon.ulebank.handler.Handler;
 import es.unileon.ulebank.handler.IdOffice;
-import es.unileon.ulebank.handler.MalformedHandlerException;
 
 /**
  * 
@@ -32,7 +32,11 @@ public class Office {
 	/**
 	 * The total expenses or costs of the office
 	 */
-	private int expenses;
+	private int totalExpenses;
+	/**
+	 * The total income of the office
+	 */
+	private int totalIncome;
 	/**
 	 * The list of employees of this office
 	 */
@@ -69,7 +73,7 @@ public class Office {
 	 * Returns the expenses of the office
 	 */
 	public int getExpenses() {
-		return expenses;
+		return totalExpenses;
 	}
 
 	/**
@@ -81,8 +85,23 @@ public class Office {
 		this.utilitiesCost = utilitiesCost;
 		this.employeeCost = employeeCost;
 
-		this.expenses = this.localCost + this.utilitiesCost + this.employeeCost;
+		this.totalExpenses = this.localCost + this.utilitiesCost
+				+ this.employeeCost;
+	}
 
+	/**
+	 * Returns the income of the office
+	 */
+	public int getTotalIncome() {
+		return totalIncome;
+	}
+
+	/**
+	 * Sets the total income of the office
+	 */
+	public void setTotalIncome(int totalIncome) {
+		// Addition of the types of incomes.
+		this.totalIncome = totalIncome;
 	}
 
 	/**

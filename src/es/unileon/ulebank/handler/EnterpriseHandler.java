@@ -1,9 +1,8 @@
 /* Application developed for AW subject, belonging to passive operations
  group.*/
 
-package es.unileon.ulebank.client.handler;
+package es.unileon.ulebank.handler;
 
-import es.unileon.ulebank.handler.Handler;
 
 /**
  *

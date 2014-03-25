@@ -1,7 +1,7 @@
 /* Application developed for AW subject, belonging to passive operations
  group.*/
 
-package es.unileon.ulebank.handler;
+package es.unileon.ulebank.exceptions;
 
 /**
  *
@@ -9,7 +9,9 @@ package es.unileon.ulebank.handler;
  */
 public class MalformedHandlerException extends RuntimeException{
     
-    public MalformedHandlerException(String msg) {
+	private static final long serialVersionUID = 1L;
+
+	public MalformedHandlerException(String msg) {
         super(msg);
     }
 }

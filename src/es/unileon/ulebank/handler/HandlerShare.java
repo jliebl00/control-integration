@@ -1,10 +1,9 @@
-package es.unileon.ulebank.brokerage.handler;
+package es.unileon.ulebank.handler;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import es.unileon.ulebank.handler.Handler;
-import es.unileon.ulebank.handler.MalformedHandlerException;
+import es.unileon.ulebank.exceptions.MalformedHandlerException;
 
 public class HandlerShare implements Handler {
 

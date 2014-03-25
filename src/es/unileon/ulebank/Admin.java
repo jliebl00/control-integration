@@ -14,7 +14,7 @@ public class Admin extends Employee {
 	 *      java.lang.String, es.unileon.ulebank.handler.Handler,
 	 *      es.unileon.ulebank.handler.Handler)
 	 */
-	public Admin(String name, String surname, float salary, Handler idOffice,
+	public Admin(String name, String surname, float salary, Office idOffice,
 			Handler idEmployee) {
 		super(name, surname, salary, idOffice, idEmployee);
 	}

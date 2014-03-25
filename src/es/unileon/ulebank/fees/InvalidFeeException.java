@@ -7,11 +7,14 @@
 package es.unileon.ulebank.fees;
 
 /**
- *
+ * 
  * @author roobre
  */
 public class InvalidFeeException extends Exception {
-    public InvalidFeeException() {
-        super("Fee factor must be a positive double");
-    }
+
+	private static final long serialVersionUID = 1L;
+
+	public InvalidFeeException() {
+		super("Fee factor must be a positive double");
+	}
 }
