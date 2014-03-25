@@ -1,5 +1,9 @@
 package es.unileon.ulebank.fees;
 
+/**
+ * Simple fee that applies a minimum plus a percentage of the given amount.
+ * @author roobre
+ */
 public class LinearFee implements FeeStrategy {
 
     /**
