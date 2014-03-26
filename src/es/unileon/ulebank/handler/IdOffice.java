@@ -1,5 +1,7 @@
 package es.unileon.ulebank.handler;
 
+import es.unileon.ulebank.exceptions.MalformedHandlerException;
+
 /**
  * 
  * @author Patricia

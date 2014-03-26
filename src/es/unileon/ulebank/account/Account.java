@@ -1,11 +1,11 @@
 package es.unileon.ulebank.account;
 
 import es.unileon.ulebank.account.exception.BalanceException;
-import es.unileon.ulebank.account.handler.AccountHandler;
 import es.unileon.ulebank.bank.Bank;
+import es.unileon.ulebank.exceptions.MalformedHandlerException;
 import es.unileon.ulebank.office.Office;
+import es.unileon.ulebank.handler.AccountHandler;
 import es.unileon.ulebank.handler.Handler;
-import es.unileon.ulebank.handler.MalformedHandlerException;
 
 /**
  *

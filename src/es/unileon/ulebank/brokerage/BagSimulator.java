@@ -1,8 +1,9 @@
 package es.unileon.ulebank.brokerage;
 
-import es.unileon.ulebank.brokerage.handler.HandlerShare;
+import es.unileon.ulebank.exceptions.MalformedHandlerException;
 import es.unileon.ulebank.handler.Handler;
-import es.unileon.ulebank.handler.MalformedHandlerException;
+import es.unileon.ulebank.handler.HandlerShare;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 

@@ -4,12 +4,14 @@
 package es.unileon.ulebank.account.exception;
 
 /**
- *
+ * 
  * @author runix
  */
-public class BalanceException extends Exception{
-    
-    public BalanceException(String msg) {
-        super(msg);
-    }
+public class BalanceException extends Exception {
+
+	private static final long serialVersionUID = 1L;
+
+	public BalanceException(String msg) {
+		super(msg);
+	}
 }

@@ -1,11 +1,12 @@
 package es.unileon.ulebank.brokerage;
 
 import es.unileon.ulebank.Employee;
-import es.unileon.ulebank.brokerage.exceptions.InvalidInvestmentFundException;
-import es.unileon.ulebank.brokerage.exceptions.InvalidNumberOfParticipationsException;
-import es.unileon.ulebank.brokerage.exceptions.NotEnoughParticipationsException;
-import es.unileon.ulebank.brokerage.exceptions.TotalLowerThanBoughtException;
+import es.unileon.ulebank.exceptions.InvalidInvestmentFundException;
+import es.unileon.ulebank.exceptions.InvalidNumberOfParticipationsException;
+import es.unileon.ulebank.exceptions.NotEnoughParticipationsException;
+import es.unileon.ulebank.exceptions.TotalLowerThanBoughtException;
 import es.unileon.ulebank.fees.FeeStrategy;
+
 import java.util.logging.Handler;
 
 public class InvestmentFund {

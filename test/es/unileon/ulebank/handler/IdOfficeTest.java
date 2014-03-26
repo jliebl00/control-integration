@@ -2,6 +2,8 @@ package es.unileon.ulebank.handler;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import es.unileon.ulebank.exceptions.MalformedHandlerException;
 import static org.junit.Assert.*;
 
 /**

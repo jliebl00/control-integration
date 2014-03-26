@@ -7,16 +7,18 @@
 package es.unileon.ulebank.fees;
 
 /**
- *
+ * 
  * @author roobre
  */
 public class InvalidStepException extends Exception {
-    
-    public InvalidStepException() {
-        super("Bounds must be positive doubles");
-    }
 
-    public InvalidStepException(double low, double high) {
-        super(low + " must be lower than " + high);
-    }
+	private static final long serialVersionUID = 1L;
+
+	public InvalidStepException() {
+		super("Bounds must be positive doubles");
+	}
+
+	public InvalidStepException(double low, double high) {
+		super(low + " must be lower than " + high);
+	}
 }
