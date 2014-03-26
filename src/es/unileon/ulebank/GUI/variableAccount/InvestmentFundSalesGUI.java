@@ -1,4 +1,4 @@
-//Vender acciones, implementar en el Button vender de InvestmentFundClientGUI
+
 package es.unileon.ulebank.GUI.variableAccount;
 
 import java.awt.BorderLayout;
@@ -33,7 +33,7 @@ public class InvestmentFundSalesGUI extends JFrame {
 
 
 	public InvestmentFundSalesGUI() {
-		JPanel auxPane = (JPanel) getContentPane();
+		JPanel auxiliar = (JPanel) getContentPane();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1276, 840);
 		contentPane = new JPanel();
@@ -56,16 +56,16 @@ public class InvestmentFundSalesGUI extends JFrame {
         locatoionContentPane.setConstraints(scrollpane,location) ;
 
         contentPane.setLayout(locatoionContentPane);
-        auxPane.add(scrollpane);
+        auxiliar.add(scrollpane);
 
-        JTextPane stocks = new JTextPane();
-        GridBagConstraints locationStocks = new GridBagConstraints();
-        locationStocks.insets = new Insets(0, 0, 5, 5);
-        locationStocks.gridx = 1;
-        locationStocks.gridy = 0;
-        contentPane.add(stocks, locationStocks);
-        stocks.setText("ACCIONES DISPONIBLES");
-        stocks.setFont(new Font("Lucida Grande", Font.BOLD, 37));
+        JTextPane funds = new JTextPane();
+        GridBagConstraints locationFunds = new GridBagConstraints();
+        locationFunds.insets = new Insets(0, 0, 5, 5);
+        locationFunds.gridx = 1;
+        locationFunds.gridy = 0;
+        contentPane.add(funds, locationFunds);
+        funds.setText("FONDOS DISPONIBLES");
+        funds.setFont(new Font("Lucida Grande", Font.BOLD, 37));
 
         JButton variableAccount = new JButton("Cuenta Variable");
         GridBagConstraints locationVariableAccount = new GridBagConstraints();
@@ -84,7 +84,9 @@ public class InvestmentFundSalesGUI extends JFrame {
         JButton declineSaleButton = new JButton("Declinar");
         declineSaleButton.addActionListener(new ActionListener() {
         	public void actionPerformed(ActionEvent e) {
-        		dispose();
+        		InvestmentFundClientGUI otherWindow = new InvestmentFundClientGUI();
+        		otherWindow.setVisible(true);
+        		setVisible(false);
         	}
         });
         
@@ -105,15 +107,15 @@ public class InvestmentFundSalesGUI extends JFrame {
 
 
 //TO-DO cambiaar
-        for (int i=1; i<10;i++){
+        for (int i=1; i<5;i++){
         	GridBagConstraints locationPanel = new GridBagConstraints();
         	locationPanel.insets = new Insets(0, 0, 10, 0);
         	locationPanel.fill = GridBagConstraints.HORIZONTAL;
         	locationPanel.gridx = 1;
         	locationPanel.gridy = i;
-        	JPanel panelaux= newPanel();
-        	panelaux.setSize(100,50);
-        	contentPane.add(panelaux, locationPanel);
+        	JPanel fundsPanel= newPanel();
+        	fundsPanel.setSize(100,50);
+        	contentPane.add(fundsPanel, locationPanel);
         }
 
 	}
@@ -127,88 +129,88 @@ public class InvestmentFundSalesGUI extends JFrame {
 		locationInvestmentPanel.rowHeights = new int[]{34, 34, 34, 34};
 		investmentPanel.setLayout(locationInvestmentPanel);
 
-		JTextPane enterprise = new JTextPane();
-		enterprise.setText("Nombre fondo:");
+		JTextPane fundName = new JTextPane();
+		fundName.setText("Nombre fondo:");
 		GridBagConstraints locationEnterprise = new GridBagConstraints();
 		locationEnterprise.anchor = GridBagConstraints.NORTH;
 		locationEnterprise.fill = GridBagConstraints.HORIZONTAL;
 		locationEnterprise.insets = new Insets(0, 0, 5, 5);
 		locationEnterprise.gridx = 0;
 		locationEnterprise.gridy = 0;
-		investmentPanel.add(enterprise, locationEnterprise);
+		investmentPanel.add(fundName, locationEnterprise);
 
-		JTextPane dataEnterprise = new JTextPane();
-		dataEnterprise.setText("");
+		JTextPane fundNameData = new JTextPane();
+		fundNameData.setText("");
 		GridBagConstraints locationDataEnterprise = new GridBagConstraints();
 		locationDataEnterprise.insets = new Insets(0, 0, 5, 5);
 		locationDataEnterprise.fill = GridBagConstraints.BOTH;
 		locationDataEnterprise.gridx = 2;
 		locationDataEnterprise.gridy = 0;
-		investmentPanel.add(dataEnterprise, locationDataEnterprise);
+		investmentPanel.add(fundNameData, locationDataEnterprise);
 
-		JTextPane price = new JTextPane();
-		price.setText("Precio");
+		JTextPane fundPrice = new JTextPane();
+		fundPrice.setText("Precio");
 		GridBagConstraints locationPrice = new GridBagConstraints();
 		locationPrice.insets = new Insets(0, 0, 5, 5);
 		locationPrice.anchor = GridBagConstraints.NORTHWEST;
 		locationPrice.gridx = 0;
 		locationPrice.gridy = 1;
-		investmentPanel.add(price, locationPrice);
+		investmentPanel.add(fundPrice, locationPrice);
 
-		JTextPane dataPrice = new JTextPane();
-		dataPrice.setText("");
+		JTextPane fundPriceData = new JTextPane();
+		fundPriceData.setText("");
 		GridBagConstraints locationDataPrice = new GridBagConstraints();
 		locationDataPrice.insets = new Insets(0, 0, 5, 5);
 		locationDataPrice.fill = GridBagConstraints.BOTH;
 		locationDataPrice.gridx = 2;
 		locationDataPrice.gridy = 1;
-		investmentPanel.add(dataPrice, locationDataPrice);
+		investmentPanel.add(fundPriceData, locationDataPrice);
 
-		JTextPane count = new JTextPane();
-		count.setText("Cantidad:");
+		JTextPane fundNumber = new JTextPane();
+		fundNumber.setText("Cantidad:");
 		GridBagConstraints locationCount = new GridBagConstraints();
 		locationCount.anchor = GridBagConstraints.NORTH;
 		locationCount.fill = GridBagConstraints.HORIZONTAL;
 		locationCount.insets = new Insets(0, 0, 5, 5);
 		locationCount.gridx = 0;
 		locationCount.gridy = 2;
-		investmentPanel.add(count, locationCount);
+		investmentPanel.add(fundNumber, locationCount);
 
-		final JTextField dataCount = new JTextField();
-		dataCount.setText("");
+		final JTextField fundNumberData = new JTextField();
+		fundNumberData.setText("");
 		GridBagConstraints locationDataCount = new GridBagConstraints();
 		locationDataCount.insets = new Insets(0, 0, 5, 5);
 		locationDataCount.fill = GridBagConstraints.BOTH;
 		locationDataCount.gridx = 2;
 		locationDataCount.gridy = 2;
-		investmentPanel.add(dataCount, locationDataCount);	
+		investmentPanel.add(fundNumberData, locationDataCount);	
 		
 		JButton sellFundButton = new JButton("Vender fondo");
 		sellFundButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String buyCount = dataCount.getText();
+				String buyCount = fundNumberData.getText();
 
 			}
 		});
 		
-		JTextPane rentability = new JTextPane();
-		count.setText("Rentabilidad:");
+		JTextPane fundRentability = new JTextPane();
+		fundRentability.setText("Rentabilidad:");
 		GridBagConstraints locationRentability = new GridBagConstraints();
 		locationCount.anchor = GridBagConstraints.NORTH;
 		locationCount.fill = GridBagConstraints.HORIZONTAL;
 		locationCount.insets = new Insets(0, 0, 5, 5);
 		locationCount.gridx = 0;
 		locationCount.gridy = 3;
-		investmentPanel.add(count, locationCount);
+		investmentPanel.add(fundRentability, locationCount);
 		
-		final JTextField dataRentability = new JTextField();
-		dataCount.setText("");
-		GridBagConstraints locationDataRentability = new GridBagConstraints();
-		locationDataCount.insets = new Insets(0, 0, 5, 5);
-		locationDataCount.fill = GridBagConstraints.BOTH;
-		locationDataCount.gridx = 2;
-		locationDataCount.gridy = 3;
-		investmentPanel.add(dataRentability, locationDataCount);	
+		JTextPane fundRentabilityData = new JTextPane();
+		fundPriceData.setText("");
+		GridBagConstraints locationFundRentabilityData = new GridBagConstraints();
+		locationFundRentabilityData.insets = new Insets(0, 0, 5, 5);
+		locationFundRentabilityData.fill = GridBagConstraints.BOTH;
+		locationFundRentabilityData.gridx = 2;
+		locationFundRentabilityData.gridy = 3;
+		investmentPanel.add(fundPriceData, locationDataPrice);	
 
 		
 

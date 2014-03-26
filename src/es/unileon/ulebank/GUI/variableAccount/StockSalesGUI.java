@@ -1,4 +1,3 @@
-//Ya implementado en StockManager
 package es.unileon.ulebank.GUI.variableAccount;
 
 import java.awt.BorderLayout;
@@ -85,15 +84,17 @@ public StockSalesGUI() {
         JButton declineSaleButton = new JButton("Declinar");
         	declineSaleButton.addActionListener(new ActionListener() {
         		public void actionPerformed(ActionEvent e) {
-        			dispose();
+        			StockManagerGUI otherWindow = new StockManagerGUI();
+            		otherWindow.setVisible(true);
+            		setVisible(false);
         		}
         		});
         	
-        	GridBagConstraints gbc_declineSaleButton = new GridBagConstraints();
-        	gbc_declineSaleButton.insets = new Insets(0, 0, 5, 0);
-        	gbc_declineSaleButton.gridx = 15;
-        	gbc_declineSaleButton.gridy = 5;
-        	contentPane.add(declineSaleButton, gbc_declineSaleButton);
+        	GridBagConstraints gbc_declineStockSaleButton = new GridBagConstraints();
+        	gbc_declineStockSaleButton.insets = new Insets(0, 0, 5, 0);
+        	gbc_declineStockSaleButton.gridx = 15;
+        	gbc_declineStockSaleButton.gridy = 5;
+        	contentPane.add(declineSaleButton, gbc_declineStockSaleButton);
 
         	variableAccount.addActionListener(new ActionListener() {
         		public void actionPerformed(ActionEvent e) {
@@ -106,7 +107,7 @@ public StockSalesGUI() {
 
 
 //TO-DO cambiaar
-        	for (int i=1; i<10;i++){
+        	for (int i=1; i<5;i++){
         		GridBagConstraints locationPanel = new GridBagConstraints();
         		locationPanel.insets = new Insets(0, 0, 10, 0);
         		locationPanel.fill = GridBagConstraints.HORIZONTAL;
@@ -119,87 +120,85 @@ public StockSalesGUI() {
 		}
 
 	public JPanel newPanel(){
-		JPanel investmentPanel = new JPanel();
-		investmentPanel.setBackground(Color.WHITE);	
+		JPanel stockPanel = new JPanel();
+		stockPanel.setBackground(Color.WHITE);	
 
 		GridBagLayout locationInvestmentPanel = new GridBagLayout();
 		locationInvestmentPanel.columnWidths = new int[]{130, 30, 300, 50, 50, 50, 50, 50, 50,50};
 		locationInvestmentPanel.rowHeights = new int[]{34, 34, 34, 34};
-		investmentPanel.setLayout(locationInvestmentPanel);
+		stockPanel.setLayout(locationInvestmentPanel);
 
-		JTextPane enterprise = new JTextPane();
-		enterprise.setText("Empresa:");
+		JTextPane enterpriseName = new JTextPane();
+		enterpriseName.setText("Empresa:");
 		GridBagConstraints locationEnterprise = new GridBagConstraints();
 		locationEnterprise.anchor = GridBagConstraints.NORTH;
 		locationEnterprise.fill = GridBagConstraints.HORIZONTAL;
 		locationEnterprise.insets = new Insets(0, 0, 5, 5);
 		locationEnterprise.gridx = 0;
 		locationEnterprise.gridy = 0;
-		investmentPanel.add(enterprise, locationEnterprise);
+		stockPanel.add(enterpriseName, locationEnterprise);
 
-		JTextPane dataEnterprise = new JTextPane();
-		dataEnterprise.setText("");
-		GridBagConstraints locationDataEnterprise = new GridBagConstraints();
-		locationDataEnterprise.insets = new Insets(0, 0, 5, 5);
-		locationDataEnterprise.fill = GridBagConstraints.BOTH;
-		locationDataEnterprise.gridx = 2;
-		locationDataEnterprise.gridy = 0;
-		investmentPanel.add(dataEnterprise, locationDataEnterprise);
+		JTextPane enterpriseNameData = new JTextPane();
+		enterpriseNameData.setText("");
+		GridBagConstraints enterpriseNameDataLocation = new GridBagConstraints();
+		enterpriseNameDataLocation.insets = new Insets(0, 0, 5, 5);
+		enterpriseNameDataLocation.fill = GridBagConstraints.BOTH;
+		enterpriseNameDataLocation.gridx = 2;
+		enterpriseNameDataLocation.gridy = 0;
+		stockPanel.add(enterpriseNameData, enterpriseNameDataLocation);
 
-		JTextPane price = new JTextPane();
-		price.setText("Precio");
-		GridBagConstraints locationPrice = new GridBagConstraints();
-		locationPrice.insets = new Insets(0, 0, 5, 5);
-		locationPrice.anchor = GridBagConstraints.NORTHWEST;
-		locationPrice.gridx = 0;
-		locationPrice.gridy = 1;
-		investmentPanel.add(price, locationPrice);
+		JTextPane stockPrice = new JTextPane();
+		stockPrice.setText("Precio:");
+		GridBagConstraints stockPriceLocation = new GridBagConstraints();
+		stockPriceLocation.insets = new Insets(0, 0, 5, 5);
+		stockPriceLocation.anchor = GridBagConstraints.NORTHWEST;
+		stockPriceLocation.gridx = 0;
+		stockPriceLocation.gridy = 1;
+		stockPanel.add(stockPrice, stockPriceLocation);
 
-		JTextPane dataPrice = new JTextPane();
-		dataPrice.setText("");
-		GridBagConstraints locationDataPrice = new GridBagConstraints();
-		locationDataPrice.insets = new Insets(0, 0, 5, 5);
-		locationDataPrice.fill = GridBagConstraints.BOTH;
-		locationDataPrice.gridx = 2;
-		locationDataPrice.gridy = 1;
-		investmentPanel.add(dataPrice, locationDataPrice);
+		JTextPane stockPriceData = new JTextPane();
+		stockPriceData.setText("");
+		GridBagConstraints stockPriceDataLocation = new GridBagConstraints();
+		stockPriceDataLocation.insets = new Insets(0, 0, 5, 5);
+		stockPriceDataLocation.fill = GridBagConstraints.BOTH;
+		stockPriceDataLocation.gridx = 2;
+		stockPriceDataLocation.gridy = 1;
+		stockPanel.add(stockPriceData, stockPriceDataLocation);
 
-		JTextPane count = new JTextPane();
-count.setText("Cantidad:");
-GridBagConstraints locationCount = new GridBagConstraints();
-locationCount.anchor = GridBagConstraints.NORTH;
-locationCount.fill = GridBagConstraints.HORIZONTAL;
-locationCount.insets = new Insets(0, 0, 5, 5);
-locationCount.gridx = 0;
-locationCount.gridy = 2;
-investmentPanel.add(count, locationCount);
+		JTextPane stockNumber = new JTextPane();
+		stockNumber.setText("Cantidad:");
+		GridBagConstraints stockNumberLocation = new GridBagConstraints();
+		stockNumberLocation.anchor = GridBagConstraints.NORTH;
+		stockNumberLocation.fill = GridBagConstraints.HORIZONTAL;
+		stockNumberLocation.insets = new Insets(0, 0, 5, 5);
+		stockNumberLocation.gridx = 0;
+		stockNumberLocation.gridy = 2;
+		stockPanel.add(stockNumber, stockNumberLocation);
 
-final JTextField dataCount = new JTextField();
-dataCount.setText("");
-GridBagConstraints locationDataCount = new GridBagConstraints();
-locationDataCount.insets = new Insets(0, 0, 5, 5);
-locationDataCount.fill = GridBagConstraints.BOTH;
-locationDataCount.gridx = 2;
-locationDataCount.gridy = 2;
-investmentPanel.add(dataCount, locationDataCount);	
+		final JTextField stockNumberData = new JTextField();
+		stockNumberData.setText("");
+		GridBagConstraints stockNumberDataLocation = new GridBagConstraints();
+		stockNumberDataLocation.insets = new Insets(0, 0, 5, 5);
+		stockNumberDataLocation.fill = GridBagConstraints.BOTH;
+		stockNumberDataLocation.gridx = 2;
+		stockNumberDataLocation.gridy = 2;
+		stockPanel.add(stockNumberData, stockNumberDataLocation);	
 
-JButton buyStock = new JButton("Vender acciones");
-buyStock.addActionListener(new ActionListener() {
-public void actionPerformed(ActionEvent e) {
-String buyCount = dataCount.getText();
+		JButton buyStockButton = new JButton("Vender acciones");
+		buyStockButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String buyCount = stockNumberData.getText();
+			}
+		});
 
+		GridBagConstraints locationBuyStock = new GridBagConstraints();
+		locationBuyStock.anchor = GridBagConstraints.NORTHWEST;
+		locationBuyStock.insets = new Insets(0, 0, 5, 5);
+		locationBuyStock.gridx = 11;
+		locationBuyStock.gridy = 1;
+		stockPanel.add(buyStockButton, locationBuyStock);
 
-}
-});
-
-GridBagConstraints locationBuyStock = new GridBagConstraints();
-locationBuyStock.anchor = GridBagConstraints.NORTHWEST;
-locationBuyStock.insets = new Insets(0, 0, 5, 5);
-locationBuyStock.gridx = 11;
-locationBuyStock.gridy = 1;
-investmentPanel.add(buyStock, locationBuyStock);
-
-return investmentPanel;
-}
+		return stockPanel;
+	}
 
 }
