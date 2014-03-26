@@ -9,6 +9,8 @@ import javax.swing.table.DefaultTableModel;
 
 public class InvestmentsWindow extends JFrame {
 
+	private static final long serialVersionUID = 1L;
+
 	public InvestmentsWindow() {
 		JTable tableMovements = new JTable(new DefaultTableModel(
 				new Object[][] {

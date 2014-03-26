@@ -1,11 +1,8 @@
 package es.unileon.ulebank;
 
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileReader;
 import java.io.FileWriter;
-import java.util.ArrayList;
 
 public class Register {
 
@@ -17,18 +14,18 @@ public class Register {
 	Codificador codificar;
 	String ruta = System.getProperty("user.dir");
 	String separado = System.getProperty("file.separator");
-	
-	public Register(){
-		
+
+	public Register() {
+
 	}
-	
-	public Register(String login, String pass){
+
+	public Register(String login, String pass) {
 		this.login = login;
 		this.pass = pass;
 	}
-	
-	public void guardarDatos(String login, String pass){
-		File archivo = new File(ruta + separado +"archivo.txt");
+
+	public void guardarDatos(String login, String pass) {
+		File archivo = new File(ruta + separado + "archivo.txt");
 		codificar = new Codificador();
 		try {
 			FileWriter escribirArchivo = new FileWriter(archivo, true);
@@ -43,9 +40,10 @@ public class Register {
 		}
 	}
 
-	//TODO Aqui es donde tienes que recojer los datos de la interfaz para guardarlos en el texto plano
+	// TODO Aqui es donde tienes que recojer los datos de la interfaz para
+	// guardarlos en el texto plano
 	public void guardarDatos() {
-		File archivo = new File(ruta + separado +"archivo.txt");
+		File archivo = new File(ruta + separado + "archivo.txt");
 		codificar = new Codificador();
 		try {
 			FileWriter escribirArchivo = new FileWriter(archivo, true);
@@ -59,6 +57,5 @@ public class Register {
 			// TODO: handle exception
 		}
 	}
-
 
 }

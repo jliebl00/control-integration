@@ -4,7 +4,7 @@
 package es.unileon.ulebank.client.types;
 
 import es.unileon.ulebank.client.Client;
-import es.unileon.ulebank.client.handler.EnterpriseHandler;
+import es.unileon.ulebank.handler.EnterpriseHandler;
 
 /**
  *

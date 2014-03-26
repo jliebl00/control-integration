@@ -4,17 +4,17 @@
  * and open the template in the editor.
  */
 
-package es.unileon.ulebank.fees;
+package es.unileon.ulebank.exceptions;
 
 /**
  * 
- * @author roobre
+ * @author furiios
  */
-public class InvalidFeeException extends Exception {
+public class NotEnoughParticipationsException extends Exception {
 
 	private static final long serialVersionUID = 1L;
 
-	public InvalidFeeException() {
-		super("Fee factor must be a positive double");
+	public NotEnoughParticipationsException() {
+		super("There are not enough participations available.");
 	}
 }
