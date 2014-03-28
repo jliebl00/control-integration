@@ -4,10 +4,9 @@ import es.unileon.ulebank.brokerage.buyable.InvestmentFund;
 import es.unileon.ulebank.brokerage.buyable.Enterprise;
 import es.unileon.ulebank.brokerage.pack.StockPack;
 import es.unileon.ulebank.brokerage.pack.InvestmentFundPack;
+import es.unileon.ulebank.brokerage.pack.PackTransaction;
 import es.unileon.ulebank.Account;
-import es.unileon.ulebank.history.FundTransaction;
 import es.unileon.ulebank.history.History;
-import es.unileon.ulebank.history.StockTransaction;
 import java.util.ArrayList;
 
 public class InvestmentAccount extends Account {
@@ -15,14 +14,14 @@ public class InvestmentAccount extends Account {
     private final ArrayList<StockPack> stockPacks;
     private final ArrayList<InvestmentFundPack> fundPacks;
 
-    private final History<FundTransaction> transactionHistory;
-    private final History<StockTransaction> stockHistory;
+    private final History<PackTransaction> fundHistory;
+    private final History<PackTransaction> stockHistory;
 
     public InvestmentAccount() {
         this.stockPacks = new ArrayList<>();
         this.fundPacks = new ArrayList<>();
 
-        this.transactionHistory = new History<>();
+        this.fundHistory = new History<>();
         this.stockHistory = new History<>();
     }
 

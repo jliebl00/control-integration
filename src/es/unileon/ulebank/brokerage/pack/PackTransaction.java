@@ -14,7 +14,7 @@ import java.util.logging.Handler;
  *
  * @author roobre
  */
-class PackTransaction extends Transaction {
+public class PackTransaction extends Transaction {
 
     private Pack pack;
 
