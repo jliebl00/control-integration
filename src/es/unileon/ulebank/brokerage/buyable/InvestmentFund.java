@@ -1,8 +1,6 @@
 package es.unileon.ulebank.brokerage.buyable;
 
 import es.unileon.ulebank.Employee;
-import es.unileon.ulebank.exceptions.InvalidInvestmentFundException;
-import es.unileon.ulebank.exceptions.TotalLowerThanBoughtException;
 import es.unileon.ulebank.fees.FeeStrategy;
 
 import java.util.logging.Handler;
@@ -13,12 +11,12 @@ public class InvestmentFund extends Buyable {
     private double profitability;
     private FeeStrategy fee;
 
-    public InvestmentFund(Handler id, int amount, double totalPrice, Employee opener, FeeStrategy fee, double profitability) throws InvalidInvestmentFundException {
+    public InvestmentFund(Handler id, int amount, double totalPrice, Employee opener, FeeStrategy fee, double profitability) throws InvalidBuyableException {
         super(id, amount, totalPrice);
 
 
         if (profitability < 1) {
-            throw new InvalidInvestmentFundException("Profitability", "greater", 1);
+            throw new InvalidBuyableException("Profitability", "greater", 1);
         }
 
         this.opener = opener;

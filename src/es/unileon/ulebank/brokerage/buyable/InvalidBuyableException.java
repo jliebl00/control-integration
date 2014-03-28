@@ -4,14 +4,14 @@
  * and open the template in the editor.
  */
 
-package es.unileon.ulebank.exceptions;
+package es.unileon.ulebank.brokerage.buyable;
 
 /**
  *
  * @author roobre
  */
-public class InvalidInvestmentFundException extends Exception {
-    public InvalidInvestmentFundException(String parameter, String comparison, double value) {
+public class InvalidBuyableException extends Exception {
+    public InvalidBuyableException(String parameter, String comparison, double value) {
         super(parameter + " must be " + comparison + " than " + value);
     }
 }

@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package es.unileon.ulebank.exceptions;
+package es.unileon.ulebank.brokerage.buyable;
 
 /**
  * 

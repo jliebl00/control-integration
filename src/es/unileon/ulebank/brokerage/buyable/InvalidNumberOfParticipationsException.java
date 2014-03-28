@@ -1,4 +1,4 @@
-package es.unileon.ulebank.exceptions;
+package es.unileon.ulebank.brokerage.buyable;
 
 public class InvalidNumberOfParticipationsException extends Exception {
 

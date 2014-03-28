@@ -5,10 +5,6 @@
  */
 package es.unileon.ulebank.brokerage.buyable;
 
-import es.unileon.ulebank.exceptions.InvalidInvestmentFundException;
-import es.unileon.ulebank.exceptions.InvalidNumberOfParticipationsException;
-import es.unileon.ulebank.exceptions.NotEnoughParticipationsException;
-import es.unileon.ulebank.exceptions.TotalLowerThanBoughtException;
 import java.util.logging.Handler;
 
 /**
@@ -22,13 +18,13 @@ public class Buyable {
     protected int purchasedAmount;
     protected double totalPrice;
 
-    public Buyable(Handler id, int amount, double totalPrice) throws InvalidInvestmentFundException {
+    public Buyable(Handler id, int amount, double totalPrice) throws InvalidBuyableException {
         if (totalPrice < 0) {
-            throw new InvalidInvestmentFundException("Price", "greater", 0);
+            throw new InvalidBuyableException("Price", "greater", 0);
         }
 
         if (amount < 0) {
-            throw new InvalidInvestmentFundException("Participations", "greater", 0);
+            throw new InvalidBuyableException("Participations", "greater", 0);
         }
 
         this.id = id;
