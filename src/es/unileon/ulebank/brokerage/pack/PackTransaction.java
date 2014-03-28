@@ -16,7 +16,7 @@ import java.util.logging.Handler;
  */
 public class PackTransaction extends Transaction {
 
-    private Pack pack;
+    private final Pack pack;
 
     public PackTransaction(Handler id, double amount, Date date, String subject, Enum<TransactionType> type, Pack pack) {
         super(id, amount, date, subject, type);

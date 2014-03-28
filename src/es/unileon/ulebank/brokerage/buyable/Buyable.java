@@ -73,7 +73,7 @@ public class Buyable {
 
     /**
      * @param participations the participations to buy
-     * @throws es.unileon.ulebank.exceptions.NotEnoughParticipationsException
+     * @throws es.unileon.ulebank.brokerage.buyable.NotEnoughParticipationsException
      */
     public void buy(int participations) throws NotEnoughParticipationsException {
         if (participations > this.amount - this.purchasedAmount) {

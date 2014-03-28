@@ -33,6 +33,7 @@ public class InvestmentFund extends Buyable {
 
     /**
      * @param participations the participations to set
+     * @throws es.unileon.ulebank.brokerage.buyable.TotalLowerThanBoughtException
      */
     public void setParticipations(int participations) throws TotalLowerThanBoughtException {
         if (participations < this.purchasedAmount) {
