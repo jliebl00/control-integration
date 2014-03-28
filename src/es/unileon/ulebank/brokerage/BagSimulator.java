@@ -1,6 +1,7 @@
 package es.unileon.ulebank.brokerage;
 
 import es.unileon.ulebank.brokerage.buyable.Enterprise;
+import es.unileon.ulebank.brokerage.buyable.InvalidBuyableException;
 import es.unileon.ulebank.exceptions.MalformedHandlerException;
 import es.unileon.ulebank.handler.Handler;
 import es.unileon.ulebank.handler.HandlerShare;
@@ -13,7 +14,7 @@ public class BagSimulator {
     private static ArrayList<Enterprise> hardcodedEnterprises;
     private static BagSimulator instance = null;
     
-    private BagSimulator() {
+    private BagSimulator() throws InvalidBuyableException {
         BagSimulator.hardcodedEnterprises = new ArrayList<>();
         try {
             BagSimulator.hardcodedEnterprises.add(
@@ -32,7 +33,7 @@ public class BagSimulator {
         }
     }
     
-    public BagSimulator getInstance() {
+    public BagSimulator getInstance() throws InvalidBuyableException {
         if (BagSimulator.instance == null) {
             BagSimulator.instance = new BagSimulator();
         }
@@ -44,8 +45,9 @@ public class BagSimulator {
      * Returns a enterprise matching the given ID. If its not found, a default one will be created with that ID.
      * @param enterpriseID
      * @return a enterprise matching the given ID. If its not found, a default one will be created with that ID.
+     * @throws es.unileon.ulebank.brokerage.buyable.InvalidBuyableException
      */
-    public Enterprise getEnterpriseHandler(Handler enterpriseID) {
+    public Enterprise getEnterpriseHandler(Handler enterpriseID) throws InvalidBuyableException {
         Enterprise wanted = new Enterprise(enterpriseID, 0, 0);
         
         if (!BagSimulator.hardcodedEnterprises.isEmpty()) {
@@ -55,7 +57,7 @@ public class BagSimulator {
             
             do {
                 e = it.next();
-                if (e.getEnterpriseID().compareTo(enterpriseID) != 0) {
+                if (e.getId().compareTo(enterpriseID) != 0) {
                     found = true;
                     wanted = e;
                 }

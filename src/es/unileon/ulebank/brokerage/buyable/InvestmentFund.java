@@ -3,7 +3,7 @@ package es.unileon.ulebank.brokerage.buyable;
 import es.unileon.ulebank.Employee;
 import es.unileon.ulebank.fees.FeeStrategy;
 
-import java.util.logging.Handler;
+import es.unileon.ulebank.handler.Handler;
 
 public class InvestmentFund extends Buyable {
 

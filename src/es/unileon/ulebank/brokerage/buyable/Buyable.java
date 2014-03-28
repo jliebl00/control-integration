@@ -5,7 +5,7 @@
  */
 package es.unileon.ulebank.brokerage.buyable;
 
-import java.util.logging.Handler;
+import es.unileon.ulebank.handler.Handler;
 
 /**
  *
@@ -53,7 +53,7 @@ public class Buyable {
     /**
      * @return the fundID
      */
-    public Handler getFoundID() {
+    public Handler getId() {
         return id;
     }
 
