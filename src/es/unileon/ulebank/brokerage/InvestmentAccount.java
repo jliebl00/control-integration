@@ -1,5 +1,9 @@
 package es.unileon.ulebank.brokerage;
 
+import es.unileon.ulebank.brokerage.buyable.InvestmentFund;
+import es.unileon.ulebank.brokerage.buyable.Enterprise;
+import es.unileon.ulebank.brokerage.pack.StockPack;
+import es.unileon.ulebank.brokerage.pack.InvestmentFundPack;
 import es.unileon.ulebank.Account;
 import es.unileon.ulebank.history.FundTransaction;
 import es.unileon.ulebank.history.History;

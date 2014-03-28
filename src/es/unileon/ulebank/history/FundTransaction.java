@@ -5,7 +5,7 @@
  */
 package es.unileon.ulebank.history;
 
-import es.unileon.ulebank.brokerage.InvestmentFund;
+import es.unileon.ulebank.brokerage.buyable.InvestmentFund;
 import java.util.Date;
 import java.util.logging.Handler;
 

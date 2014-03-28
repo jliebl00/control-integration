@@ -6,6 +6,7 @@
 
 package es.unileon.ulebank.brokerage;
 
+import es.unileon.ulebank.brokerage.buyable.Enterprise;
 import es.unileon.ulebank.handler.Handler;
 import org.junit.Before;
 import org.junit.Test;

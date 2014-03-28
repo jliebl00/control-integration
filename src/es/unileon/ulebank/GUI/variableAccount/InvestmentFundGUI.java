@@ -1,6 +1,6 @@
 package es.unileon.ulebank.GUI.variableAccount;
 
-import es.unileon.ulebank.brokerage.InvestmentFundPack;
+import es.unileon.ulebank.brokerage.pack.InvestmentFundPack;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
