@@ -5,7 +5,6 @@
  */
 package es.unileon.ulebank.brokerage.pack;
 
-import es.unileon.ulebank.Employee;
 import es.unileon.ulebank.account.Account;
 import es.unileon.ulebank.brokerage.buyable.Buyable;
 
@@ -17,8 +16,8 @@ public abstract class Pack {
 
     protected final Buyable product;
 
-    protected final int amount;
     protected final Account account;
+    protected int amount;
 
     public Pack(Buyable product, int amount, Account account) {
         this.product = product;

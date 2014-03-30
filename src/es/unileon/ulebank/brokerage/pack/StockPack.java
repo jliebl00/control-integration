@@ -1,8 +1,8 @@
 package es.unileon.ulebank.brokerage.pack;
 
-import es.unileon.ulebank.Employee;
 import es.unileon.ulebank.account.Account;
 import es.unileon.ulebank.brokerage.buyable.Buyable;
+import es.unileon.ulebank.brokerage.buyable.NotEnoughParticipationsException;
 import java.util.Date;
 
 public class StockPack extends Pack {
@@ -30,5 +30,13 @@ public class StockPack extends Pack {
      */
     public Date getDate() {
         return date;
+    }
+    
+    public void sell(int amount) throws NotEnoughParticipationsException {
+        int stockage = this.amount - amount;
+        if(stockage < 0) {
+            throw new NotEnoughParticipationsException();
+        }
+        this.amount = stockage;
     }
 }
