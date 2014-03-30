@@ -3,7 +3,6 @@ package es.unileon.ulebank.brokerage;
 import es.unileon.ulebank.Employee;
 import es.unileon.ulebank.account.Account;
 import es.unileon.ulebank.account.exception.BalanceException;
-import es.unileon.ulebank.brokerage.buyable.Buyable;
 import es.unileon.ulebank.brokerage.buyable.Enterprise;
 import es.unileon.ulebank.brokerage.buyable.InvalidBuyableException;
 import es.unileon.ulebank.brokerage.buyable.InvestmentFund;
@@ -13,7 +12,6 @@ import es.unileon.ulebank.brokerage.pack.PackTransaction;
 import es.unileon.ulebank.brokerage.pack.StockPack;
 import es.unileon.ulebank.history.History;
 import es.unileon.ulebank.history.TransactionType;
-import es.unileon.ulebank.handler.Handler;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -42,6 +40,9 @@ public class InvestmentAccount {
      * @param amount Amount of stockage to buy
      * @param operator Bank operator which performs the transaction (the one who
      * is logged in probably).
+     * @throws es.unileon.ulebank.brokerage.buyable.InvalidBuyableException
+     * @throws es.unileon.ulebank.account.exception.BalanceException
+     * @throws es.unileon.ulebank.brokerage.buyable.NotEnoughParticipationsException
      */
     public void buyStockage(Enterprise e, Account acc, int amount, Employee operator) throws InvalidBuyableException, BalanceException, NotEnoughParticipationsException {
         e.buy(amount);
@@ -68,6 +69,9 @@ public class InvestmentAccount {
      * @param amount Number of participations to buy
      * @param operator Bank operator which performs the transaction (the one who
      * is logged in probably).
+     * @throws es.unileon.ulebank.brokerage.buyable.InvalidBuyableException
+     * @throws es.unileon.ulebank.account.exception.BalanceException
+     * @throws es.unileon.ulebank.brokerage.buyable.NotEnoughParticipationsException
      */
     public void buyInvestmentFund(InvestmentFund i, Account acc, int amount, Employee operator) throws InvalidBuyableException, BalanceException, NotEnoughParticipationsException {
         i.buy(amount);

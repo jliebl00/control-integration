@@ -1,6 +1,5 @@
 package es.unileon.ulebank.brokerage.pack;
 
-import es.unileon.ulebank.Employee;
 import es.unileon.ulebank.account.Account;
 import es.unileon.ulebank.brokerage.buyable.Buyable;
 
