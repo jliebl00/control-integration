@@ -1,16 +1,23 @@
 package es.unileon.ulebank.brokerage;
 
-import es.unileon.ulebank.Account;
 import es.unileon.ulebank.Employee;
+import es.unileon.ulebank.account.Account;
+import es.unileon.ulebank.account.exception.BalanceException;
+import es.unileon.ulebank.brokerage.buyable.Buyable;
 import es.unileon.ulebank.brokerage.buyable.Enterprise;
+import es.unileon.ulebank.brokerage.buyable.InvalidBuyableException;
 import es.unileon.ulebank.brokerage.buyable.InvestmentFund;
+import es.unileon.ulebank.brokerage.buyable.NotEnoughParticipationsException;
 import es.unileon.ulebank.brokerage.pack.InvestmentFundPack;
 import es.unileon.ulebank.brokerage.pack.PackTransaction;
 import es.unileon.ulebank.brokerage.pack.StockPack;
 import es.unileon.ulebank.history.History;
+import es.unileon.ulebank.history.TransactionType;
+import es.unileon.ulebank.handler.Handler;
 import java.util.ArrayList;
+import java.util.Date;
 
-public class InvestmentAccount extends Account {
+public class InvestmentAccount {
 
     private final ArrayList<StockPack> stockPacks;
     private final ArrayList<InvestmentFundPack> fundPacks;
@@ -36,20 +43,20 @@ public class InvestmentAccount extends Account {
      * @param operator Bank operator which performs the transaction (the one who
      * is logged in probably).
      */
-    public void buyStockage(Enterprise e, Account acc, int amount, Employee operator) {
-        /* TODO: Implement stockage buying:
-         * - Add StockPack to list.
-         * - Generate transaction.
-         * - Withdraw lulz.
-         */
+    public void buyStockage(Enterprise e, Account acc, int amount, Employee operator) throws InvalidBuyableException, BalanceException, NotEnoughParticipationsException {
+        e.buy(amount);
+        StockPack sp = new StockPack(e, amount, acc, e.getPPP(), new Date());
+        stockPacks.add(sp);
+        PackTransaction pt = new PackTransaction(null, amount, new Date(), "Compra de acciones.", TransactionType.OUT, sp, operator);
+        stockHistory.add(pt);
+        acc.addBalance((float) -(amount * e.getPrice()));
     }
     
-    public void sellStockage(StockPack p, int amount, Employee operator) {
-        /* TODO: Implement stockage selling:
-         * - Modify StockPack.
-         * - Generate transaction.
-         * - Compute the net profit and charge to corresponding account.
-         */
+    public void sellStockage(StockPack p, int amount, Employee operator) throws BalanceException, NotEnoughParticipationsException {
+        p.sell(amount);
+        PackTransaction pt = new PackTransaction(null, amount, new Date(), "Venta de acciones.", TransactionType.IN, p, operator);
+        stockHistory.add(pt);
+        p.getAccount().addBalance((float) (amount  * p.getProduct().getPPP()));
     }
 
     /**
@@ -62,12 +69,13 @@ public class InvestmentAccount extends Account {
      * @param operator Bank operator which performs the transaction (the one who
      * is logged in probably).
      */
-    public void buyInvestmentFund(InvestmentFund i, Account acc, int amount, Employee operator) {
-        /* TODO: Implement investment funds buying:
-         * - Add InvestmentFundPack to list.
-         * - Generate transaction.
-         * - Withdraw lulz.
-         */
+    public void buyInvestmentFund(InvestmentFund i, Account acc, int amount, Employee operator) throws InvalidBuyableException, BalanceException, NotEnoughParticipationsException {
+        i.buy(amount);
+        InvestmentFundPack ifp = new InvestmentFundPack(i, amount, acc);
+        fundPacks.add(ifp);
+        PackTransaction pt = new PackTransaction(null, amount, new Date(), "Compra de fondos de inversion.", TransactionType.OUT, ifp, operator);
+        fundHistory.add(pt);
+        acc.addBalance((float) -(amount * i.getPPP()));
     }
 
     /**
