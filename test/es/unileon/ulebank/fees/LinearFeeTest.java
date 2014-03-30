@@ -40,9 +40,13 @@ public class LinearFeeTest {
     }
     
     @Test (expected = InvalidFeeException.class)
-    public void testInvalidFeeException() throws InvalidFeeException {
-    	linearFee3 = new LinearFee(-0.2, 0);
-    	
+    public void testInvalidFeeExceptionFee() throws InvalidFeeException {
+    	linearFee3 = new LinearFee(-0.2, 0);	
+    }
+    
+    @Test (expected = InvalidFeeException.class)
+    public void testInvalidFeeExceptionMin() throws InvalidFeeException {
+    	linearFee3 = new LinearFee(0.2, -10);	
     }
 
 }
