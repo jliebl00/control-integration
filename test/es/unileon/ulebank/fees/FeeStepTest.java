@@ -24,6 +24,7 @@ public class FeeStepTest {
 	FeeStep feeStep2;
 	FeeStep feeStep3;
 	FeeStep feeStep4;
+	FeeStep feeStep5;
 
     public FeeStepTest() throws InvalidStepException, InvalidFeeException {
     }
@@ -33,11 +34,22 @@ public class FeeStepTest {
     	feeStep1 = new FeeStep(0, 1000, 0.01);
     	feeStep2 = new FeeStep(1000, 1200, 0.2);
     	feeStep4 = new FeeStep(800, 1200, 0.5);
+    	feeStep5 = new FeeStep(2000, 3000, 0.0);
     }
     
     @Test (expected = InvalidStepException.class)
-    public void testInvalidStepException() throws InvalidStepException, InvalidFeeException {
+    public void testInvalidStepExceptionCrossed() throws InvalidStepException, InvalidFeeException {
     	feeStep3 = new FeeStep(1000, 200, 0.3);
+    }
+    
+    @Test (expected = InvalidStepException.class)
+    public void testInvalidStepExceptionNegative() throws InvalidStepException, InvalidFeeException {
+    	feeStep3 = new FeeStep(-20, 200, 0.3);
+    }
+    
+    @Test (expected = InvalidFeeException.class)
+    public void testInvalidFeeException() throws InvalidStepException, InvalidFeeException {
+    	feeStep3 = new FeeStep(100, 200, -0.3);
     }
 
     @Test
