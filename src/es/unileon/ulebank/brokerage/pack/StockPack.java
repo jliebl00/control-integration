@@ -10,8 +10,8 @@ public class StockPack extends Pack {
     private final double price;
     private final Date date;    
 
-    public StockPack(Buyable product, int amount, Account account, Employee operator, PackTransaction transaction, double price, Date date) {
-        super(product, amount, account, operator, transaction);
+    public StockPack(Buyable product, int amount, Account account, double price, Date date) {
+        super(product, amount, account);
         
         this.price = price;
         this.date = date;

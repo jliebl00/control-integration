@@ -19,15 +19,11 @@ public abstract class Pack {
 
     protected final int amount;
     protected final Account account;
-    protected final Employee operator;
-    protected final PackTransaction transaction;
 
-    public Pack(Buyable product, int amount, Account account, Employee operator, PackTransaction transaction) {
+    public Pack(Buyable product, int amount, Account account) {
         this.product = product;
         this.amount = amount;
         this.account = account;
-        this.operator = operator;
-        this.transaction = transaction;
     }
 
     /**
@@ -42,20 +38,6 @@ public abstract class Pack {
      */
     public Account getAccount() {
         return account;
-    }
-
-    /**
-     * @return the operator
-     */
-    public Employee getOperator() {
-        return operator;
-    }
-
-    /**
-     * @return the transaction
-     */
-    public PackTransaction getTransaction() {
-        return transaction;
     }
 
     /**

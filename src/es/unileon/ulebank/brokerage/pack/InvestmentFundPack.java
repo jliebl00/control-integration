@@ -6,7 +6,7 @@ import es.unileon.ulebank.brokerage.buyable.Buyable;
 
 public class InvestmentFundPack extends Pack {
 
-    public InvestmentFundPack(Buyable product, int amount, Account account, Employee operator, PackTransaction transaction) {
-        super(product, amount, account, operator, transaction);
+    public InvestmentFundPack(Buyable product, int amount, Account account) {
+        super(product, amount, account);
     }
 }
