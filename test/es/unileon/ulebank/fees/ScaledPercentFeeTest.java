@@ -45,26 +45,18 @@ public class ScaledPercentFeeTest {
     @Test
     public void testAddStep() throws Exception {
         instance.addStep(feeStep1);
-        
-//        try {
-//			instance.addStep(feeStep2);
-//		} catch (CrossedStepException e) {
-//			e.printStackTrace();
-//		}
-        
         instance.addStep(feeStep3);
-        
-//        try {
-//			instance.addStep(feeStep4);
-//		} catch (CrossedStepException e) {
-//			e.printStackTrace();
-//		}
     }
     
     @Test(expected = CrossedStepException.class)
     public void testCrossedStepException() throws InvalidStepException, InvalidFeeException, CrossedStepException {
     	instance.addStep(feeStep1);
     	instance.addStep(feeStep2);
+    }
+    
+    @Test(expected = InvalidFeeException.class)
+    public void testIvalidFeeException() throws InvalidFeeException {
+    	ScaledPercentFee instance3 = new ScaledPercentFee(-10);
     }
 
     @Test
