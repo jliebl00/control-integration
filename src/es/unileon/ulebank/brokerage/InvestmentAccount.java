@@ -11,6 +11,7 @@ import es.unileon.ulebank.brokerage.pack.InvestmentFundPack;
 import es.unileon.ulebank.brokerage.pack.PackTransaction;
 import es.unileon.ulebank.brokerage.pack.StockPack;
 import es.unileon.ulebank.history.History;
+import es.unileon.ulebank.history.TransactionHandlerProvider;
 import es.unileon.ulebank.history.TransactionType;
 import java.util.ArrayList;
 import java.util.Date;
@@ -48,14 +49,14 @@ public class InvestmentAccount {
         e.buy(amount);
         StockPack sp = new StockPack(e, amount, acc, e.getPPP(), new Date());
         stockPacks.add(sp);
-        PackTransaction pt = new PackTransaction(null, amount, new Date(), "Compra de acciones.", TransactionType.OUT, sp, operator);
+        PackTransaction pt = new PackTransaction(TransactionHandlerProvider.getTransactionHandler(), amount, new Date(), "Compra de acciones.", TransactionType.OUT, sp, operator);
         stockHistory.add(pt);
         acc.addBalance((float) -(amount * e.getPrice()));
     }
     
     public void sellStockage(StockPack p, int amount, Employee operator) throws BalanceException, NotEnoughParticipationsException {
         p.sell(amount);
-        PackTransaction pt = new PackTransaction(null, amount, new Date(), "Venta de acciones.", TransactionType.IN, p, operator);
+        PackTransaction pt = new PackTransaction(TransactionHandlerProvider.getTransactionHandler(), amount, new Date(), "Venta de acciones.", TransactionType.IN, p, operator);
         stockHistory.add(pt);
         p.getAccount().addBalance((float) (amount  * p.getProduct().getPPP()));
     }
@@ -77,7 +78,7 @@ public class InvestmentAccount {
         i.buy(amount);
         InvestmentFundPack ifp = new InvestmentFundPack(i, amount, acc);
         fundPacks.add(ifp);
-        PackTransaction pt = new PackTransaction(null, amount, new Date(), "Compra de fondos de inversion.", TransactionType.OUT, ifp, operator);
+        PackTransaction pt = new PackTransaction(TransactionHandlerProvider.getTransactionHandler(), amount, new Date(), "Compra de fondos de inversion.", TransactionType.OUT, ifp, operator);
         fundHistory.add(pt);
         acc.addBalance((float) -(amount * i.getPPP()));
     }
