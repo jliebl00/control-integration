@@ -144,10 +144,11 @@ public class VariableAccountGUI extends JFrame {
 		panel.add(scrollPane, BorderLayout.CENTER);
 		
 		JButton stocks = new JButton("Manejo de acciones");
-		
 		stocks.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
+				StockManagerGUI nextWindow = new StockManagerGUI();
+				nextWindow.setVisible(true);
+				setVisible(false);
 			}
 		});
 		
