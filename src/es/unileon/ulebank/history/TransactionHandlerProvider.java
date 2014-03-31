@@ -7,7 +7,6 @@ package es.unileon.ulebank.history;
 
 import es.unileon.ulebank.handler.Handler;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 
 /**
