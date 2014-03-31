@@ -13,11 +13,14 @@ import java.util.Date;
  *
  * @author roobre
  */
-public class TransactionHandlerProvider {
+public final class TransactionHandlerProvider {
 
     private static final SimpleDateFormat format = new SimpleDateFormat("yyyyMMdd");
     private static String lastTimestamp = "";
     private static long currentId = 0;
+    
+    private TransactionHandlerProvider() {
+    }
 
     public synchronized static Handler getTransactionHandler() {
         String timestamp = format.format(new Date());
