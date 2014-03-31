@@ -11,6 +11,7 @@ import es.unileon.ulebank.brokerage.pack.InvestmentFundPack;
 import es.unileon.ulebank.brokerage.pack.PackTransaction;
 import es.unileon.ulebank.brokerage.pack.StockPack;
 import es.unileon.ulebank.history.History;
+import es.unileon.ulebank.history.TransactionHandlerProvider;
 import es.unileon.ulebank.history.TransactionType;
 import java.util.ArrayList;
 import java.util.Date;
