@@ -26,6 +26,21 @@ public class VariableAccountRequestGUI extends JFrame {
 	private JPanel contentPane;
 
 	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					VariableAccountRequestGUI frame = new VariableAccountRequestGUI();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+	/**
 	 * Create the frame.
 	 */
 	public VariableAccountRequestGUI() {
@@ -82,10 +97,19 @@ public class VariableAccountRequestGUI extends JFrame {
 		evaluate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				TestEvaluation testE = new TestEvaluation();
-				String result = testE.testResult();
+				//String result = testE.testResult();
+				String result = "suitable";
 				if(result.compareTo("suitable") == 0){
-					JOptionPane.showConfirmDialog(null,
+					int aux = JOptionPane.showConfirmDialog(null,
 							"Confirme para la creacion de la cuenta", "El cliente es apto", JOptionPane.YES_NO_OPTION);
+					
+					if(aux == JOptionPane.YES_OPTION){
+				            JOptionPane.showMessageDialog(null, "La cuenta ha sido creada, rellene el contrato.");
+				            //TO-DO Create variable account
+				            VariableAccountContract nextWindow = new VariableAccountContract();
+				            nextWindow.setVisible(true);
+				            setVisible(false);
+					}
 				}else{
 					JOptionPane.showMessageDialog(null, "Si este no esta de acuerdo, por favor consultelo con su superior", "El cliente no es apto", JOptionPane.INFORMATION_MESSAGE);
 
