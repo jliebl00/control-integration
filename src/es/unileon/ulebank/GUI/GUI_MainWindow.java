@@ -60,6 +60,7 @@ public class GUI_MainWindow {
 		
 		panel = new ImagePanel("/images/WebUle2_2");
 		panel.setBackground(new Color(255, 255, 255));
+		panel.setLayout(null);
 		frame.add(panel);
 		panel.setVisible(true);
 		
@@ -89,7 +90,7 @@ public class GUI_MainWindow {
 			this.imageIcon = new ImageIcon(this.image);
 			buttons[i] = new JButton(imageIcon);
 //			buttons[0].setBounds(200, 200, 100, 100);
-//			buttons[i].setBounds(i*(imageIcon.getIconWidth()+20), 500, imageIcon.getIconWidth(), imageIcon.getIconHeight());
+			buttons[i].setBounds(400+(i*75), 40, imageIcon.getIconWidth(), imageIcon.getIconHeight());
 			buttons[i].setBackground(Color.WHITE);
 			buttons[i].setVisible(true);
 			buttons[i].setBorder(null);
@@ -101,7 +102,6 @@ public class GUI_MainWindow {
 				}
 			});
 			panel.add(buttons[i]);
-			System.out.println("hola\n");
 		}
 	}
 }
