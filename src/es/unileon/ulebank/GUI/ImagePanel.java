@@ -13,7 +13,6 @@ public class ImagePanel extends JPanel {
 	private java.net.URL url;
 
 	public ImagePanel(String imageName) {
-		System.out.println(imageName + ".png");
 		try {
 			this.url = getClass().getResource(imageName + ".png");
 			image = ImageIO.read(this.url);

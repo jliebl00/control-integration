@@ -22,7 +22,7 @@ public class StockPackTest {
 	private StockPack stockPack2;
 	private Date date;
 
-	@SuppressWarnings("deprecation")
+	@SuppressWarnings("deprecated")
 	@Before
 	public void setUp() throws Exception {
 		
