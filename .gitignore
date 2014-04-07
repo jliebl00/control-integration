@@ -8,13 +8,13 @@ nbproject/
 
 # Eclipse project data
 .project
+.classpath
 
 *.class
 
 # Package Files #
-*.jar
 *.war
 *.ear
 /bin
-/dist/
+/dist
 /build
