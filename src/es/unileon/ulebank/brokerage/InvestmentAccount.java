@@ -83,20 +83,6 @@ public class InvestmentAccount {
     }
 
     /**
-     * @return the stockPacks
-     */
-    public ArrayList<StockPack> getStockPacks() {
-        return stockPacks;
-    }
-
-    /**
-     * @return the fundPacks
-     */
-    public ArrayList<InvestmentFundPack> getFundPacks() {
-        return fundPacks;
-    }
-
-    /**
      * @return the fundHistory
      */
     public History<PackTransaction> getFundHistory() {
