@@ -16,13 +16,12 @@ public abstract class Pack {
 
     protected final Buyable product;
 
-    protected final Account account;
+    protected Account account;
     protected int amount;
 
-    public Pack(Buyable product, int amount, Account account) {
+    public Pack(Buyable product, int amount) {
         this.product = product;
         this.amount = amount;
-        this.account = account;
     }
 
     /**
@@ -46,4 +45,17 @@ public abstract class Pack {
         return product;
     }
 
+    /**
+     * @param account the account to set
+     */
+    public void setAccount(Account account) {
+        this.account = account;
+    }
+    
+    /**
+     * @param amount the amount to set
+     */
+    public void setAmount(int amount) {
+        this.amount = amount;
+    }
 }
