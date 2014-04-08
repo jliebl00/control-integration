@@ -9,4 +9,9 @@ import es.unileon.ulebank.history.Transaction;
  */
 public class AccountHistory extends History<Transaction> {
 
+	public boolean addTransaction(Transaction transaction) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

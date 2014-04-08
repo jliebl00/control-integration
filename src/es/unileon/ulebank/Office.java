@@ -1,10 +1,15 @@
 package es.unileon.ulebank;
 
 import java.util.ArrayList;
-
-import es.unileon.ulebank.exceptions.MalformedHandlerException;
+import es.unileon.ulebank.account.handler.MalformedHandlerException;
+import es.unileon.ulebank.account.exception.TransactionException;
+import es.unileon.ulebank.handler.AccountHandler;
 import es.unileon.ulebank.handler.Handler;
-import es.unileon.ulebank.handler.IdOffice;
+import es.unileon.ulebank.history.Transaction;
+import es.unileon.ulebank.history.TransactionType;
+import es.unileon.ulebank.account.Account;
+import es.unileon.ulebank.bank.Bank;
+import org.apache.log4j.Logger;
 
 /**
  * 
@@ -13,6 +18,10 @@ import es.unileon.ulebank.handler.IdOffice;
  */
 public class Office {
 
+	/**
+	 * Bank
+	 */
+	private final Bank bank;
 	/**
 	 * The id of the office
 	 */
@@ -45,14 +54,20 @@ public class Office {
 	 * The list of accounts of this office
 	 */
 	private ArrayList<Account> accountList;
+	/**
+	 * Log
+	 */
+	private static final Logger LOG = Logger.getLogger(Account.class.getName());
 
 	/**
 	 * Constructor of the class
 	 * 
 	 * @throws MalformedHandlerException
 	 */
-	public Office(Handler idOffice) throws MalformedHandlerException {
-		this.idOffice = new IdOffice(idOffice.toString());
+	public Office(Handler idOffice, Bank bank) throws MalformedHandlerException {
+		this.accountList = new ArrayList<>();
+		this.idOffice = idOffice;
+		this.bank = bank;
 	}
 
 	/**
@@ -135,8 +150,8 @@ public class Office {
 	/**
 	 * Adds an employee to the list of employees
 	 */
-	public void addEmployee(Employee employee) {
-		employeeList.add(employee);
+	public boolean addEmployee(Employee employee) {
+		return employeeList.add(employee);
 	}
 
 	/**
@@ -149,8 +164,8 @@ public class Office {
 	/**
 	 * Adds an account to the list of accounts
 	 */
-	public void addAccount(Account account) {
-		accountList.add(account);
+	public boolean addAccount(Account account) {
+		return this.accountList.add(account);
 	}
 
 	/**
@@ -158,5 +173,40 @@ public class Office {
 	 */
 	public void deleteAccount(Account account) {
 		accountList.remove(account);
+	}
+
+	public void doTransaction(Transaction t, Handler destine)
+			throws TransactionException, MalformedHandlerException {
+		boolean finish = false;
+		StringBuilder error = new StringBuilder();
+		if (t != null && destine != null) {
+			AccountHandler handler = new AccountHandler(destine);
+			if (handler.getBankHandler().compareTo(this.bank.getID()) == 0
+					&& handler.getOfficeHandler().compareTo(this.idOffice) == 0) {
+				for (int i = 0; i < accountList.size() && !finish; i++) {
+					if (accountList.get(i).getID().compareTo(destine) == 0) {
+						if (t.getType() == TransactionType.CHARGE) {
+							accountList.get(i).doWithdrawal(t);
+						} else if (t.getType() == TransactionType.PAYMENT) {
+							accountList.get(i).doDeposit(t);
+						} else {
+							error.append("Error, transaction not supported ")
+									.append(t.getType()).append("\n");
+						}
+						finish = true;
+					}
+				}
+			} else {
+				this.bank.doTransaction(t, destine);
+			}
+		} else {
+			error.append(("The transaction cannot be null or destination be null"));
+		}
+
+		if (error.length() > 0) {
+			LOG.error("Office id " + this.idOffice + " error : "
+					+ error.toString());
+			throw new TransactionException(error.toString());
+		}
 	}
 }
