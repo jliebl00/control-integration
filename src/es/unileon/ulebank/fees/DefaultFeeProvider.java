@@ -25,7 +25,7 @@ public class DefaultFeeProvider {
         }
     }
     
-    public DefaultFeeProvider getInstance() {
+    public static DefaultFeeProvider getInstance() {
         if (DefaultFeeProvider.instance == null) {
             DefaultFeeProvider.instance = new DefaultFeeProvider();
         }
