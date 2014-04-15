@@ -26,28 +26,28 @@ public class HandlerShareTest {
     }
 
     @Test
-    public void testCompareTo() {
+    public void testCompareTo() throws MalformedHandlerException {
         assertFalse(this.test1.compareTo(this.test2) == 0);
         assertTrue(this.test1.compareTo(new HandlerShare("san", "santander", "IBEX")) == 0);
     }
 
     @Test(expected = MalformedHandlerException.class)
-    public void testMalformedHandlerExceptionTwoTicker() {
+    public void testMalformedHandlerExceptionTwoTicker() throws MalformedHandlerException {
         new HandlerShare("BB", "BBVA", "IBEX");
     }
 
     @Test(expected = MalformedHandlerException.class)
-    public void testMalformedHandlerExceptionFiveTicker() {
+    public void testMalformedHandlerExceptionFiveTicker() throws MalformedHandlerException {
         new HandlerShare("SANTA", "santander", "IBEX");
     }
 
     @Test(expected = MalformedHandlerException.class)
-    public void testDiferentTickerNotEqualCompany() {
+    public void testDiferentTickerNotEqualCompany() throws MalformedHandlerException {
         new HandlerShare("BBV", "Santander", "IBEX");
     }
 
     @Test(expected = MalformedHandlerException.class)
-    public void testSpecialCharacterException() {
+    public void testSpecialCharacterException() throws MalformedHandlerException {
         /**
          * Me quitan de las manos las acciones de bicicletas piticlin!
          */

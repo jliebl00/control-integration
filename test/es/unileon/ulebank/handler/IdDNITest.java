@@ -16,7 +16,7 @@ public class IdDNITest {
 	IdDNI anotherDNI;
 
 	@Before
-	public void setUp() {
+	public void setUp() throws MalformedHandlerException {
 		oneDNI = new IdDNI("71463395A");
 		anotherDNI = new IdDNI("36167364W");
 	}
@@ -25,7 +25,7 @@ public class IdDNITest {
 	 * Test the builder with one parameter
 	 */
 	@Test
-	public void testDNIString() {
+	public void testDNIString() throws MalformedHandlerException {
 		IdDNI id = new IdDNI("0T");
 		IdDNI id2 = new IdDNI("000T");
 		assertEquals(0, id.compareTo(id2));
@@ -36,7 +36,7 @@ public class IdDNITest {
 	 * Test the builder with two parameters
 	 */
 	@Test
-	public void testDNIIntChar() {
+	public void testDNIIntChar() throws MalformedHandlerException {
 		IdDNI id = new IdDNI(0, 'T');
 		IdDNI id2 = new IdDNI("000T");
 		assertEquals(0, id.compareTo(id2));
@@ -72,7 +72,7 @@ public class IdDNITest {
 	 * Test if throw an exception when give null
 	 */
 	@Test(expected = MalformedHandlerException.class)
-	public void testStringNull() {
+	public void testStringNull() throws MalformedHandlerException {
 		new IdDNI(null);
 	}
 
@@ -80,7 +80,7 @@ public class IdDNITest {
 	 * Test if throw an exception when give null
 	 */
 	@Test(expected = MalformedHandlerException.class)
-	public void testIntNull() {
+	public void testIntNull() throws MalformedHandlerException {
 		Integer number = null;
 		new IdDNI(number, 'A');
 	}
@@ -92,7 +92,7 @@ public class IdDNITest {
 	 * @throws MalformedHandlerException
 	 */
 	@Test(expected = MalformedHandlerException.class)
-	public void testBadDNIStringLenght() {
+	public void testBadDNIStringLenght() throws MalformedHandlerException {
 		new IdDNI("A");
 	}
 
@@ -103,7 +103,7 @@ public class IdDNITest {
 	 * @throws MalformedHandlerException
 	 */
 	@Test(expected = MalformedHandlerException.class)
-	public void testBadDNIStringTooLenght() {
+	public void testBadDNIStringTooLenght() throws MalformedHandlerException {
 		new IdDNI("714633957A");
 	}
 
@@ -114,7 +114,7 @@ public class IdDNITest {
 	 * @throws MalformedHandlerException
 	 */
 	@Test(expected = MalformedHandlerException.class)
-	public void testIncorrectLetter() {
+	public void testIncorrectLetter() throws MalformedHandlerException {
 		// Letter W is not the correct letter for the dni
 		new IdDNI("71463395W");
 	}
@@ -126,7 +126,7 @@ public class IdDNITest {
 	 * @throws MalformedHandlerException
 	 */
 	@Test(expected = MalformedHandlerException.class)
-	public void testInexistLetterWithInt() {
+	public void testInexistLetterWithInt() throws MalformedHandlerException {
 		// Letter O is not part of the dni
 		new IdDNI(71463395, 'O');
 	}
@@ -138,7 +138,7 @@ public class IdDNITest {
 	 * @throws MalformedHandlerException
 	 */
 	@Test(expected = MalformedHandlerException.class)
-	public void testInexistLetter() {
+	public void testInexistLetter() throws MalformedHandlerException {
 		// Letter O is not part of the dni
 		new IdDNI("71463395O");
 	}
@@ -150,7 +150,7 @@ public class IdDNITest {
 	 * @throws MalformedHandlerException
 	 */
 	@Test(expected = MalformedHandlerException.class)
-	public void testIncorrectLetterWithInt() {
+	public void testIncorrectLetterWithInt() throws MalformedHandlerException {
 		// Letter W is not the correct letter for the dni
 		new IdDNI(71463395, 'W');
 	}
@@ -162,7 +162,7 @@ public class IdDNITest {
 	 * @throws MalformedHandlerException
 	 */
 	@Test(expected = MalformedHandlerException.class)
-	public void testNoLetterString() {
+	public void testNoLetterString() throws MalformedHandlerException {
 		new IdDNI("714633959");
 	}
 
@@ -173,7 +173,7 @@ public class IdDNITest {
 	 * @throws MalformedHandlerException
 	 */
 	@Test(expected = MalformedHandlerException.class)
-	public void testNoLetterStringWithInt() {
+	public void testNoLetterStringWithInt() throws MalformedHandlerException {
 		new IdDNI(71463395, '5');
 	}
 
@@ -181,7 +181,7 @@ public class IdDNITest {
 	 * Test of compareTo method, of class IdDNI.
 	 */
 	@Test
-	public void testCompareTo() {
+	public void testCompareTo() throws MalformedHandlerException {
 		System.out.println("compareTo");
 		assertEquals(0, oneDNI.compareTo(oneDNI));
 		assertFalse(oneDNI.compareTo(anotherDNI) == 0);

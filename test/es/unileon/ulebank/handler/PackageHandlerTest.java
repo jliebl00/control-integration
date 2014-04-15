@@ -16,7 +16,8 @@ import org.junit.runners.Suite;
  */
 @RunWith(Suite.class)
 @Suite.SuiteClasses({ es.unileon.ulebank.handler.IdDNITest.class,
-		es.unileon.ulebank.handler.IdOfficeTest.class })
+		es.unileon.ulebank.handler.IdOfficeTest.class,
+                es.unileon.ulebank.handler.HandlerShareTest.class})
 public class PackageHandlerTest {
 
 }

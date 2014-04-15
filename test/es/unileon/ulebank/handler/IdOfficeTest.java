@@ -17,13 +17,13 @@ public class IdOfficeTest {
 	IdOffice anotherIdOffice;
 
 	@Before
-	public void setUp() {
+	public void setUp() throws MalformedHandlerException {
 		oneIdOffice = new IdOffice(1234);
 		anotherIdOffice = new IdOffice(9876);
 	}
 
 	@Test
-	public void testBuilder() {
+	public void testBuilder() throws MalformedHandlerException {
 		oneIdOffice = new IdOffice(4637);
 		assertEquals("4637", oneIdOffice.toString());
 	}
@@ -32,7 +32,7 @@ public class IdOfficeTest {
 	 * No more than 4 digits
 	 */
 	@Test(expected = MalformedHandlerException.class)
-	public void testBadIdOffice() {
+	public void testBadIdOffice() throws MalformedHandlerException {
 		new IdOffice(12345);
 	}
         
@@ -40,7 +40,7 @@ public class IdOfficeTest {
          * Test if throw an exception when pass letters instead of numbers
          */
         @Test(expected = MalformedHandlerException.class)
-        public void testBadIdOfficeLetters(){
+        public void testBadIdOfficeLetters() throws MalformedHandlerException{
             new IdOffice("number");
         }
 
@@ -48,7 +48,7 @@ public class IdOfficeTest {
 	 * Test the builder
 	 */
 	@Test
-	public void testIdOffice() {
+	public void testIdOffice() throws MalformedHandlerException {
 		IdOffice id = new IdOffice(1234);
 		assertEquals(0, id.compareTo(oneIdOffice));
                 
@@ -72,7 +72,7 @@ public class IdOfficeTest {
 	 * Test of compareTo method, of class IdOffice.
 	 */
 	@Test
-	public void testCompareTo() {
+	public void testCompareTo() throws MalformedHandlerException {
 		System.out.println("compareTo");
 		assertEquals(0, oneIdOffice.compareTo(oneIdOffice));
 		assertFalse(oneIdOffice.compareTo(anotherIdOffice) == 0);
