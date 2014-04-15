@@ -9,7 +9,7 @@ public class IdDNI implements Handler {
     private char letter;
     private int dni;
 
-    public IdDNI(Integer dni, Character letter) {
+    public IdDNI(Integer dni, Character letter) throws MalformedHandlerException {
         boolean correct = true;
         StringBuilder error = new StringBuilder();
 
@@ -31,7 +31,7 @@ public class IdDNI implements Handler {
         }
     }
 
-    private static boolean checkDNI(Integer dni, Character letter) {
+    private static boolean checkDNI(Integer dni, Character letter) throws MalformedHandlerException {
         boolean correct = true;
         StringBuilder error = new StringBuilder();
 
@@ -61,7 +61,7 @@ public class IdDNI implements Handler {
         }
     }
 
-    public IdDNI(String dni) {
+    public IdDNI(String dni) throws MalformedHandlerException {
         boolean correct = true;
         StringBuilder error = new StringBuilder();
 

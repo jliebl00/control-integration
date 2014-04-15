@@ -11,7 +11,7 @@ public class IdOffice implements Handler {
 
 	private String numberOffice;
 
-	public IdOffice(int number)  {
+	public IdOffice(int number) throws MalformedHandlerException  {
 
 		if (number >= 0) {
 
@@ -34,7 +34,7 @@ public class IdOffice implements Handler {
 		}
 	}
 
-	public IdOffice(String numberOffice)  {
+	public IdOffice(String numberOffice) throws MalformedHandlerException  {
             try {
                 Integer.parseInt(numberOffice);
             } catch (NumberFormatException e) {
