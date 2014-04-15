@@ -1,6 +1,7 @@
 package es.unileon.ulebank.bank.handler;
 
-import es.unileon.ulebank.account.handler.MalformedHandlerException;
+
+import es.unileon.ulebank.exceptions.MalformedHandlerException;
 import es.unileon.ulebank.handler.Handler;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

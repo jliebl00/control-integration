@@ -1,9 +1,9 @@
 package es.unileon.ulebank.account.types;
 
 import es.unileon.ulebank.account.Account;
-import es.unileon.ulebank.account.handler.MalformedHandlerException;
 import es.unileon.ulebank.bank.Bank;
 import es.unileon.ulebank.Office;
+import es.unileon.ulebank.exceptions.MalformedHandlerException;
 
 /**
  * 
