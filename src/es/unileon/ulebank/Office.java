@@ -1,7 +1,7 @@
 package es.unileon.ulebank;
 
 import java.util.ArrayList;
-import es.unileon.ulebank.account.handler.MalformedHandlerException;
+import es.unileon.ulebank.exceptions.MalformedHandlerException;
 import es.unileon.ulebank.account.exception.TransactionException;
 import es.unileon.ulebank.handler.AccountHandler;
 import es.unileon.ulebank.handler.Handler;
@@ -9,7 +9,7 @@ import es.unileon.ulebank.history.Transaction;
 import es.unileon.ulebank.history.TransactionType;
 import es.unileon.ulebank.account.Account;
 import es.unileon.ulebank.bank.Bank;
-import org.apache.log4j.Logger;
+//import org.apache.log4j.Logger;
 
 /**
  *
@@ -61,7 +61,7 @@ public class Office {
     /**
      * Log
      */
-    private static final Logger LOG = Logger.getLogger(Account.class.getName());
+//    private static final Logger LOG = Logger.getLogger(Account.class.getName());
 
     /**
      * Constructor of the class
@@ -72,6 +72,8 @@ public class Office {
         this.accountList = new ArrayList<>();
         this.idOffice = idOffice;
         this.bank = bank;
+        employeeList=new ArrayList<>();
+        accountList=new ArrayList<>();
     }
 
     /**
@@ -173,9 +175,11 @@ public class Office {
 
     /**
      * Deletes an employee to the list of employees
+     * @param employee
+     * @return 
      */
-    public void deleteEmployee(Employee employee) {
-        employeeList.remove(employee);
+    public boolean deleteEmployee(Employee employee) {
+        return employeeList.remove(employee);
     }
 
     /**
@@ -221,8 +225,8 @@ public class Office {
         }
 
         if (error.length() > 0) {
-            LOG.error("Office id " + this.idOffice + " error : "
-                    + error.toString());
+//            LOG.error("Office id " + this.idOffice + " error : "
+//                    + error.toString());
             throw new TransactionException(error.toString());
         }
     }

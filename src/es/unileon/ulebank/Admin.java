@@ -1,6 +1,7 @@
 package es.unileon.ulebank;
 
 import es.unileon.ulebank.handler.Handler;
+import java.util.ArrayList;
 
 /**
  * 
@@ -46,8 +47,7 @@ public class Admin extends Employee {
 	 * @return true if sucesfully added
 	 */
 	public boolean addEmployee(Employee newEmployee) {
-		// call database or something similar to store the new employee
-		return false;
+            return this.getOffice().addEmployee(newEmployee);
 	}
 
 	/**
@@ -58,8 +58,11 @@ public class Admin extends Employee {
 	 * @return true if sucessful removed
 	 */
 	public boolean removeEmployee(Handler employeeIdentifier) {
-		// call database or something similar to store the new employee
-		return false;
+		return this.getOffice().deleteEmployee(this);
 	}
+        
+        public ArrayList<Employee> getListEmployee(){
+            return this.getOffice().getEmployeeList();
+        }
 
 }
