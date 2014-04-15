@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package es.unileon.ulebank;
 
 import org.junit.runner.RunWith;
@@ -11,11 +10,13 @@ import org.junit.runners.Suite;
 
 /**
  * Test all the test of the package ulebank
+ *
  * @author dorian
  */
 @RunWith(Suite.class)
-@Suite.SuiteClasses({es.unileon.ulebank.EmployeeTest.class})
+@Suite.SuiteClasses({es.unileon.ulebank.EmployeeTest.class,
+    es.unileon.ulebank.AdminTest.class,
+    es.unileon.ulebank.OfficeTest.class})
 public class PackageUlebankTest {
 
-    
 }

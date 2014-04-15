@@ -10,6 +10,7 @@ import es.unileon.ulebank.bank.handler.BankHandler;
 import es.unileon.ulebank.exceptions.MalformedHandlerException;
 import es.unileon.ulebank.handler.IdDNI;
 import es.unileon.ulebank.handler.IdOffice;
+import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -63,15 +64,36 @@ public class AdminTest {
      */
     @Test
     public void testAddEmployee() {
-        fail("Method has to be implemented");
+        oneEmployee.addEmployee(anotherEmployee);
+        ArrayList list=oneEmployee.getListEmployee();
+        assertTrue(list.size()==1);
+        assertEquals(list.get(0), anotherEmployee);
     }
+    
+    @Test
+    public void testAddBetweenEmployee() {
+        anotherEmployee.setOffice(oneOffice);
+        oneEmployee.addEmployee(anotherEmployee);
+        //another employee has access to the list modified by oneEmployee
+        ArrayList list=anotherEmployee.getListEmployee();
+        assertTrue(list.size()==1);
+        assertEquals(list.get(0), anotherEmployee);
+    }
+    
 
     /**
      * Test of removeEmployee method, of class Admin.
      */
     @Test
     public void testRemoveEmployee() {
-        fail("Method has to be implemented");
+        oneEmployee.addEmployee(oneEmployee);
+        oneEmployee.addEmployee(anotherEmployee);
+        ArrayList list=oneEmployee.getListEmployee();
+        assertTrue(list.size()==2);
+        oneEmployee.removeEmployee(oneEmployee.getIdEmployee());
+        list=oneEmployee.getListEmployee();
+        assertTrue(list.size()==1);
+        assertEquals(list.get(0), anotherEmployee);
     }
 
 }
