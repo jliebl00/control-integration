@@ -1,7 +1,7 @@
 /* Application developed for AW subject, belonging to passive operations
  group.*/
 
-package es.unileon.ulebank.exceptions;
+package es.unileon.ulebank.account.handler;
 
 /**
  *

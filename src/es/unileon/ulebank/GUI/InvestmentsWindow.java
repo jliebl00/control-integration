@@ -22,7 +22,7 @@ public class InvestmentsWindow extends JFrame {
 						{ "Ejemplo6", "Ejemplo6", "Ejemplo6", "Ejemplo6" },
 						{ "Ejemplo7", "Ejemplo7", "Ejemplo7", "Ejemplo7" },
 						{ "Ejemplo8", "Ejemplo8", "Ejemplo8", "Ejemplo8" }, },
-				new String[] { "Fecha", "Empresa", "Nœmero de acciones",
+				new String[] { "Fecha", "Empresa", "NÃºmero de acciones",
 						"Precio" }));
 		tableMovements.setSurrendersFocusOnKeystroke(true);
 		tableMovements.setColumnSelectionAllowed(true);

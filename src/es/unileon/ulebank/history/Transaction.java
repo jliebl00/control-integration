@@ -5,8 +5,8 @@
  */
 package es.unileon.ulebank.history;
 
+import es.unileon.ulebank.handler.Handler;
 import java.util.Date;
-import java.util.logging.Handler;
 
 /**
  *
@@ -21,8 +21,8 @@ public abstract class Transaction {
     private final String subject;
     private final Enum<TransactionType> type;
 
-    public Transaction(Handler id, double amount, Date date, String subject, Enum<TransactionType> type) {
-        this.id = id;
+    public Transaction(double amount, Date date, String subject, Enum<TransactionType> type) {
+        this.id = TransactionHandlerProvider.getTransactionHandler();
         this.amount = amount;
         this.date = date;
         this.subject = subject;

@@ -6,10 +6,10 @@
 package es.unileon.ulebank.brokerage.pack;
 
 import es.unileon.ulebank.Employee;
+import es.unileon.ulebank.handler.Handler;
 import es.unileon.ulebank.history.Transaction;
 import es.unileon.ulebank.history.TransactionType;
 import java.util.Date;
-import java.util.logging.Handler;
 
 /**
  *
@@ -20,8 +20,8 @@ public class PackTransaction extends Transaction {
     private final Pack pack;
     private final Employee operator;
 
-    public PackTransaction(Handler id, double amount, Date date, String subject, Enum<TransactionType> type, Pack pack, Employee operator) {
-        super(id, amount, date, subject, type);
+    public PackTransaction(double amount, Date date, String subject, Enum<TransactionType> type, Pack pack, Employee operator) {
+        super(amount, date, subject, type);
 
         this.pack = pack;
         this.operator = operator;

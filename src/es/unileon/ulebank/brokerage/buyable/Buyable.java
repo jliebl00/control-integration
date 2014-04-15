@@ -11,7 +11,7 @@ import es.unileon.ulebank.handler.Handler;
  *
  * @author roobre
  */
-public class Buyable {
+public abstract class Buyable {
 
     protected final Handler id;
     protected int amount;
@@ -73,7 +73,8 @@ public class Buyable {
 
     /**
      * @param participations the participations to buy
-     * @throws es.unileon.ulebank.brokerage.buyable.NotEnoughParticipationsException
+     * @throws
+     * es.unileon.ulebank.brokerage.buyable.NotEnoughParticipationsException
      */
     public void buy(int participations) throws NotEnoughParticipationsException {
         if (participations > this.amount - this.purchasedAmount) {

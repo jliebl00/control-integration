@@ -73,6 +73,9 @@ public class InvestmentFundClientGUI extends JFrame {
 		JButton cancelInvestmentFund = new JButton("Cancelar fondos de inversion");
 		cancelInvestmentFund.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				InvestmentFundSalesGUI nextWindow = new InvestmentFundSalesGUI();
+				nextWindow.setVisible(true);
+				setVisible(false);
 			}
 		});
 		
