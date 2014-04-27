@@ -25,7 +25,7 @@ public class AddBalanceCommand implements Command{
     public void execute() {
         try {
             cuenta.addBalance(amount);
-        } catch (BalanceException ex) {
+        }catch (BalanceException ex) {
             Logger.getLogger(AddBalanceCommand.class.getName()).log(Level.SEVERE, null, ex);
         }
            

@@ -4,9 +4,9 @@
  */
 package es.unileon.ulebank.command;
 
+import es.unileon.ulebank.Office;
 import es.unileon.ulebank.bank.Bank;
 import es.unileon.ulebank.handler.Handler;
-import es.unileon.ulebank.office.Office;
 
 /**
  *
