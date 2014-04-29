@@ -4,8 +4,8 @@ import es.unileon.ulebank.bank.Bank;
 import es.unileon.ulebank.bank.handler.BankHandler;
 import es.unileon.ulebank.exceptions.MalformedHandlerException;
 import es.unileon.ulebank.handler.Handler;
-import es.unileon.ulebank.handler.IdDNI;
-import es.unileon.ulebank.handler.IdOffice;
+import es.unileon.ulebank.handler.DNIHandler;
+import es.unileon.ulebank.handler.OfficeHandler;
 import es.unileon.ulebank.transacionManager.TransactionManager;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,10 +18,10 @@ import static org.junit.Assert.*;
 public class EmployeeTest {
 	Employee oneEmployee;
 	Employee anotherEmployee;
-	IdDNI dni;
-	IdDNI anotherDNI;
-	IdOffice oneIdOffice;
-	IdOffice anotherIdOffice;
+	DNIHandler dni;
+	DNIHandler anotherDNI;
+	OfficeHandler oneIdOffice;
+	OfficeHandler anotherIdOffice;
 	Office oneOffice;
 	Office anotherOffice;
 	float salary;
@@ -34,11 +34,11 @@ public class EmployeeTest {
                 
                 bank=new Bank(new TransactionManager(), new BankHandler("1234"));
                 
-		dni = new IdDNI("71463395A");
-		anotherDNI = new IdDNI("36167364W");
+		dni = new DNIHandler("71463395A");
+		anotherDNI = new DNIHandler("36167364W");
 
-		oneIdOffice = new IdOffice(1234);
-		anotherIdOffice = new IdOffice(9876);
+		oneIdOffice = new OfficeHandler(1234);
+		anotherIdOffice = new OfficeHandler(9876);
 
 		oneOffice = new Office(oneIdOffice,bank);
 		anotherOffice = new Office(anotherIdOffice,bank);
@@ -122,7 +122,7 @@ public class EmployeeTest {
 	@Test
 	public void testSetIdOffice() throws MalformedHandlerException {
 		System.out.println("setIdOffice");
-		Handler idOffice = new IdOffice(5995);
+		Handler idOffice = new OfficeHandler(5995);
 		Office office = new Office(idOffice,bank);
 		oneEmployee.setOffice(office);
 
@@ -152,7 +152,7 @@ public class EmployeeTest {
 	@Test
 	public void testSetIdEmployee() throws MalformedHandlerException {
 		System.out.println("setIdEmployee");
-		Handler idEmployee = new IdDNI("62457969C");
+		Handler idEmployee = new DNIHandler("62457969C");
 		oneEmployee.setIdEmployee(idEmployee);
 
 		Handler result = oneEmployee.getIdEmployee();

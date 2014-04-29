@@ -13,18 +13,18 @@ import static org.junit.Assert.*;
  */
 public class IdOfficeTest {
 
-	IdOffice oneIdOffice;
-	IdOffice anotherIdOffice;
+	OfficeHandler oneIdOffice;
+	OfficeHandler anotherIdOffice;
 
 	@Before
 	public void setUp() throws MalformedHandlerException {
-		oneIdOffice = new IdOffice(1234);
-		anotherIdOffice = new IdOffice(9876);
+		oneIdOffice = new OfficeHandler(1234);
+		anotherIdOffice = new OfficeHandler(9876);
 	}
 
 	@Test
 	public void testBuilder() throws MalformedHandlerException {
-		oneIdOffice = new IdOffice(4637);
+		oneIdOffice = new OfficeHandler(4637);
 		assertEquals("4637", oneIdOffice.toString());
 	}
 
@@ -33,7 +33,7 @@ public class IdOfficeTest {
 	 */
 	@Test(expected = MalformedHandlerException.class)
 	public void testBadIdOffice() throws MalformedHandlerException {
-		new IdOffice(12345);
+		new OfficeHandler(12345);
 	}
         
         /**
@@ -41,7 +41,7 @@ public class IdOfficeTest {
          */
         @Test(expected = MalformedHandlerException.class)
         public void testBadIdOfficeLetters() throws MalformedHandlerException{
-            new IdOffice("number");
+            new OfficeHandler("number");
         }
 
 	/**
@@ -49,10 +49,10 @@ public class IdOfficeTest {
 	 */
 	@Test
 	public void testIdOffice() throws MalformedHandlerException {
-		IdOffice id = new IdOffice(1234);
+		OfficeHandler id = new OfficeHandler(1234);
 		assertEquals(0, id.compareTo(oneIdOffice));
                 
-                id = new IdOffice("1234");
+                id = new OfficeHandler("1234");
 		assertEquals(0, id.compareTo(oneIdOffice));
 
 	}
@@ -77,7 +77,7 @@ public class IdOfficeTest {
 		assertEquals(0, oneIdOffice.compareTo(oneIdOffice));
 		assertFalse(oneIdOffice.compareTo(anotherIdOffice) == 0);
 
-		Handler copyIdOffice = new IdOffice(Integer.parseInt(oneIdOffice
+		Handler copyIdOffice = new OfficeHandler(Integer.parseInt(oneIdOffice
 				.toString()));
 		assertEquals(0, oneIdOffice.compareTo(copyIdOffice));
 	}

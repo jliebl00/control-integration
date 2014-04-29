@@ -5,7 +5,7 @@ import es.unileon.ulebank.brokerage.buyable.Enterprise;
 import es.unileon.ulebank.brokerage.buyable.InvalidBuyableException;
 import es.unileon.ulebank.exceptions.MalformedHandlerException;
 import es.unileon.ulebank.handler.Handler;
-import es.unileon.ulebank.handler.HandlerShare;
+import es.unileon.ulebank.handler.ShareHandler;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -19,15 +19,15 @@ public class BagSimulator {
         BagSimulator.hardcodedEnterprises = new ArrayList<>();
         try {
             BagSimulator.hardcodedEnterprises.add(
-                    new Enterprise(new HandlerShare("GOOG", "Google, Inc.", "Bag"), 300, 10000)
+                    new Enterprise(new ShareHandler("GOOG", "Google, Inc.", "Bag"), 300, 10000)
             );
             
             BagSimulator.hardcodedEnterprises.add(
-                    new Enterprise(new HandlerShare("APPL", "Apple, Inc.", "Bag"), 1, 10000)
+                    new Enterprise(new ShareHandler("APPL", "Apple, Inc.", "Bag"), 1, 10000)
             );
             
             BagSimulator.hardcodedEnterprises.add(
-                    new Enterprise(new HandlerShare("FURY", "Fury Bird, Inc.", "Bag"), 1000, 2)
+                    new Enterprise(new ShareHandler("FURY", "Fury Bird, Inc.", "Bag"), 1000, 2)
             );
         } catch (MalformedHandlerException ex) {
             // TODO something

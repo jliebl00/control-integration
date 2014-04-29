@@ -13,8 +13,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import es.unileon.ulebank.handler.Handler;
-import es.unileon.ulebank.handler.IdDNI;
-import es.unileon.ulebank.handler.IdOffice;
+import es.unileon.ulebank.handler.DNIHandler;
+import es.unileon.ulebank.handler.OfficeHandler;
 import es.unileon.ulebank.transacionManager.TransactionManager;
 
 /**
@@ -28,7 +28,7 @@ public class OfficeTest {
     Handler idTestOffice;
     Handler anotherIdOffice;
     Employee oneEmployee;
-    IdDNI dni;
+    DNIHandler dni;
     ArrayList<Employee> employeeTestList;
     ArrayList<Account> accountTest;
     Account testAccount;
@@ -40,8 +40,8 @@ public class OfficeTest {
 
     @Before
     public void setUp() throws MalformedHandlerException {
-        dni = new IdDNI("36167364W");
-        idTestOffice = new IdOffice(1234);
+        dni = new DNIHandler("36167364W");
+        idTestOffice = new OfficeHandler(1234);
         oneEmployee = new Employee("name", "surname", "address", 0, dni);
 
         employeeTestList = new ArrayList<>();
@@ -70,7 +70,7 @@ public class OfficeTest {
 
     @Test
     public void testSetIdOffice() throws MalformedHandlerException {
-        Handler idOffice = new IdOffice(5995);
+        Handler idOffice = new OfficeHandler(5995);
         testOffice.setIdOffice(idOffice);
 
         Handler result = testOffice.getIdOffice();
