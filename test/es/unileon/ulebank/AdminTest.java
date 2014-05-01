@@ -8,8 +8,8 @@ package es.unileon.ulebank;
 import es.unileon.ulebank.bank.Bank;
 import es.unileon.ulebank.bank.handler.BankHandler;
 import es.unileon.ulebank.exceptions.MalformedHandlerException;
-import es.unileon.ulebank.handler.IdDNI;
-import es.unileon.ulebank.handler.IdOffice;
+import es.unileon.ulebank.handler.DNIHandler;
+import es.unileon.ulebank.handler.OfficeHandler;
 import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
@@ -23,10 +23,10 @@ public class AdminTest {
 
     Admin oneEmployee;
     Admin anotherEmployee;
-    IdDNI dni;
-    IdDNI anotherDNI;
-    IdOffice oneIdOffice;
-    IdOffice anotherIdOffice;
+    DNIHandler dni;
+    DNIHandler anotherDNI;
+    OfficeHandler oneIdOffice;
+    OfficeHandler anotherIdOffice;
     Office oneOffice;
     Office anotherOffice;
     float salary = 5000;
@@ -34,13 +34,13 @@ public class AdminTest {
 
     @Before
     public void setUp() throws MalformedHandlerException {
-        dni = new IdDNI("71463395A");
-        anotherDNI = new IdDNI("36167364W");
+        dni = new DNIHandler("71463395A");
+        anotherDNI = new DNIHandler("36167364W");
         
         bank = new Bank(null, new BankHandler("1234"));
 
-        oneIdOffice = new IdOffice(1234);
-        anotherIdOffice = new IdOffice(9876);
+        oneIdOffice = new OfficeHandler(1234);
+        anotherIdOffice = new OfficeHandler(9876);
 
         oneOffice = new Office(oneIdOffice,bank);
         anotherOffice = new Office(anotherIdOffice,bank);

@@ -18,7 +18,7 @@ import javax.swing.JTextPane;
 
 import es.unileon.ulebank.brokerage.buyable.InvestmentFund;
 import es.unileon.ulebank.handler.Handler;
-import es.unileon.ulebank.handler.HandlerFunds;
+import es.unileon.ulebank.handler.FundsHandler;
 
 public class NewFund extends JFrame {
 

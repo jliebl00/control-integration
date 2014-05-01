@@ -12,13 +12,13 @@ import static org.junit.Assert.*;
  * @author dorian
  */
 public class IdDNITest {
-	IdDNI oneDNI;
-	IdDNI anotherDNI;
+	DNIHandler oneDNI;
+	DNIHandler anotherDNI;
 
 	@Before
 	public void setUp() throws MalformedHandlerException {
-		oneDNI = new IdDNI("71463395A");
-		anotherDNI = new IdDNI("36167364W");
+		oneDNI = new DNIHandler("71463395A");
+		anotherDNI = new DNIHandler("36167364W");
 	}
 
 	/**
@@ -26,8 +26,8 @@ public class IdDNITest {
 	 */
 	@Test
 	public void testDNIString() throws MalformedHandlerException {
-		IdDNI id = new IdDNI("0T");
-		IdDNI id2 = new IdDNI("000T");
+		DNIHandler id = new DNIHandler("0T");
+		DNIHandler id2 = new DNIHandler("000T");
 		assertEquals(0, id.compareTo(id2));
 
 	}
@@ -37,11 +37,11 @@ public class IdDNITest {
 	 */
 	@Test
 	public void testDNIIntChar() throws MalformedHandlerException {
-		IdDNI id = new IdDNI(0, 'T');
-		IdDNI id2 = new IdDNI("000T");
+		DNIHandler id = new DNIHandler(0, 'T');
+		DNIHandler id2 = new DNIHandler("000T");
 		assertEquals(0, id.compareTo(id2));
 
-		IdDNI dni = new IdDNI(71463395, 'A');
+		DNIHandler dni = new DNIHandler(71463395, 'A');
 		assertEquals(0, oneDNI.compareTo(dni));
 
 	}
@@ -73,7 +73,7 @@ public class IdDNITest {
 	 */
 	@Test(expected = MalformedHandlerException.class)
 	public void testStringNull() throws MalformedHandlerException {
-		new IdDNI(null);
+		new DNIHandler(null);
 	}
 
 	/**
@@ -82,7 +82,7 @@ public class IdDNITest {
 	@Test(expected = MalformedHandlerException.class)
 	public void testIntNull() throws MalformedHandlerException {
 		Integer number = null;
-		new IdDNI(number, 'A');
+		new DNIHandler(number, 'A');
 	}
 
 	/**
@@ -93,7 +93,7 @@ public class IdDNITest {
 	 */
 	@Test(expected = MalformedHandlerException.class)
 	public void testBadDNIStringLenght() throws MalformedHandlerException {
-		new IdDNI("A");
+		new DNIHandler("A");
 	}
 
 	/**
@@ -104,7 +104,7 @@ public class IdDNITest {
 	 */
 	@Test(expected = MalformedHandlerException.class)
 	public void testBadDNIStringTooLenght() throws MalformedHandlerException {
-		new IdDNI("714633957A");
+		new DNIHandler("714633957A");
 	}
 
 	/**
@@ -116,7 +116,7 @@ public class IdDNITest {
 	@Test(expected = MalformedHandlerException.class)
 	public void testIncorrectLetter() throws MalformedHandlerException {
 		// Letter W is not the correct letter for the dni
-		new IdDNI("71463395W");
+		new DNIHandler("71463395W");
 	}
 
 	/**
@@ -128,7 +128,7 @@ public class IdDNITest {
 	@Test(expected = MalformedHandlerException.class)
 	public void testInexistLetterWithInt() throws MalformedHandlerException {
 		// Letter O is not part of the dni
-		new IdDNI(71463395, 'O');
+		new DNIHandler(71463395, 'O');
 	}
 
 	/**
@@ -140,7 +140,7 @@ public class IdDNITest {
 	@Test(expected = MalformedHandlerException.class)
 	public void testInexistLetter() throws MalformedHandlerException {
 		// Letter O is not part of the dni
-		new IdDNI("71463395O");
+		new DNIHandler("71463395O");
 	}
 
 	/**
@@ -152,7 +152,7 @@ public class IdDNITest {
 	@Test(expected = MalformedHandlerException.class)
 	public void testIncorrectLetterWithInt() throws MalformedHandlerException {
 		// Letter W is not the correct letter for the dni
-		new IdDNI(71463395, 'W');
+		new DNIHandler(71463395, 'W');
 	}
 
 	/**
@@ -163,7 +163,7 @@ public class IdDNITest {
 	 */
 	@Test(expected = MalformedHandlerException.class)
 	public void testNoLetterString() throws MalformedHandlerException {
-		new IdDNI("714633959");
+		new DNIHandler("714633959");
 	}
 
 	/**
@@ -174,7 +174,7 @@ public class IdDNITest {
 	 */
 	@Test(expected = MalformedHandlerException.class)
 	public void testNoLetterStringWithInt() throws MalformedHandlerException {
-		new IdDNI(71463395, '5');
+		new DNIHandler(71463395, '5');
 	}
 
 	/**
@@ -186,7 +186,7 @@ public class IdDNITest {
 		assertEquals(0, oneDNI.compareTo(oneDNI));
 		assertFalse(oneDNI.compareTo(anotherDNI) == 0);
 
-		Handler copyDni = new IdDNI(oneDNI.toString());
+		Handler copyDni = new DNIHandler(oneDNI.toString());
 		assertEquals(0, oneDNI.compareTo(copyDni));
 	}
 
