@@ -3,6 +3,7 @@ package es.unileon.ulebank.brokerage;
 import es.unileon.ulebank.Employee;
 import es.unileon.ulebank.account.Account;
 import es.unileon.ulebank.account.exception.BalanceException;
+import es.unileon.ulebank.account.exception.TransactionException;
 import es.unileon.ulebank.brokerage.buyable.Enterprise;
 import es.unileon.ulebank.brokerage.buyable.InvalidBuyableException;
 import es.unileon.ulebank.brokerage.buyable.InvestmentFund;
@@ -13,6 +14,7 @@ import es.unileon.ulebank.brokerage.pack.PackTransaction;
 import es.unileon.ulebank.brokerage.pack.StockPack;
 import es.unileon.ulebank.fees.DefaultFeeProvider;
 import es.unileon.ulebank.fees.FeeStrategy;
+import es.unileon.ulebank.fees.FeeTransaction;
 import es.unileon.ulebank.history.History;
 import es.unileon.ulebank.history.TransactionType;
 import java.util.ArrayList;
@@ -57,9 +59,18 @@ public class InvestmentAccount {
         stockPacks.add(p);
 
         double price = amount * e.getPPP();
-        acc.addBalance((float) price); // Price
-        acc.addBalance((float) this.buyStockageFee.getFee(price)); // Fee
-        this.history.add(new PackTransaction(price, new Date(), "Compra de acciones.", TransactionType.OUT, p, operator));
+        PackTransaction transaction = new PackTransaction(price, new Date(), "Compra de acciones", TransactionType.OUT, p, operator);
+        FeeTransaction feeTransaction = new FeeTransaction(this.sellStockageFee.getFee(price), new Date(), transaction);
+
+        try {
+            p.getAccount().doWithdrawal(transaction);
+            p.getAccount().doWithdrawal(feeTransaction);
+        } catch (TransactionException ex) {
+            // TODO: Wtf is TransactionException.
+            Logger.getLogger(InvestmentAccount.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        this.history.add(transaction);
     }
 
     public void sellStockage(StockPack p, int amount, Employee operator) throws NotEnoughParticipationsException {
@@ -69,14 +80,19 @@ public class InvestmentAccount {
 
         p.setAmount(p.getAmount() - amount);
 
+        double price = p.getProduct().getPPP() * amount;
+        PackTransaction transaction = new PackTransaction(price, new Date(), "Venta de acciones", TransactionType.IN, p, operator);
+        FeeTransaction feeTransaction = new FeeTransaction(this.sellStockageFee.getFee(price), new Date(), transaction);
+
         try {
-            double price = p.getProduct().getPPP() * amount;
-            p.getAccount().addBalance((float) price);
-            p.getAccount().addBalance((float) this.sellStockageFee.getFee(price));
-            this.history.add(new PackTransaction(price, new Date(), "Venta de acciones.", TransactionType.IN, p, operator));
-        } catch (BalanceException ex) {
+            p.getAccount().doDeposit(transaction);
+            p.getAccount().doWithdrawal(feeTransaction);
+        } catch (TransactionException ex) {
+            // TODO: Wtf is TransactionException.
             Logger.getLogger(InvestmentAccount.class.getName()).log(Level.SEVERE, null, ex);
         }
+
+        this.history.add(transaction);
 
         this.prunePacks();
     }
@@ -85,9 +101,18 @@ public class InvestmentAccount {
         InvestmentFundPack ifp = i.buy(amount, operator);
         fundPacks.add(ifp);
         double price = amount * i.getPPP();
-        acc.addBalance((float) price); // Price
-        acc.addBalance((float) this.buyStockageFee.getFee(price)); // Fee
-        this.history.add(new PackTransaction(price, new Date(), "Compra de fondos.", TransactionType.OUT, ifp, operator));
+        PackTransaction transaction = new PackTransaction(price, new Date(), "Compra de fondos", TransactionType.OUT, ifp, operator);
+        FeeTransaction feeTransaction = new FeeTransaction(i.getFee().getFee(price), new Date(), transaction);
+
+        try {
+            acc.doWithdrawal(transaction);
+            acc.doWithdrawal(feeTransaction);
+        } catch (TransactionException ex) {
+            // TODO: Wtf is TransactionException.
+            Logger.getLogger(InvestmentAccount.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        this.history.add(transaction);
     }
 
     /**
