@@ -1,17 +1,17 @@
 package es.unileon.ulebank.brokerage.buyable;
 
 import es.unileon.ulebank.Employee;
+import es.unileon.ulebank.brokerage.pack.InvestmentFundPack;
 import es.unileon.ulebank.fees.FeeStrategy;
-
 import es.unileon.ulebank.handler.Handler;
 
 public class InvestmentFund extends Buyable {
 
     private final Employee opener;
     private double profitability;
-    private FeeStrategy fee;
+    private FeeStrategy fee, cancellationFee;
 
-    public InvestmentFund(Handler id, int amount, double totalPrice, Employee opener, FeeStrategy fee, double profitability) throws InvalidBuyableException {
+    public InvestmentFund(Handler id, int amount, double totalPrice, Employee opener, FeeStrategy fee, FeeStrategy cancellationFee, double profitability) throws InvalidBuyableException {
         super(id, amount, totalPrice);
 
 
@@ -21,6 +21,7 @@ public class InvestmentFund extends Buyable {
 
         this.opener = opener;
         this.fee = fee;
+        this.cancellationFee = cancellationFee;
         this.profitability = profitability;
     }
 
@@ -69,5 +70,16 @@ public class InvestmentFund extends Buyable {
      */
     public void setProfitability(double profitability) {
         this.profitability = profitability;
+    }
+
+    @Override
+    public InvestmentFundPack buy(int amount, Employee operator) throws NotEnoughParticipationsException {
+        if (amount > (this.amount - this.purchasedAmount)) {
+            throw new NotEnoughParticipationsException();
+        }
+
+        this.purchasedAmount += amount;
+
+        return new InvestmentFundPack(this, amount);
     }
 }

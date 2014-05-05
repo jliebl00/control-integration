@@ -5,6 +5,8 @@
  */
 package es.unileon.ulebank.brokerage.buyable;
 
+import es.unileon.ulebank.Employee;
+import es.unileon.ulebank.brokerage.pack.Pack;
 import es.unileon.ulebank.handler.Handler;
 
 /**
@@ -71,20 +73,9 @@ public abstract class Buyable {
         return totalPrice;
     }
 
-    /**
-     * @param participations the participations to buy
-     * @throws
-     * es.unileon.ulebank.brokerage.buyable.NotEnoughParticipationsException
-     */
-    public void buy(int participations) throws NotEnoughParticipationsException {
-        if (participations > this.amount - this.purchasedAmount) {
-            throw new NotEnoughParticipationsException();
-        }
-        this.purchasedAmount += participations;
-    }
-
     public int getBuyableParticipations() {
         return this.amount - this.purchasedAmount;
     }
 
+    public abstract Pack buy(int amount, Employee operator) throws NotEnoughParticipationsException;
 }
