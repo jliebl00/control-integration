@@ -12,22 +12,22 @@ import static org.junit.Assert.*;
  * @author dorian
  */
 public class IdDNITest {
-	IdDNI oneDNI;
-	IdDNI anotherDNI;
+	DNIHandler oneDNI;
+	DNIHandler anotherDNI;
 
 	@Before
-	public void setUp() {
-		oneDNI = new IdDNI("71463395A");
-		anotherDNI = new IdDNI("36167364W");
+	public void setUp() throws MalformedHandlerException {
+		oneDNI = new DNIHandler("71463395A");
+		anotherDNI = new DNIHandler("36167364W");
 	}
 
 	/**
 	 * Test the builder with one parameter
 	 */
 	@Test
-	public void testDNIString() {
-		IdDNI id = new IdDNI("0T");
-		IdDNI id2 = new IdDNI("000T");
+	public void testDNIString() throws MalformedHandlerException {
+		DNIHandler id = new DNIHandler("0T");
+		DNIHandler id2 = new DNIHandler("000T");
 		assertEquals(0, id.compareTo(id2));
 
 	}
@@ -36,12 +36,12 @@ public class IdDNITest {
 	 * Test the builder with two parameters
 	 */
 	@Test
-	public void testDNIIntChar() {
-		IdDNI id = new IdDNI(0, 'T');
-		IdDNI id2 = new IdDNI("000T");
+	public void testDNIIntChar() throws MalformedHandlerException {
+		DNIHandler id = new DNIHandler(0, 'T');
+		DNIHandler id2 = new DNIHandler("000T");
 		assertEquals(0, id.compareTo(id2));
 
-		IdDNI dni = new IdDNI(71463395, 'A');
+		DNIHandler dni = new DNIHandler(71463395, 'A');
 		assertEquals(0, oneDNI.compareTo(dni));
 
 	}
@@ -72,17 +72,17 @@ public class IdDNITest {
 	 * Test if throw an exception when give null
 	 */
 	@Test(expected = MalformedHandlerException.class)
-	public void testStringNull() {
-		new IdDNI(null);
+	public void testStringNull() throws MalformedHandlerException {
+		new DNIHandler(null);
 	}
 
 	/**
 	 * Test if throw an exception when give null
 	 */
 	@Test(expected = MalformedHandlerException.class)
-	public void testIntNull() {
+	public void testIntNull() throws MalformedHandlerException {
 		Integer number = null;
-		new IdDNI(number, 'A');
+		new DNIHandler(number, 'A');
 	}
 
 	/**
@@ -92,8 +92,8 @@ public class IdDNITest {
 	 * @throws MalformedHandlerException
 	 */
 	@Test(expected = MalformedHandlerException.class)
-	public void testBadDNIStringLenght() {
-		new IdDNI("A");
+	public void testBadDNIStringLenght() throws MalformedHandlerException {
+		new DNIHandler("A");
 	}
 
 	/**
@@ -103,8 +103,8 @@ public class IdDNITest {
 	 * @throws MalformedHandlerException
 	 */
 	@Test(expected = MalformedHandlerException.class)
-	public void testBadDNIStringTooLenght() {
-		new IdDNI("714633957A");
+	public void testBadDNIStringTooLenght() throws MalformedHandlerException {
+		new DNIHandler("714633957A");
 	}
 
 	/**
@@ -114,9 +114,9 @@ public class IdDNITest {
 	 * @throws MalformedHandlerException
 	 */
 	@Test(expected = MalformedHandlerException.class)
-	public void testIncorrectLetter() {
+	public void testIncorrectLetter() throws MalformedHandlerException {
 		// Letter W is not the correct letter for the dni
-		new IdDNI("71463395W");
+		new DNIHandler("71463395W");
 	}
 
 	/**
@@ -126,9 +126,9 @@ public class IdDNITest {
 	 * @throws MalformedHandlerException
 	 */
 	@Test(expected = MalformedHandlerException.class)
-	public void testInexistLetterWithInt() {
+	public void testInexistLetterWithInt() throws MalformedHandlerException {
 		// Letter O is not part of the dni
-		new IdDNI(71463395, 'O');
+		new DNIHandler(71463395, 'O');
 	}
 
 	/**
@@ -138,9 +138,9 @@ public class IdDNITest {
 	 * @throws MalformedHandlerException
 	 */
 	@Test(expected = MalformedHandlerException.class)
-	public void testInexistLetter() {
+	public void testInexistLetter() throws MalformedHandlerException {
 		// Letter O is not part of the dni
-		new IdDNI("71463395O");
+		new DNIHandler("71463395O");
 	}
 
 	/**
@@ -150,9 +150,9 @@ public class IdDNITest {
 	 * @throws MalformedHandlerException
 	 */
 	@Test(expected = MalformedHandlerException.class)
-	public void testIncorrectLetterWithInt() {
+	public void testIncorrectLetterWithInt() throws MalformedHandlerException {
 		// Letter W is not the correct letter for the dni
-		new IdDNI(71463395, 'W');
+		new DNIHandler(71463395, 'W');
 	}
 
 	/**
@@ -162,8 +162,8 @@ public class IdDNITest {
 	 * @throws MalformedHandlerException
 	 */
 	@Test(expected = MalformedHandlerException.class)
-	public void testNoLetterString() {
-		new IdDNI("714633959");
+	public void testNoLetterString() throws MalformedHandlerException {
+		new DNIHandler("714633959");
 	}
 
 	/**
@@ -173,20 +173,20 @@ public class IdDNITest {
 	 * @throws MalformedHandlerException
 	 */
 	@Test(expected = MalformedHandlerException.class)
-	public void testNoLetterStringWithInt() {
-		new IdDNI(71463395, '5');
+	public void testNoLetterStringWithInt() throws MalformedHandlerException {
+		new DNIHandler(71463395, '5');
 	}
 
 	/**
 	 * Test of compareTo method, of class IdDNI.
 	 */
 	@Test
-	public void testCompareTo() {
+	public void testCompareTo() throws MalformedHandlerException {
 		System.out.println("compareTo");
 		assertEquals(0, oneDNI.compareTo(oneDNI));
 		assertFalse(oneDNI.compareTo(anotherDNI) == 0);
 
-		Handler copyDni = new IdDNI(oneDNI.toString());
+		Handler copyDni = new DNIHandler(oneDNI.toString());
 		assertEquals(0, oneDNI.compareTo(copyDni));
 	}
 

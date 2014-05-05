@@ -27,7 +27,7 @@ public class Employee {
 	/**
 	 * Office which belong
 	 */
-	private Office idOffice;
+	private Office office;
 	/**
 	 * Identifier of the employee
 	 */
@@ -52,7 +52,7 @@ public class Employee {
 		this.surname = surname;
 		this.address = address;
 		this.salary = salary;
-		this.idOffice = idOffice;
+		this.office = idOffice;
 		this.idEmployee = idEmployee;
 	}
 
@@ -164,7 +164,7 @@ public class Employee {
 	 * @return the office or null if not exists
 	 */
 	public Office getOffice() {
-		return idOffice;
+		return office;
 	}
 
 	/**
@@ -173,7 +173,7 @@ public class Employee {
 	 * @param idOffice
 	 */
 	public void setOffice(Office idOffice) {
-		this.idOffice = idOffice;
+		this.office = idOffice;
 	}
 
 	/**

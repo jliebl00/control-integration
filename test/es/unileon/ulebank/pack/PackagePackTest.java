@@ -4,20 +4,17 @@
  * and open the template in the editor.
  */
 
-package es.unileon.ulebank.handler;
+package es.unileon.ulebank.pack;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
 /**
- * Test all the test of the package handler
- * 
+ *
  * @author dorian
  */
 @RunWith(Suite.class)
-@Suite.SuiteClasses({ es.unileon.ulebank.handler.IdDNITest.class,
-		es.unileon.ulebank.handler.IdOfficeTest.class,
-                es.unileon.ulebank.handler.HandlerShareTest.class})
-public class PackageHandlerTest {
-
+@Suite.SuiteClasses({es.unileon.ulebank.pack.StockPackTest.class})
+public class PackagePackTest {
+    
 }

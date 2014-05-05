@@ -1,8 +1,12 @@
 package es.unileon.ulebank;
 
+import es.unileon.ulebank.bank.Bank;
+import es.unileon.ulebank.bank.handler.BankHandler;
+import es.unileon.ulebank.exceptions.MalformedHandlerException;
 import es.unileon.ulebank.handler.Handler;
-import es.unileon.ulebank.handler.IdDNI;
-import es.unileon.ulebank.handler.IdOffice;
+import es.unileon.ulebank.handler.DNIHandler;
+import es.unileon.ulebank.handler.OfficeHandler;
+import es.unileon.ulebank.transacionManager.TransactionManager;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -14,26 +18,30 @@ import static org.junit.Assert.*;
 public class EmployeeTest {
 	Employee oneEmployee;
 	Employee anotherEmployee;
-	IdDNI dni;
-	IdDNI anotherDNI;
-	IdOffice oneIdOffice;
-	IdOffice anotherIdOffice;
+	DNIHandler dni;
+	DNIHandler anotherDNI;
+	OfficeHandler oneIdOffice;
+	OfficeHandler anotherIdOffice;
 	Office oneOffice;
 	Office anotherOffice;
 	float salary;
+        
+        Bank bank;
 
 	@Before
-	public void setUp() {
+	public void setUp() throws MalformedHandlerException {
 		salary = 5000;
+                
+                bank=new Bank(new TransactionManager(), new BankHandler("1234"));
+                
+		dni = new DNIHandler("71463395A");
+		anotherDNI = new DNIHandler("36167364W");
 
-		dni = new IdDNI("71463395A");
-		anotherDNI = new IdDNI("36167364W");
+		oneIdOffice = new OfficeHandler(1234);
+		anotherIdOffice = new OfficeHandler(9876);
 
-		oneIdOffice = new IdOffice(1234);
-		anotherIdOffice = new IdOffice(9876);
-
-		oneOffice = new Office(oneIdOffice);
-		anotherOffice = new Office(anotherIdOffice);
+		oneOffice = new Office(oneIdOffice,bank);
+		anotherOffice = new Office(anotherIdOffice,bank);
 
 		oneEmployee = new Employee("name", "surname", "address", salary,
 				oneOffice, dni);
@@ -112,10 +120,10 @@ public class EmployeeTest {
 	 * Test of setIdOffice method, of class Employee.
 	 */
 	@Test
-	public void testSetIdOffice() {
+	public void testSetIdOffice() throws MalformedHandlerException {
 		System.out.println("setIdOffice");
-		Handler idOffice = new IdOffice(5995);
-		Office office = new Office(idOffice);
+		Handler idOffice = new OfficeHandler(5995);
+		Office office = new Office(idOffice,bank);
 		oneEmployee.setOffice(office);
 
 		Office result = oneEmployee.getOffice();
@@ -142,9 +150,9 @@ public class EmployeeTest {
 	 * Test of setIdEmployee method, of class Employee.
 	 */
 	@Test
-	public void testSetIdEmployee() {
+	public void testSetIdEmployee() throws MalformedHandlerException {
 		System.out.println("setIdEmployee");
-		Handler idEmployee = new IdDNI("62457969C");
+		Handler idEmployee = new DNIHandler("62457969C");
 		oneEmployee.setIdEmployee(idEmployee);
 
 		Handler result = oneEmployee.getIdEmployee();

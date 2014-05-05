@@ -5,13 +5,13 @@ import java.util.regex.Pattern;
 
 import es.unileon.ulebank.exceptions.MalformedHandlerException;
 
-public class HandlerShare implements Handler {
+public class ShareHandler implements Handler {
 
 	private String ticker;
 	private String company;
 	private String stockMarket;
 
-	public HandlerShare(String ticker, String company, String stockMarket)
+	public ShareHandler(String ticker, String company, String stockMarket)
 			throws MalformedHandlerException {
 		StringBuilder errors = new StringBuilder();
 

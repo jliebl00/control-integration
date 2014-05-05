@@ -1,15 +1,23 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package es.unileon.ulebank.command;
+
+import es.unileon.ulebank.handler.Handler;
+import es.unileon.ulebank.exceptions.MalformedHandlerException;
+import java.util.Date;
 
 /**
  *
- * @author Paula
+ * @author Patricia
  */
 public interface Command {
  
-    void execute();
+    public Date getEffectiveDate();
+
+    public Handler getID();
+
+    public void execute() throws MalformedHandlerException;
+
+    public void undo();
     
+    public void redo();
+   
 }

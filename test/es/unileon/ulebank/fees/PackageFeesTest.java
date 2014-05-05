@@ -3,20 +3,21 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package es.unileon.ulebank;
+
+package es.unileon.ulebank.fees;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
 /**
- * Test all the test of the package ulebank
  *
  * @author dorian
  */
 @RunWith(Suite.class)
-@Suite.SuiteClasses({es.unileon.ulebank.EmployeeTest.class,
-    es.unileon.ulebank.AdminTest.class,
-    es.unileon.ulebank.OfficeTest.class})
-public class PackageUlebankTest {
+@Suite.SuiteClasses({
+    es.unileon.ulebank.fees.FeeStrategyTest.class, 
+    es.unileon.ulebank.fees.LinearFeeTest.class, 
+    es.unileon.ulebank.fees.ScaledPercentFeeTest.class, 
+    es.unileon.ulebank.fees.FeeStepTest.class})
 
-}
+public class PackageFeesTest {}
