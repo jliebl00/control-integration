@@ -29,7 +29,7 @@ public class EmployeeTest {
         Bank bank;
 
 	@Before
-	public void setUp() throws MalformedHandlerException {
+	public void setUp() throws MalformedHandlerException{
 		salary = 5000;
                 
                 bank=new Bank(new TransactionManager(), new BankHandler("1234"));

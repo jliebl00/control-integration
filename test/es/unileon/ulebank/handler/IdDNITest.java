@@ -49,6 +49,7 @@ public class IdDNITest {
 	/**
 	 * Test the method getNif()
 	 */
+        /*
 	public void testGetNif() {
 		int nif = oneDNI.getNif();
 		assertEquals(71463395, nif);
@@ -60,13 +61,14 @@ public class IdDNITest {
 	/**
 	 * Test the method getLetter
 	 */
+        /*
 	public void testGetLetter() {
 		char letter = oneDNI.getLetter();
 		assertEquals('A', letter);
 
 		letter = anotherDNI.getLetter();
 		assertEquals('W', letter);
-	}
+	}*/
 
 	/**
 	 * Test if throw an exception when give null

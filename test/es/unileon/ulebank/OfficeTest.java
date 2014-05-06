@@ -1,7 +1,6 @@
 package es.unileon.ulebank;
 
 import es.unileon.ulebank.account.Account;
-import es.unileon.ulebank.account.types.CommercialAccount;
 import es.unileon.ulebank.bank.Bank;
 import es.unileon.ulebank.bank.handler.BankHandler;
 import es.unileon.ulebank.exceptions.MalformedHandlerException;

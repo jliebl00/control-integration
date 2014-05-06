@@ -1,31 +1,54 @@
+/* Application developed for AW subject, belonging to passive operations
+ group.*/
 package es.unileon.ulebank;
 
-import java.util.ArrayList;
-import es.unileon.ulebank.exceptions.MalformedHandlerException;
-import es.unileon.ulebank.account.exception.TransactionException;
-import es.unileon.ulebank.handler.AccountHandler;
+import es.unileon.ulebank.*;
+import es.unileon.ulebank.account.Account;
+import es.unileon.ulebank.account.AccountHandler;
+import es.unileon.ulebank.exceptions.TransactionException;
+import es.unileon.ulebank.bank.Bank;
+import es.unileon.ulebank.client.Client;
 import es.unileon.ulebank.handler.Handler;
+import es.unileon.ulebank.exceptions.MalformedHandlerException;
 import es.unileon.ulebank.history.Transaction;
 import es.unileon.ulebank.history.TransactionType;
-import es.unileon.ulebank.account.Account;
-import es.unileon.ulebank.bank.Bank;
-//import org.apache.log4j.Logger;
+import es.unileon.ulebank.Employee;
+import java.util.ArrayList;
+import java.util.List;
+import org.apache.log4j.Logger;
 
 /**
  *
- * @author Patricia
- *
+ * @author runix
  */
 public class Office {
 
+    private static final Logger LOG = Logger.getLogger(Account.class.getName());
+
     /**
-     * Bank
+     *
+     */
+    public static final long MAX_ACCOUNT_NUMBER = 1000000000l - 1;
+    /**
+     *
+     */
+    private final List<Account> accounts;
+    /**
+     *
+     */
+    private final List<Client> clients;
+    /**
+     *
+     */
+    private final Handler id;
+    /**
+     *
      */
     private final Bank bank;
     /**
-     * The id of the office
+     *
      */
-    private Handler idOffice;
+    private long nextAccountNumber;
     /**
      * The costs of the local of the office
      */
@@ -54,40 +77,177 @@ public class Office {
      * The list of employees of this office
      */
     private ArrayList<Employee> employeeList;
+
     /**
      * The list of accounts of this office
      */
-    private ArrayList<Account> accountList;
     /**
-     * Log
-     */
-//    private static final Logger LOG = Logger.getLogger(Account.class.getName());
-
-    /**
-     * Constructor of the class
      *
-     * @throws MalformedHandlerException
+     * @param id
+     * @param bank
      */
-    public Office(Handler idOffice, Bank bank) throws MalformedHandlerException {
-        this.accountList = new ArrayList<>();
-        this.idOffice = idOffice;
+    public Office(Handler id, Bank bank) {
+        this.accounts = new ArrayList<>();
+        this.clients = new ArrayList<>();
+        this.id = id;
         this.bank = bank;
-        employeeList=new ArrayList<>();
-        accountList=new ArrayList<>();
+        this.nextAccountNumber = 0;
+        this.employeeList = new ArrayList<>();
     }
 
     /**
-     * Returns the id of the office
+     *
+     * @param account
+     * @return
+     */
+    public boolean addAccount(Account account) {
+        if (account != null) {
+            int i = 0;
+            boolean found = false;
+            while (i < this.accounts.size() && !found) {
+                if (accounts.get(i).getID().compareTo(account.getID()) == 0) {
+                    found = true;
+                }
+                ++i;
+            }
+            if (!found) {
+                return this.accounts.add(account);
+            }
+        }
+        return false;
+    }
+
+    /**
+     *
+     * @param client
+     * @return
+     */
+    public synchronized boolean addClient(Client client) {
+        if (client != null) {
+            int i = 0;
+            boolean found = false;
+            while (i < this.clients.size() && !found) {
+                found = clients.get(i).getId().compareTo(client.getId()) == 0;
+                ++i;
+            }
+            if (!found) {
+                return this.clients.add(client);
+            }
+        }
+        return false;
+    }
+
+    /**
+     *
+     * @param id
+     * @return
+     */
+    public synchronized boolean deleteClient(Handler id) {
+        int i = 0;
+        boolean found = false;
+        while (i < this.clients.size() && !found) {
+            if (clients.get(i).getId().compareTo(id) == 0) {
+                //TODO perform account liquidation
+                clients.remove(i);
+                found = true;
+            }
+            ++i;
+        }
+        return found;
+    }
+
+    /**
+     *
+     * @param id
+     * @return
+     */
+    public synchronized boolean deleteAccount(Handler id) {
+        int i = 0;
+        boolean found = false;
+        while (i < this.accounts.size() && !found) {
+            if (accounts.get(i).getID().compareTo(id) == 0) {
+                accounts.remove(i);
+                found = true;
+            }
+            ++i;
+        }
+        return found;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public List<Client> getClients() {
+        return new ArrayList<>(this.clients);
+    }
+
+    /**
+     *
+     * @return
      */
     public Handler getIdOffice() {
-        return idOffice;
+        return this.id;
     }
 
     /**
-     * Sets the id of the office
+     *
+     * @param t
+     * @param destine
+     * @throws TransactionException
+     * @throws MalformedHandlerException
      */
-    public void setIdOffice(Handler idOffice) {
-        this.idOffice = idOffice;
+    public void doTransaction(Transaction t, Handler destine) throws TransactionException, MalformedHandlerException {
+        boolean finish = false;
+        StringBuilder error = new StringBuilder();
+        if (t != null && destine != null) {
+            AccountHandler handler = new AccountHandler(destine);
+            if (handler.getBankHandler().compareTo(this.bank.getID()) == 0 && handler.getOfficeHandler().compareTo(this.id) == 0) {
+                for (int i = 0; i < accounts.size() && !finish; i++) {
+                    if (accounts.get(i).getID().compareTo(destine) == 0) {
+                        if (t.getType() == TransactionType.CHARGE) {
+                            accounts.get(i).doWithdrawal(t);
+                        } else if (t.getType() == TransactionType.PAYMENT) {
+                            accounts.get(i).doDeposit(t);
+                        } else {
+                            error.append("Error, transaction not supported ").append(t.getType()).append("\n");
+                        }
+                        finish = true;
+                    }
+                }
+            } else {
+                this.bank.doTransaction(t, destine);
+            }
+        } else {
+            error.append(("The transaction cannot be null or destination be null"));
+        }
+
+        if (error.length() > 0) {
+            LOG.error("Office id " + this.id + " error : " + error.toString());
+            throw new TransactionException(error.toString());
+        }
+    }
+
+    /**
+     *
+     * @return
+     */
+    public synchronized String getNewAccountNumber() {
+        String accountNumber;
+        if (this.nextAccountNumber == MAX_ACCOUNT_NUMBER) {
+            accountNumber = "";
+        } else {
+            accountNumber = String.format("%010d", this.nextAccountNumber++);
+        }
+        return accountNumber;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public List<Account> getAccounts() {
+        return this.accounts;
     }
 
     /**
@@ -124,6 +284,7 @@ public class Office {
         // Addition of the types of incomes.
         this.totalIncome = totalIncome;
     }
+
     /**
      * Returns the balance of the office
      */
@@ -155,15 +316,8 @@ public class Office {
     /**
      * Returns the list of accounts of the office
      */
-    public ArrayList<Account> getAccountList() {
-        return accountList;
-    }
-
-    /**
-     * Sets the list of accounts of the office
-     */
-    public void setAccountList(ArrayList<Account> accountList) {
-        this.accountList = accountList;
+    public List<Account> getAccountList() {
+        return this.accounts;
     }
 
     /**
@@ -175,59 +329,11 @@ public class Office {
 
     /**
      * Deletes an employee to the list of employees
+     *
      * @param employee
-     * @return 
+     * @return
      */
     public boolean deleteEmployee(Employee employee) {
         return employeeList.remove(employee);
-    }
-
-    /**
-     * Adds an account to the list of accounts
-     */
-    public boolean addAccount(Account account) {
-        return this.accountList.add(account);
-    }
-
-    /**
-     * Deletes an account to the list of accounts
-     */
-    public void deleteAccount(Account account) {
-        accountList.remove(account);
-    }
-
-    public void doTransaction(Transaction t, Handler destine)
-            throws TransactionException, MalformedHandlerException {
-        boolean finish = false;
-        StringBuilder error = new StringBuilder();
-        if (t != null && destine != null) {
-            AccountHandler handler = new AccountHandler(destine);
-            if (handler.getBankHandler().compareTo(this.bank.getID()) == 0
-                    && handler.getOfficeHandler().compareTo(this.idOffice) == 0) {
-                for (int i = 0; i < accountList.size() && !finish; i++) {
-                    if (accountList.get(i).getID().compareTo(destine) == 0) {
-                        if (t.getType() == TransactionType.CHARGE) {
-                            accountList.get(i).doWithdrawal(t);
-                        } else if (t.getType() == TransactionType.PAYMENT) {
-                            accountList.get(i).doDeposit(t);
-                        } else {
-                            error.append("Error, transaction not supported ")
-                                    .append(t.getType()).append("\n");
-                        }
-                        finish = true;
-                    }
-                }
-            } else {
-                this.bank.doTransaction(t, destine);
-            }
-        } else {
-            error.append(("The transaction cannot be null or destination be null"));
-        }
-
-        if (error.length() > 0) {
-//            LOG.error("Office id " + this.idOffice + " error : "
-//                    + error.toString());
-            throw new TransactionException(error.toString());
-        }
     }
 }

@@ -5,6 +5,7 @@
  */
 package es.unileon.ulebank.history;
 
+import es.unileon.ulebank.account.DetailedInformation;
 import es.unileon.ulebank.handler.Handler;
 import java.util.Date;
 
@@ -20,13 +21,35 @@ public abstract class Transaction {
     private Date effectiveDate;
     private final String subject;
     private final Enum<TransactionType> type;
+    private DetailedInformation extraInformation;
 
+    /**
+     *
+     * @param amount
+     * @param date
+     * @param subject
+     * @param type
+     */
     public Transaction(double amount, Date date, String subject, Enum<TransactionType> type) {
+        this(amount, date, subject, type, new DetailedInformation(""));
+    }
+
+    /**
+     *
+     * @param amount
+     * @param date
+     * @param subject
+     * @param type
+     * @param info
+     */
+    public Transaction(double amount, Date date, String subject, Enum<TransactionType> type, DetailedInformation info) {
         this.id = TransactionHandlerProvider.getTransactionHandler();
         this.amount = amount;
         this.date = date;
         this.subject = subject;
         this.type = type;
+        this.extraInformation = info;
+        this.extraInformation.doFinal();
     }
 
     /**
@@ -70,14 +93,19 @@ public abstract class Transaction {
     public Enum<TransactionType> getType() {
         return type;
     }
-    
+
     /**
-     * @param effectiveDate the effectiveDate to set
+     *
+     * @param effectiveDate
      */
     public void setEffectiveDate(Date effectiveDate) {
         this.effectiveDate = effectiveDate;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public String toString() {
         return "Transaction " + "id=" + id + ", amount=" + amount + ", date=" + date + ", effectiveDate=" + effectiveDate + ", subject=" + subject;

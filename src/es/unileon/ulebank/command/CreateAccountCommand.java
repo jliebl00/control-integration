@@ -1,67 +1,89 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package es.unileon.ulebank.command;
 
-import java.util.Date;
-
-import es.unileon.ulebank.Office;
+import es.unileon.ulebank.account.Account;
 import es.unileon.ulebank.bank.Bank;
 import es.unileon.ulebank.handler.Handler;
+import es.unileon.ulebank.exceptions.MalformedHandlerException;
+import es.unileon.ulebank.Office;
+import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
- * 
+ *
  * @author Paula
  */
 public class CreateAccountCommand implements Command {
-	private Handler id;
-	private String accountNumber;
-	private Office office;
-	private final Bank bank;
 
-	public CreateAccountCommand(Bank bank, Office office, String accountNumber) {
-		this.accountNumber = accountNumber;
-		this.office = office;
-		this.bank = bank;
-	}
+    private final Office office;
+    private final Bank bank;
+    private final Handler commandID;
+    private final Date effectiveDate;
+    private Account account;
 
-	@Override
-	public void execute() {
-		throw new UnsupportedOperationException("Not supported yet."); // To
-																		// change
-																		// body
-																		// of
-																		// generated
-																		// methods,
-																		// choose
-																		// Tools
-																		// |
-																		// Templates.
-	}
+    /**
+     *
+     * @param office
+     * @param bank
+     * @param effectiveDate
+     * @param commandId
+     */
+    public CreateAccountCommand(Office office, Bank bank, Date effectiveDate, Handler commandId) {
+        this.bank = bank;
+        this.office = office;
+        this.effectiveDate = effectiveDate;
+        this.commandID = commandId;
+    }
 
-	@Override
-	public Date getEffectiveDate() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    /**
+     *
+     */
+    @Override
+    public void execute() {
+        try {
+            this.account = new Account(this.office, this.bank, this.office.getNewAccountNumber());
+            this.office.addAccount(account);
+        } catch (MalformedHandlerException ex) {
+            Logger.getLogger(CreateAccountCommand.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
-	@Override
-	public Handler getID() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    /**
+     *
+     * @return
+     */
+    @Override
+    public Date getEffectiveDate() {
+        return this.effectiveDate;
+    }
 
-	@Override
-	public void undo() {
-		// TODO Auto-generated method stub
+    /**
+     *
+     * @return
+     */
+    @Override
+    public Handler getID() {
+        return this.commandID;
+    }
 
-	}
+    /**
+     *
+     */
+    @Override
+    public void undo() {
+        if (this.account != null) {
+            this.office.deleteAccount(this.account.getID());
+        }
+    }
 
-	@Override
-	public void redo() {
-		// TODO Auto-generated method stub
-
-	}
+    /**
+     *
+     */
+    @Override
+    public void redo() {
+        if (this.account != null) {
+            this.office.addAccount(this.account);
+        }
+    }
 
 }
