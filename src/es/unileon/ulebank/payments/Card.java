@@ -1,6 +1,12 @@
 package es.unileon.ulebank.payments;
 
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import es.unileon.ulebank.exceptions.IncorrectLimitException;
 import es.unileon.ulebank.handler.CardHandler;
 import es.unileon.ulebank.strategy.StrategyCommission;
@@ -8,50 +14,93 @@ import es.unileon.ulebank.strategy.StrategyCommission;
 /**
  * @author Israel
  */
-public class Card {
+public abstract class Card {
+	//Constantes para los limites por defecto
+	private final double BUY_LIMIT_DIARY_DEFAULT = 400.0;
+	private final double BUY_LIMIT_MONTHLY_DEFAULT = 1000.0;
+	private final double CASH_LIMIT_DIARY_DEFAULT = 400.0;
+	private final double CASH_LIMIT_MONTHLY_DEFAULT = 1000.0;
+	//Constante para el limite minimo
+	private final double MINIMUM_LIMIT = 200.0;
+	//Constante para la cantidad de agnos de caducidad por defecto
+	private final int EXPIRATION_YEAR = 3;
+	//Constante para el tamagno del CVV
+	private final int CVV_SIZE = 3;
+	//Constante para el tamagno del PIN
+	private final int PIN_SIZE = 4;
+	
+	//Identificador de la tarjeta
 	private CardHandler cardId;
+	//Codigo PIN de la tarjeta
 	private String pin;
-	private int buyLimitDiary;
-	private int buyLimitMonthly;
-	private int cashLimitDiary;
-	private int cashLimitMonthly;
+	//Limite de compra diario de la tarjeta
+	private double buyLimitDiary;
+	//Limite de compra mensual de la tarjeta
+	private double buyLimitMonthly;
+	//Limite de extraccion en cajero diario de la tarjeta
+	private double cashLimitDiary;
+	//Limite de extraccion en cajero mensual de la tarjeta
+	private double cashLimitMonthly;
+	//Fecha de emision de la tarjeta
+	private String emissionDate;
+	//Fecha de caducidad de la tarjeta
 	private String expirationDate;
+	//Tipo de tarjeta
 	private CardType cardType;
+	//Codigo CVV de la tarjeta
 	private String cvv;
-	private StrategyCommission commission;
-//	private Client owner;
-//	private Account account;
+	//Comision de emision de la tarjeta
+	private StrategyCommission commissionEmission;
+	//Comision de mantenimiento de la tarjeta
+	private StrategyCommission commissionMaintenance;
+	//Comision de renovacion de la tarjeta
+	private StrategyCommission commissionRenovate;
+	//Limite de deuda de la tarjeta (Solo en el caso de las de credito)
+	private double limitDebit;
 	
 	/**
-	 * Crea una nueva tarjeta del tipo indicado
+	 * Crea una nueva tarjeta con los parametros indicados
+	 * @param cardId
+	 * @param owner
+	 * @param account
 	 * @param type
+	 * @param buyLimitDiary
+	 * @param buyLimitMonthly
+	 * @param cashLimitDiary
+	 * @param cashLimitMonthly
+	 * @param commissionEmission
+	 * @param commissionMaintenance
+	 * @param commissionRenovate
+	 * @param limitDebit
 	 */
-	public Card(CardType type) {
+	public Card(CardHandler cardId, CardType type,
+			double buyLimitDiary, double buyLimitMonthly, double cashLimitDiary, double cashLimitMonthly,
+			StrategyCommission commissionEmission, StrategyCommission commissionMaintenance, 
+			StrategyCommission commissionRenovate, double limitDebit) {
+		this.cardId = cardId;
 		this.cardType = type;
-	}
-	
-	/**
-	 * Aniade los atributos a la nueva tarjeta
-	 */
-	public void create() {
-		this.cardId = new CardHandler();
-		this.pin = this.generatePinCode();
-		this.buyLimitDiary = 400;
-		this.buyLimitMonthly = 1000;
-		this.cashLimitDiary = 400;
-		this.cashLimitMonthly = 1000;
+		this.pin = generatePinCode();
+		this.buyLimitDiary = buyLimitDiary;
+		this.buyLimitMonthly = buyLimitMonthly;
+		this.cashLimitDiary = cashLimitDiary;
+		this.cashLimitMonthly = cashLimitMonthly;
+		this.emissionDate = generateEmissionDate();
 		this.expirationDate = generateExpirationDate();
 		this.cvv = this.generateCVV();
+		this.commissionEmission = commissionEmission;
+		this.commissionMaintenance = commissionMaintenance;
+		this.commissionRenovate = commissionRenovate;
+		this.limitDebit = limitDebit;
 	}
-	
+
 	/**
 	 * Genera el codigo pin de la tarjeta
 	 * @return
 	 */
 	public String generatePinCode() {
 		StringBuilder result = new StringBuilder();
-		
-		for (int i = 0; i < 4; i++) {
+		//Generamos tantos numeros aleatorios como indique la constante PIN_SIZE para formar el codigo PIN
+		for (int i = 0; i < PIN_SIZE; i++) {
 			result.append((int) (Math.random()*10));
 		}
 		
@@ -59,19 +108,34 @@ public class Card {
 	}
 	
 	/**
+	 * Genera la fecha de emision de la tarjeta
+	 * @return
+	 */
+	public String generateEmissionDate() {
+		//Generamos la fecha dandole el formato estandar dd/MM/yyyy
+		SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		
+		return dateFormat.format(new Date());
+	}
+	
+	/**
 	 * Genera una fecha de caducidad para la tarjeta
 	 * @return
 	 */
 	public String generateExpirationDate() {
+		//Obtenemos una instancia del calendario
 		Calendar calendar = Calendar.getInstance();
 		
-		String month = Integer.toString(calendar.get(Calendar.MONTH));
+		//Obtenemos el mes actual que sera devuelto en forma de int comenzando en 0 (Enero) por tanto debemos sumarle 1
+		String month = Integer.toString(calendar.get(Calendar.MONTH) + 1); 
+		//Si el mes esta entre enero y septiembre agnadimos un 0 delante al String para que tenga 2 cifras
 		if (month.length() == 1) {
 			month = "0" + month;
 		}
 		
-		String year = Integer.toString(3 + calendar.get(Calendar.YEAR)).substring(2);
-		
+		//Obtenemos el agno actual y cortamos el substring para coger unicamente las dos ultimas cifras
+		String year = Integer.toString(EXPIRATION_YEAR + calendar.get(Calendar.YEAR)).substring(2);
+		//Devolvemos el String con el formato MM/yy
 		return month + "/" + year;
 	}
 	
@@ -81,8 +145,8 @@ public class Card {
 	 */
 	public String generateCVV() {
 		StringBuilder result = new StringBuilder();
-		
-		for (int i = 0; i < 3; i++) {
+		//Generamos tantos numeros aleatorios como indique la constante CVV_SIZE para formar el codigo CVV
+		for (int i = 0; i < CVV_SIZE; i++) {
 			result.append((int) (Math.random()*10));
 		}
 		
@@ -98,14 +162,6 @@ public class Card {
 	}
 	
 	/**
-	 * Cambia el numero de la tarjeta por el que recibe
-	 * @param cardNumner
-	 */
-	public void setCardId(String cardNumber) {
-		this.cardId.setCardNumber(cardNumber);
-	}
-	
-	/**
 	 * Devuelve el codigo PIN de la tarjeta
 	 * @return
 	 */
@@ -116,9 +172,22 @@ public class Card {
 	/**
 	 * Cambia el codigo PIN de la tarjeta por el que recibe
 	 * @param pin
+	 * @throws IOException 
 	 */
-	public void setPin(String pin) {
-		this.pin = pin;
+	public void setPin(String pin) throws IOException {
+		//Comprobamos que el String recibido contiene solo numeros
+		if (checkStringNumber(pin)) {
+			//Si el pin tiene el tamagno adecuado lo cambiamos
+			if (pin.length() == PIN_SIZE) {
+				this.pin = pin;
+			//Sino lanzamos una excepcion
+			} else {
+				throw new IOException("Incorrect length");
+			}
+		//Sino lanzamos una excepcion ya que solo puede haber numeros
+		} else {
+			throw new IOException("The pin must only contain numbers");
+		}
 	}
 	
 	/**
@@ -127,8 +196,10 @@ public class Card {
 	 * @return
 	 */
 	public boolean checkPin(String pin) {
+		//Si el pin coincide devuelve true
 		if (pin.equals(this.pin)) {
 			return true;
+		//Sino devuelve false
 		} else {
 			return false;
 		}
@@ -138,20 +209,23 @@ public class Card {
 	 * Devuelve el limite de la tarjeta diario para compras
 	 * @return
 	 */
-	public int getBuyLimitDiary() {
+	public double getBuyLimitDiary() {
 		return this.buyLimitDiary;
 	}
 	
 	/**
 	 * Cambia el linmite de la tarjeta diario para compras
-	 * @param buyLimit
+	 * @param newAmount
 	 * @throws IncorrectLimitException 
 	 */
-	public void setBuyLimitDiary(int buyLimit) throws IncorrectLimitException {
-		if (this.buyLimitMonthly > buyLimit) {
-			this.buyLimitDiary = buyLimit;
+	public void setBuyLimitDiary(double newAmount) throws IncorrectLimitException {
+		//Si el limite mensual es mayor que el limite diario a cambiar y este ultimo es mayor 
+		//o igual que el limite minimo, cambiamos el limite
+		if (this.buyLimitMonthly > newAmount && newAmount >= MINIMUM_LIMIT) {
+			this.buyLimitDiary = newAmount;
+		//en caso contrario lanzamos una excepcion
 		} else {
-			throw new IncorrectLimitException("The limit is bigger than current monthly limit");
+			throw new IncorrectLimitException("The limit is bigger than current monthly limit or is too small.");
 		}
 	}
 	
@@ -160,9 +234,11 @@ public class Card {
 	 * @param price
 	 * @return
 	 */
-	public boolean checkBuyLimitDiary(int price) {
+	public boolean checkBuyLimitDiary(double price) {
+		//Si el precio es mayor que el limite de compra diario devuelve false
 		if (price > buyLimitDiary) {
 			return false;
+		//sino devuelve true
 		} else {
 			return true;
 		}
@@ -172,7 +248,15 @@ public class Card {
 	 * Devuelve el limite de la tarjeta mensual para compras
 	 * @return
 	 */
-	public int getBuyLimitMonthly() {
+	public double getCashLimitMonthly() {
+		return cashLimitMonthly;
+	}
+	
+	/**
+	 * Devuelve el limite de compra mensual
+	 * @return
+	 */
+	public double getBuyLimitMonthly() {
 		return buyLimitMonthly;
 	}
 
@@ -181,9 +265,11 @@ public class Card {
 	 * @param buyLimit
 	 * @throws IncorrectLimitException 
 	 */
-	public void setBuyLimitMonthly(int buyLimitMonthly) throws IncorrectLimitException {
-		if (buyLimitMonthly > this.buyLimitDiary) {
-			this.buyLimitMonthly = buyLimitMonthly;
+	public void setBuyLimitMonthly(double newAmount) throws IncorrectLimitException {
+		//Si el limite recibido es mayor o igual que el limite diario lo cambiamos
+		if (newAmount >= this.buyLimitDiary) {
+			this.buyLimitMonthly = newAmount;
+		//sino se lanza una excepcion
 		} else {
 			throw new IncorrectLimitException("Monthly limit must be greater than diary limit");
 		}
@@ -193,7 +279,7 @@ public class Card {
 	 * Devuelve el limite de la tarjeta para extracciones en cajeros
 	 * @return
 	 */
-	public int getCashLimitDiary() {
+	public double getCashLimitDiary() {
 		return this.cashLimitDiary;
 	}
 	
@@ -201,11 +287,14 @@ public class Card {
 	 * Cambia el limite de la tarjeta para extracciones en cajeros
 	 * @throws IncorrectLimitException 
 	 */
-	public void setCashLimitDiary(int cashLimit) throws IncorrectLimitException {
-		if (this.cashLimitMonthly > cashLimit) {
-			this.cashLimitDiary = cashLimit;
+	public void setCashLimitDiary(double newAmount) throws IncorrectLimitException {
+		//Si el limite mensual es mayor que el limite diario a cambiar y este ultimo es mayor 
+		//o igual que el limite minimo, cambiamos el limite
+		if (this.cashLimitMonthly >= newAmount && newAmount >= MINIMUM_LIMIT) {
+			this.cashLimitDiary = newAmount;
+		//sino lanzamos una excepcion
 		} else {
-			throw new IncorrectLimitException("The limit is bigger than current monthly limit");
+			throw new IncorrectLimitException("The limit is bigger than current monthly limit or is too small.");
 		}
 	}
 	
@@ -214,33 +303,37 @@ public class Card {
 	 * @param cash
 	 * @return
 	 */
-	public boolean checkCashLimitDiary(int cash) {
+	public boolean checkCashLimitDiary(double cash) {
+		//Si la cantidad solicitada para extraer es mayor que la cantidad maxima diaria devuelve false
 		if (cash > this.cashLimitDiary) {
 			return false;
+		//sino devuelve true
 		} else {
 			return true;
 		}
 	}
-	
-	/**
-	 * Devuelve la cantidad maxima para extraer en cajero mensual
-	 * @return
-	 */
-	public int getCashLimitMonthly() {
-		return cashLimitMonthly;
-	}
 
 	/**
 	 * Cambia la cantidad maxima para extraer en un cajero al mes
-	 * @param cashLimitMonthly
+	 * @param newAmount
 	 * @throws IncorrectLimitException 
 	 */
-	public void setCashLimitMonthly(int cashLimitMonthly) throws IncorrectLimitException {
-		if (cashLimitMonthly > this.cashLimitDiary) {
-			this.cashLimitMonthly = cashLimitMonthly;
+	public void setCashLimitMonthly(double newAmount) throws IncorrectLimitException {
+		//Si el limite recibido es mayor o igual que el limite diario lo cambiamos
+		if (newAmount >= this.cashLimitDiary) {
+			this.cashLimitMonthly = newAmount;
+		//en caso contrario se lanza una excepcion
 		} else {
 			throw new IncorrectLimitException("Monthly limit must be greater than diary limit");
 		}
+	}
+	
+	/**
+	 * Devuelve la fecha de emision de la tarjeta
+	 * @return
+	 */
+	public String getEmissionDate() {
+		return emissionDate;
 	}
 
 	/**
@@ -268,14 +361,6 @@ public class Card {
 	}
 
 	/**
-	 * Cambia el tipo de tarjeta por el indicado
-	 * @param cardType
-	 */
-	public void setCardType(CardType cardType) {
-		this.cardType = cardType;
-	}
-
-	/**
 	 * Devuelve el codigo de validacion CVV
 	 * @return
 	 */
@@ -286,40 +371,145 @@ public class Card {
 	/**
 	 * Cambia el CVV por el nuevo que ha recibido
 	 * @param cvv
+	 * @throws IOException 
 	 */
-	public void setCvv(String cvv) {
-		this.cvv = cvv;
-	}
-	
-	/**
-	 * Devuelve la comision actual para la tarjeta de credito
-	 * @return
-	 */
-	public StrategyCommission getCommission() {
-		return commission;
+	public void setCvv(String cvv) throws IOException {
+		//Comprueba que el String contenga solo numeros
+		if (checkStringNumber(cvv)) {
+			//Si el tamagno del cvv es correcto se cambia
+			if (cvv.length() == CVV_SIZE) {
+				this.cvv = cvv;
+			//sino se lanza una excepcion
+			} else {
+				throw new IOException("Incorrect length");
+			}
+		//sino se lanza una excepcion
+		} else {
+			throw new IOException("The cvv must only contains numbers");
+		}
 	}
 
 	/**
-	 * Cambia la comision de la tarjeta empleando el patron Strategy
-	 * @param commission
+	 * Devuelve el numero de la tarjeta
+	 * @return
 	 */
-	public void setStrategy(StrategyCommission commission) {
-		this.commission = commission;
+	public CardHandler getCardNumber() {
+		return cardId;
+	}
+
+	/**
+	 * Devuelve el limite diario de compra por defecto
+	 * @return
+	 */
+	public double getBuyLimitDiaryDefault() {
+		return BUY_LIMIT_DIARY_DEFAULT;
+	}
+
+	/**
+	 * Devuelve el limite mensual de compra por defecto
+	 * @return
+	 */
+	public double getBuyLimitMonthlyDefault() {
+		return BUY_LIMIT_MONTHLY_DEFAULT;
+	}
+
+	/**
+	 * Devuelve el limite diario de extraccion en cajero por defecto
+	 * @return
+	 */
+	public double getCashLimitDiaryDefault() {
+		return CASH_LIMIT_DIARY_DEFAULT;
+	}
+
+	/**
+	 * Devuelve el limite mensual de extraccion en cajero por defecto
+	 * @return
+	 */
+	public double getCashLimitMonthlyDefault() {
+		return CASH_LIMIT_MONTHLY_DEFAULT;
+	}
+
+	/**
+	 * Devuelve la comision de emision de la tarjeta
+	 * @return
+	 */
+	public float getCommissionEmission() {
+		return commissionEmission.calculateCommission();
+	}
+
+	/**
+	 * Cambia la comision de emision por la que recibe
+	 * @param commissionEmission
+	 */
+	public void setCommissionEmission(StrategyCommission commissionEmission) {
+		this.commissionEmission = commissionEmission;
+	}
+
+	/**
+	 * Devuelve la comisionde mantenimiento de la tarjeta
+	 * @return
+	 */
+	public float getCommissionMaintenance() {
+		return commissionMaintenance.calculateCommission();
+	}
+
+	/**
+	 * Cambia la comision de mantenimiento por la que se indica
+	 * @param commissionMaintenance
+	 */
+	public void setCommissionMaintenance(StrategyCommission commissionMaintenance) {
+		this.commissionMaintenance = commissionMaintenance;
+	}
+
+	/**
+	 * Devuelve la comision de renovacion de la tarjeta
+	 * @return
+	 */
+	public float getCommissionRenovate() {
+		return commissionRenovate.calculateCommission();
+	}
+
+	/**
+	 * Cambia la comision de renovacion por la que se recibe
+	 * @param commissionRenovate
+	 */
+	public void setCommissionRenovate(StrategyCommission commissionRenovate) {
+		this.commissionRenovate = commissionRenovate;
+	}
+
+	/**
+	 * Devuelve el limite de deuda de la tarjeta
+	 * @return
+	 */
+	public double getLimitDebit() {
+		return limitDebit;
+	}
+
+	/**
+	 * Cambia el limite de deuda de la tarjeta por el recibido
+	 * @param limitDebt
+	 */
+	public void setLimitDebit(double limitDebt) {
+		this.limitDebit = limitDebt;
 	}
 	
 	/**
-	 * Devuelve la cuenta de usuario actual
+	 * Comprueba que el String recibido sea solo numerico
+	 * @param string
 	 * @return
 	 */
-//	public Account getAccount() {
-//		return this.account;
-//	}
-	
-	/**
-	 * Cambia la cuenta actual por la que recibe por parametro
-	 * @param account
-	 */
-//	public void setAccount(Account account) {
-//		this.account = account;
-//	}
+	private boolean checkStringNumber(String string) {
+		//Crea un patron para indicar que solo debe contener numeros
+		Pattern pattern = Pattern.compile("^[0-9]*$");
+		//Comprueba que el String recibido cumple el patron
+		Matcher matcher = pattern.matcher(string);
+		
+		//Si se cumple el patron devuelve true
+		if (matcher.find()) {
+			return true;
+		//sino devuelve false
+		} else {
+			return false;
+		}
+	}
 }

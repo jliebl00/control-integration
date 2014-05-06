@@ -10,10 +10,27 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.swing.JOptionPane;
+
+import es.unileon.ulebank.account.Account;
+import es.unileon.ulebank.account.AccountHandler;
+import es.unileon.ulebank.client.Client;
+import es.unileon.ulebank.exceptions.CommissionException;
+import es.unileon.ulebank.exceptions.IncorrectLimitException;
+import es.unileon.ulebank.handler.CardHandler;
+import es.unileon.ulebank.handler.DNIHandler;
+import es.unileon.ulebank.handler.GenericHandler;
+import es.unileon.ulebank.payments.DebitCard;
+import es.unileon.ulebank.strategy.StrategyCommission;
+import es.unileon.ulebank.strategy.StrategyCommissionDebitEmission;
+import es.unileon.ulebank.strategy.StrategyCommissionDebitMaintenance;
+import es.unileon.ulebank.strategy.StrategyCommissionDebitRenovate;
 
 /**
  *
@@ -107,8 +124,6 @@ public class RenovationCardWindow extends javax.swing.JInternalFrame {
             }
         });
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         button1.setLabel("Accept");
         button1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -185,31 +200,29 @@ public class RenovationCardWindow extends javax.swing.JInternalFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                .addGap(26, 26, 26)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(26, 26, 26)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(textField1, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(28, 28, 28)
-                                .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(34, 34, 34)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(label2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(textField2, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(19, 19, 19)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(button2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(button3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addComponent(textField1, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(28, 28, 28)
+                        .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(34, 34, 34)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(label2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(136, 136, 136)))
+                        .addComponent(textField2, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(19, 19, 19)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(button2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(button3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap(251, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(221, 221, 221))
             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel1Layout.createSequentialGroup()
                     .addContainerGap()
@@ -268,7 +281,7 @@ public class RenovationCardWindow extends javax.swing.JInternalFrame {
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addComponent(textField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(button3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 408, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 411, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
@@ -333,9 +346,108 @@ public class RenovationCardWindow extends javax.swing.JInternalFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-//Al darle a este botón y dependiendo de la tarjeta seleccionada en el combobox
+//Al darle a este bot������������������������������������������������������n y dependiendo de la tarjeta seleccionada en el combobox
 //renovaremos la tarjeta, modificando la fecha, el cvv.
     private void button2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button2ActionPerformed
+        String DNI = textField1.getText();
+        
+        String number = "" + textField1.getText().charAt(0);
+        for(int i = 1; i < textField1.getText().length() - 1; i++)
+            {
+                number = number + textField1.getText().charAt(i);
+            }
+        Character letter = textField1.getText().charAt(textField1.getText().length()-1);
+        int numberDNI = Integer.valueOf(number);
+        DNIHandler dni = new DNIHandler(numberDNI, letter);
+        
+        File archiveCard = new File("contratos/"+DNI+".txt");
+        String accountNumber, cardType, cardNumber, pinNumber, expirationDate, cvv, commission;
+        double  cashLimitDiary, buyLimitDiary, cashLimitMonthly, buyLimitMonthly;
+        try {
+            FileReader doc1 = new FileReader(archiveCard);
+            BufferedReader line = new BufferedReader(doc1);
+            accountNumber=line.readLine();
+            cardType=line.readLine();
+            cardNumber=line.readLine();
+            pinNumber=line.readLine();
+            cashLimitDiary=Double.valueOf(line.readLine());
+            buyLimitDiary=Double.valueOf(line.readLine());
+            cashLimitMonthly=Double.valueOf(line.readLine());
+            buyLimitMonthly=Double.valueOf(line.readLine());
+            expirationDate=line.readLine();
+            cvv=line.readLine();
+            commission=line.readLine();
+
+            DebitCard debitCard = null;
+            CardHandler handler = new CardHandler();
+        	Client client = new Client(dni,25);
+//        	Account account = new Account(new AccountHandler(new IdOffice("0001"), new GenericHandler("1234"), "1234567890"));
+                StrategyCommission commissionEmission = new StrategyCommissionDebitEmission(25);
+                StrategyCommission commissionMaintenance = new StrategyCommissionDebitMaintenance(client, 0);
+                StrategyCommission commissionRenovate = new StrategyCommissionDebitRenovate(0);
+        	debitCard = new DebitCard(handler, client, null, buyLimitDiary, buyLimitMonthly, cashLimitDiary, cashLimitMonthly, commissionEmission.calculateCommission(), commissionMaintenance.calculateCommission(), commissionRenovate.calculateCommission(), 0);
+            try {
+                debitCard.setBuyLimitDiary(buyLimitDiary);
+                debitCard.setCashLimitDiary(cashLimitDiary);
+                //debitCard.setCardType(CardType.DEBIT);
+                debitCard.setCashLimitDiary(cashLimitDiary);
+                debitCard.setCashLimitMonthly(cashLimitMonthly);
+                debitCard.setCvv(cvv);
+                debitCard.setExpirationDate(expirationDate);
+                debitCard.setPin(pinNumber);
+                
+                debitCard.setCvv(debitCard.generateCVV());
+                debitCard.setExpirationDate(debitCard.generateExpirationDate());
+                
+                FileWriter fichero = null;
+        PrintWriter pw = null;
+        try
+        {
+            fichero = new FileWriter("contratos/"+DNI+".txt");
+            pw = new PrintWriter(fichero);
+            pw.println(accountNumber);
+            pw.println(debitCard.getCardType());
+            pw.println(debitCard.getCardNumber());
+            pw.println(debitCard.getPin());
+            pw.println(debitCard.getCashLimitDiary());
+            pw.println(debitCard.getBuyLimitDiary());
+            pw.println(debitCard.getCashLimitMonthly());
+            pw.println(debitCard.getBuyLimitMonthly());
+            pw.println(debitCard.getExpirationDate());
+            pw.println(debitCard.getCvv());
+   
+        } catch (IOException ex) {
+            Logger.getLogger(InformationDebitCard.class.getName()).log(Level.SEVERE, null, ex);
+        }finally {
+           try {
+           // Nuevamente aprovechamos el finally para
+           // asegurarnos que se cierra el fichero.
+           if (null != fichero)
+              fichero.close();
+           } catch (Exception e2) {
+              e2.printStackTrace();
+           }
+        }
+                
+                
+            } catch (IncorrectLimitException ex) {
+                Logger.getLogger(RenovationCardWindow.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            
+            
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(DebitWindow.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(DebitWindow.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (CommissionException ex) {
+            Logger.getLogger(RenovationCardWindow.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+         String msg = "The card "+ String.valueOf(jComboBox1.getSelectedItem())  + " has been renovated";
+             JOptionPane.showMessageDialog(null, msg, "Information", 1);
+             new DebitWindow().setVisible(true);
+        dispose();
         
     }//GEN-LAST:event_button2ActionPerformed
 
@@ -424,6 +536,27 @@ public class RenovationCardWindow extends javax.swing.JInternalFrame {
             }
 
         } catch (FileNotFoundException ex) {
+            Logger.getLogger(DebitWindow.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(DebitWindow.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        //Leemos del fichero de tarjetas nombrado con el dni los campos de la tarjeta
+        File archiveCard = new File("contratos/"+DNI+".txt");
+        String cardType, cardNumber = null;
+        try {
+            FileReader doc1 = new FileReader(archiveCard);
+            BufferedReader line = new BufferedReader(doc1);
+            
+                    //--Leemos hasta el n������������������������������������������������������mero de tarjeta que es lo que queremos mostrar en el comboBox
+                    accountNumber=line.readLine();
+                    cardType=line.readLine();
+                    cardNumber=line.readLine();
+                    //---------------------------------------
+                
+                    jComboBox1.addItem(cardNumber);
+            
+        }catch(FileNotFoundException ex) {
             Logger.getLogger(DebitWindow.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             Logger.getLogger(DebitWindow.class.getName()).log(Level.SEVERE, null, ex);

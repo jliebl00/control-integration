@@ -2,20 +2,22 @@
  group.*/
 package es.unileon.ulebank;
 
-import es.unileon.ulebank.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.logging.Logger;
+
 import es.unileon.ulebank.account.Account;
 import es.unileon.ulebank.account.AccountHandler;
-import es.unileon.ulebank.exceptions.TransactionException;
 import es.unileon.ulebank.bank.Bank;
 import es.unileon.ulebank.client.Client;
-import es.unileon.ulebank.handler.Handler;
+import es.unileon.ulebank.exceptions.ClientNotFoundException;
 import es.unileon.ulebank.exceptions.MalformedHandlerException;
+import es.unileon.ulebank.exceptions.TransactionException;
+import es.unileon.ulebank.handler.DNIHandler;
+import es.unileon.ulebank.handler.Handler;
 import es.unileon.ulebank.history.Transaction;
 import es.unileon.ulebank.history.TransactionType;
-import es.unileon.ulebank.Employee;
-import java.util.ArrayList;
-import java.util.List;
-import org.apache.log4j.Logger;
 
 /**
  *
@@ -87,12 +89,12 @@ public class Office {
      * @param bank
      */
     public Office(Handler id, Bank bank) {
-        this.accounts = new ArrayList<>();
-        this.clients = new ArrayList<>();
+        this.accounts = new ArrayList<Account>();
+        this.clients = new ArrayList<Client>();
         this.id = id;
         this.bank = bank;
         this.nextAccountNumber = 0;
-        this.employeeList = new ArrayList<>();
+        this.employeeList = new ArrayList<Employee>();
     }
 
     /**
@@ -179,7 +181,7 @@ public class Office {
      * @return
      */
     public List<Client> getClients() {
-        return new ArrayList<>(this.clients);
+        return new ArrayList<Client>(this.clients);
     }
 
     /**
@@ -336,4 +338,41 @@ public class Office {
     public boolean deleteEmployee(Employee employee) {
         return employeeList.remove(employee);
     }
+
+    /**
+	 * Busca el cliente cuyo DNI coincida con el recibido
+	 * @param dni
+	 * @return
+	 * @throws ClientNotFoundException 
+	 */
+	public Client searchClient(DNIHandler dni) throws ClientNotFoundException {
+		//Creamos un iterador para recorrer la lista
+		Iterator<Client> iterator = clients.iterator();
+		Client client = null;
+		boolean found = false;
+		
+		//Comprobamos que la lista no este vacia
+		if (clients.isEmpty()) {
+			throw new NullPointerException("Client list is empty.");
+		}
+		
+		//Mientras haya clientes recorremos la lista
+		while (iterator.hasNext()) {
+			//Guardamos el cliente actual
+			client = iterator.next();
+			
+			//Si el DNI del cliente actual coincide con el indicado salimos del bucle
+			if (client.getDni().compareTo(dni) == 0) {
+				found = true;
+				break;
+			}
+		}
+		//Devolvemos el cliente encontrado
+		if (found) {
+			return client;
+		//si no se encuentra lanzamos una excepcion
+		} else {
+			throw new ClientNotFoundException("Client not found");
+		}
+	}
 }

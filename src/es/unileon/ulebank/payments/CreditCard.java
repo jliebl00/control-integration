@@ -1,35 +1,40 @@
 package es.unileon.ulebank.payments;
 
+import es.unileon.ulebank.account.Account;
+import es.unileon.ulebank.client.Client;
+import es.unileon.ulebank.exceptions.CommissionException;
+import es.unileon.ulebank.handler.CardHandler;
+import es.unileon.ulebank.strategy.StrategyCommissionCreditEmission;
+import es.unileon.ulebank.strategy.StrategyCommissionCreditMaintenance;
+import es.unileon.ulebank.strategy.StrategyCommissionCreditRenovate;
+
 /**
  * @author Israel
+ * Clase que representa la tarjeta de credito
  */
 public class CreditCard extends Card {
-
-	private int limitDebt;
 	
-	public CreditCard() {
-		super(CardType.CREDIT);
-		this.limitDebt = 1000;
-	}
-	
-	public CreditCard(int payroll) {
-		super(CardType.CREDIT);
-		this.limitDebt = payroll*3;
-	}
-
 	/**
-	 * Devuelve el limite de deuda de la tarjeta
-	 * @return
+	 * Constructor de la clase
+	 * @param cardId
+	 * @param owner
+	 * @param account
+	 * @param buyLimitDiary
+	 * @param buyLimitMonthly
+	 * @param cashLimitDiary
+	 * @param cashLimitMonthly
+	 * @param commissionEmission
+	 * @param commissionMaintenance
+	 * @param commissionRenovate
+	 * @param limitDebit
+	 * @throws CommissionException
 	 */
-	public int getLimitDebt() {
-		return limitDebt;
-	}
-
-	/**
-	 * Cambia el limite de deuda por el que recibe
-	 * @param limitDebt
-	 */
-	public void setLimitDebt(int limitDebt) {
-		this.limitDebt = limitDebt;
+	public CreditCard(CardHandler cardId, Client owner, Account account, double buyLimitDiary, double buyLimitMonthly, 
+			double cashLimitDiary, double cashLimitMonthly, float commissionEmission, 
+			float commissionMaintenance, float commissionRenovate, double limitDebit) throws CommissionException {
+		super(cardId, CardType.CREDIT, buyLimitDiary, buyLimitMonthly, cashLimitDiary, cashLimitMonthly,
+				new StrategyCommissionCreditEmission(commissionEmission),
+				new StrategyCommissionCreditMaintenance(commissionMaintenance),
+				new StrategyCommissionCreditRenovate(commissionRenovate), limitDebit);
 	}
 }

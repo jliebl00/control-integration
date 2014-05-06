@@ -4,10 +4,9 @@
 package es.unileon.ulebank.exceptions;
 
 /**
- *
- * @author runix
+ * @author Israel Garcia Centeno
  */
-public class MalformedHandlerException extends Exception{
+public class MalformedHandlerException extends RuntimeException{
     
 	private static final long serialVersionUID = 1L;
 

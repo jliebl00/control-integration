@@ -3,10 +3,12 @@
 
 package es.unileon.ulebank.client;
 
-import es.unileon.ulebank.account.Account;
-import es.unileon.ulebank.handler.Handler;
 import java.util.ArrayList;
 import java.util.Iterator;
+
+import es.unileon.ulebank.account.Account;
+import es.unileon.ulebank.account.AccountHandler;
+import es.unileon.ulebank.handler.Handler;
 
 /**
  *Class tha provides the basic gestion data of a client in a bank
@@ -26,13 +28,24 @@ public class Client {
     private ArrayList<Account> accounts;
     
     /**
+     * Client age
+     */
+    private int age;
+    
+    /**
      * Constructor of client. Receive the id and initilize the list of accounts
      * 
      * @param clientHandler 
      */
     public Client(Handler clientHandler){
-        accounts = new ArrayList<>();
+        accounts = new ArrayList<Account>();
         this.id=clientHandler;
+    }
+    
+    public Client(Handler clientHandler, int age){
+        accounts = new ArrayList<Account>();
+        this.id=clientHandler;
+        this.age = age;
     }
     
     /**
@@ -80,6 +93,25 @@ public class Client {
         }
         return result;
     }
+    
+    public Account searchAccount(AccountHandler handler) {
+		Iterator<Account> iterator = accounts.iterator();
+		Account account = null;
+		
+		if (this.accounts.isEmpty()) {
+			throw new NullPointerException("Account list is empty.");
+		}
+		
+		while (iterator.hasNext()) {
+			account = iterator.next();
+			
+			if (account.getID().compareTo(handler) == 0) {
+				break;
+			}
+		}
+		
+		return account;
+	}
 
     /**
      * @return id of the client
@@ -88,4 +120,16 @@ public class Client {
         return id;
     }
     
+    
+    public Handler getDni() {
+		return id;
+	}
+
+	public int getAge() {
+		return age;
+	}
+
+	public void setAge(int age) {
+		this.age = age;
+	}
 }

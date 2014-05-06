@@ -1,66 +1,118 @@
 package es.unileon.ulebank.command;
 
-import java.util.Date;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+import es.unileon.ulebank.Office;
+import es.unileon.ulebank.account.Account;
+import es.unileon.ulebank.account.AccountHandler;
+import es.unileon.ulebank.exceptions.ClientNotFoundException;
+import es.unileon.ulebank.handler.CardHandler;
+import es.unileon.ulebank.handler.CommandHandler;
+import es.unileon.ulebank.handler.DNIHandler;
 import es.unileon.ulebank.handler.Handler;
 import es.unileon.ulebank.payments.Card;
-import es.unileon.ulebank.strategy.StrategyCommissionRenovateCredit;
-import es.unileon.ulebank.strategy.StrategyCommissionRenovateDebit;
 
 /**
  * @author Israel
+ * Comando para la renovacion de la tarjeta
  */
 public class RenovateCardCommand implements Command {
+	//Identificador del comando
+	private Handler id;
+	//Identificador de la tarjeta a renovar
+	private CardHandler cardId;
+	//Cuenta a la que esta asociada la tarjeta que se va a renovar
+	private Account account;
+	//Tarjeta que se va a renovar
 	private Card card;
-
-	public RenovateCardCommand(Card card) {
-		this.card = card;
+	//Antiguo CVV antes de realizar la renovacion
+	private String oldCvv;
+	//Nuevo CVV que se va a asignar
+	private String newCvv;
+	//Antigua fecha de caducidad de la tarjeta
+	private String oldExpirationDate;
+	//Nueva fecha de caducidad de la tarjeta
+	private String newExpirationDate;
+	
+	/**
+	 * Constructor de la clase
+	 * @param cardId
+	 * @param office
+	 * @param dni
+	 * @param accountHandler
+	 */
+	public RenovateCardCommand(CardHandler cardId, Office office, DNIHandler dni, AccountHandler accountHandler) {
+		try {
+			this.id = new CommandHandler(cardId);
+			this.cardId = cardId;
+			this.account = office.searchClient(dni).searchAccount(accountHandler);
+		} catch (ClientNotFoundException e) {
+			Logger.getLogger(RenovateCardCommand.class.toString()).log(Level.SEVERE, null, e);
+		}
 	}
-
+	
+	/**
+	 * Realiza la renovacion de la tarjeta
+	 */
 	@Override
 	public void execute() {
-		this.card.setExpirationDate(card.generateExpirationDate());
-		this.card.setCvv(card.generateCVV());
-
-		switch (card.getCardType()) {
-		case DEBIT:
-			this.card.setStrategy(new StrategyCommissionRenovateDebit());
-			break;
-		case CREDIT:
-			this.card.setStrategy(new StrategyCommissionRenovateCredit());
-			break;
-		case PURSE:
-
-			break;
-		case REVOLVING:
-
-			break;
-		default:
-			break;
+		try {
+			//Buscamos la tarjeta en la cuenta con el identificador de la misma
+			this.card = this.account.searchCard(cardId);
+			//Guardamos el CVV para poder deshacer la operacion
+			this.oldCvv = this.card.getCvv();
+			//Guardamos la fecha de caducidad para poder deshacer la operacion
+			this.oldExpirationDate = card.getExpirationDate();
+			//Generamos la nueva fecha de caducidad
+			this.newExpirationDate = card.generateExpirationDate();
+			//Cambiamos la fecha de caducidad por la nueva
+			this.card.setExpirationDate(newExpirationDate);
+			//Generamos el nuevo CVV y lo guardamos
+			this.newCvv = card.generateCVV();
+			//Cambiamos el CVV por el nuevo que se genera
+			this.card.setCvv(newCvv);
+		} catch (IOException e) {
+			Logger.getLogger(RenovateCardCommand.class.toString()).log(Level.SEVERE, null, e);
 		}
 	}
 
-	@Override
-	public Date getEffectiveDate() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Handler getID() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
+	/**
+	 * Deshace la renovacion de la tarjeta
+	 */
 	@Override
 	public void undo() {
-		// TODO Auto-generated method stub
-
+		try {
+			//Restaura el antiguo CVV
+			this.card.setCvv(oldCvv);
+			//Restaura la antigua fecha de caducidad
+			this.card.setExpirationDate(oldExpirationDate);
+		} catch (IOException e) {
+			Logger.getLogger(RenovateCardCommand.class.toString()).log(Level.SEVERE, null, e);
+		}
 	}
 
+	/**
+	 * Rehace la renovacion de la tarjeta despues de haber deshecho la operacion
+	 */
 	@Override
 	public void redo() {
-		// TODO Auto-generated method stub
+		try {
+			//Vuelve a cambiar el CVV por el que se habia generado
+			this.card.setCvv(newCvv);
+			//Vuelve a cambiar la fecha de caducidad por la nueva
+			this.card.setExpirationDate(newExpirationDate);
+		} catch (IOException e) {
+			Logger.getLogger(RenovateCardCommand.class.toString()).log(Level.SEVERE, null, e);
+		}
+	}
 
+	/**
+	 * Devuelve el identificador del comando
+	 */
+	@Override
+	public Handler getId() {
+		return this.id;
 	}
 }

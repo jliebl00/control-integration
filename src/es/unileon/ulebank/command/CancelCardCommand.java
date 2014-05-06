@@ -1,49 +1,76 @@
 package es.unileon.ulebank.command;
 
-import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+import es.unileon.ulebank.Office;
+import es.unileon.ulebank.account.Account;
+import es.unileon.ulebank.account.AccountHandler;
+import es.unileon.ulebank.exceptions.ClientNotFoundException;
+import es.unileon.ulebank.handler.CardHandler;
+import es.unileon.ulebank.handler.CommandHandler;
+import es.unileon.ulebank.handler.DNIHandler;
 import es.unileon.ulebank.handler.Handler;
-import es.unileon.ulebank.payments.Card;
 
 /**
  * @author Israel
+ * Comando para realizar la cancelacion de la tarjeta
  */
 public class CancelCardCommand implements Command {
-	private Card card;
-
-	// private Account account;
-
-	public CancelCardCommand(Card card/* , Account account */) {
-		this.card = card;
-		// this.account = account;
+	//Identificador del comando
+	private Handler id;
+	//Identificador de la tarjeta a cancelar
+	private CardHandler cardId;
+	//Cuenta a la que esta asociada la tarjeta que se va a cancelar
+	private Account account;
+	
+	/**
+	 * Constructor de la clase
+	 * @param cardId
+	 * @param office
+	 * @param dni
+	 * @param account
+	 */
+	public CancelCardCommand(CardHandler cardId, Office office, DNIHandler dni, AccountHandler account) {
+		this.id = new CommandHandler(cardId);
+		this.cardId = cardId;
+		try {
+			this.account = office.searchClient(dni).searchAccount(account);
+		} catch (ClientNotFoundException e) {
+			Logger.getLogger(CancelCardCommand.class.toString()).log(Level.SEVERE, null, e);
+		}
 	}
-
+	
+	/**
+	 * Realiza la cancelacion de la tarjeta
+	 */
 	@Override
 	public void execute() {
-		// account.removeCard(this.card);
+		//Se borra la tarjeta de la lista de tarjetas de la cuenta
+		account.removeCard(this.cardId);
 	}
 
-	@Override
-	public Date getEffectiveDate() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Handler getID() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
+	/**
+	 * Operacion no soportada, no se puede deshacer una cancelacion
+	 */
 	@Override
 	public void undo() {
-		// TODO Auto-generated method stub
-
+		throw new UnsupportedOperationException();
 	}
 
+	/**
+	 * Operacion no soportada, como no se puede deshacer una cancelacion tampoco se puede rehacer
+	 */
 	@Override
 	public void redo() {
-		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException();
+	}
 
+	/**
+	 * Devuelve el identificador del comando
+	 */
+	@Override
+	public Handler getId() {
+		return this.id;
 	}
 }

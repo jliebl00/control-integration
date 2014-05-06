@@ -11,9 +11,10 @@ public interface StrategyCommission {
 	
 	/**
 	 * Method that calculate the commission
-	 * @param ownerAge
-	 * @return Commission for the card 
+	 * @return Commission 
 	 */
-	public int calculateCommission(int ownerAge);
+	public float calculateCommission();
+	
+	
 	
 }

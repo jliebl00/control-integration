@@ -6,7 +6,11 @@
 
 package es.unileon.ulebank.GUI.payments;
 
-import com.sun.org.apache.xalan.internal.xsltc.runtime.BasisLibrary;
+import es.unileon.ulebank.exceptions.CommissionException;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 
 /**
  *
@@ -14,10 +18,16 @@ import com.sun.org.apache.xalan.internal.xsltc.runtime.BasisLibrary;
  */
 public class NewCardWindow extends javax.swing.JFrame {
 
+    String dni;
+    String accountNumber;
     /**
      * Creates new form NewCard
      */
-    public NewCardWindow() {
+    public NewCardWindow(String dni,String accountNumber) {
+        
+        this.dni=dni;
+        this.accountNumber=accountNumber;
+        
         initComponents();
     }
 
@@ -134,10 +144,18 @@ public class NewCardWindow extends javax.swing.JFrame {
         int cashLimitDiary = Integer.parseInt(jTextField2.getText());
         int buyLimitMonthly = Integer.parseInt(jTextField3.getText());
         int cashLimitMonthly = Integer.parseInt(jTextField4.getText());
-        new InformationDebitCard(buyLimitDiary, cashLimitDiary,buyLimitMonthly, cashLimitMonthly).setVisible(true);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         this.setVisible(false);
         dispose();
+        try {
+            new InformationDebitCard(buyLimitDiary, cashLimitDiary,buyLimitMonthly, cashLimitMonthly, dni, accountNumber).setVisible(true);
+        } catch (NumberFormatException ex) {
+            Logger.getLogger(NewCardWindow.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (CommissionException ex) {
+            Logger.getLogger(NewCardWindow.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(NewCardWindow.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
 

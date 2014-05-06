@@ -12,7 +12,7 @@ import java.util.Iterator;
 /**
  * Class that implements the data of an enterprise
  * 
- * @author Gonzalo Nicolás Barreales
+ * @author Gonzalo Nicol��s Barreales
  */
 public class Enterprise extends Client{
 
@@ -38,7 +38,7 @@ public class Enterprise extends Client{
      */
     public Enterprise(char cifLetter, int cifNumber, char cifControl) throws MalformedHandlerException {
         super(new EnterpriseHandler(cifLetter, cifNumber, cifControl));
-        authorizedPersons = new ArrayList<>();
+        authorizedPersons = new ArrayList<Person>();
     }
     
     /**
@@ -50,7 +50,7 @@ public class Enterprise extends Client{
      */
     public Enterprise(char cifLetter, int cifNumber, char cifControl, String enterpriseName, Address address) throws MalformedHandlerException {
         super(new EnterpriseHandler(cifLetter, cifNumber, cifControl));
-        authorizedPersons = new ArrayList<>();
+        authorizedPersons = new ArrayList<Person>();
         this.enterpriseName=enterpriseName;
         this.address = address;
     }

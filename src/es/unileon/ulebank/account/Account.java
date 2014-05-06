@@ -1,18 +1,22 @@
 package es.unileon.ulebank.account;
 
-import es.unileon.ulebank.exceptions.TransactionException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.List;
+import java.util.logging.Logger;
+
+import es.unileon.ulebank.Office;
 import es.unileon.ulebank.bank.Bank;
 import es.unileon.ulebank.client.Client;
-import es.unileon.ulebank.handler.Handler;
 import es.unileon.ulebank.exceptions.MalformedHandlerException;
+import es.unileon.ulebank.exceptions.TransactionException;
+import es.unileon.ulebank.handler.CardHandler;
+import es.unileon.ulebank.handler.Handler;
 import es.unileon.ulebank.history.History;
 import es.unileon.ulebank.history.Transaction;
 import es.unileon.ulebank.history.TransactionType;
-import es.unileon.ulebank.Office;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import org.apache.log4j.Logger;
+import es.unileon.ulebank.payments.Card;
 
 /**
  *
@@ -65,6 +69,12 @@ public class Account {
      * The max account's overdraft ( in positive )
      */
     private float maxOverdraft;
+    
+    /**
+     * Cards list
+     */
+    
+    private ArrayList<Card> cards;
 
     /**
      * Create a new account
@@ -263,6 +273,14 @@ public class Account {
     public final double getBalance() {
         return this.balance;
     }
+    
+    /**
+     * Set balance value
+     * @param balance
+     */
+    public void setBalance(double balance) {
+		this.balance = balance;
+	}
 
     /**
      * Get the max account's overdraft
@@ -462,4 +480,36 @@ public class Account {
     public final Handler getID() {
         return this.id;
     }
+    
+	public void addCard(Card card) {
+		this.cards.add(card);
+	}
+
+	public boolean removeCard(CardHandler cardId) {
+		Card card = searchCard(cardId);
+		return this.cards.remove(card);
+	}
+	
+	public Card searchCard(CardHandler cardId) {
+		Iterator<Card> iterator = cards.iterator();
+		Card card = null;
+		
+		if (cards.isEmpty()) {
+			throw new NullPointerException("Card list is empty.");
+		}
+		
+		while (iterator.hasNext()) {
+			card = iterator.next();
+			
+			if (card.getCardNumber().compareTo(cardId) == 0) {
+				break;
+			}
+		}
+		
+		return card;
+	}
+	
+	public int getCardAmount() {
+		return this.cards.size();
+	}
 }

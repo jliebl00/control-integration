@@ -1,40 +1,26 @@
-/* Application developed for AW subject, belonging to passive operations
- group.*/
 package es.unileon.ulebank.command;
 
 import es.unileon.ulebank.handler.Handler;
-import java.util.Date;
 
 /**
- *
- * @author runix
+ * @author Israel
  */
 public interface Command {
-
-    /**
-     *
-     * @return
-     */
-    public Date getEffectiveDate();
-
-    /**
-     *
-     * @return
-     */
-    public Handler getID();
-
-    /**
-     *
-     */
-    public void execute();
-
-    /**
-     *
-     */
-    public void undo();
-
-    /**
-     *
-     */
-    public void redo();
+	/**
+	 * Realiza la ejecucion del comando
+	 */
+	public void execute();
+	/**
+	 * Deshace los cambios realizados
+	 */
+	public void undo();
+	/**
+	 * Rehace los cambios deshechos
+	 */
+	public void redo();
+	/**
+	 * Devuelve el identificador del comando
+	 * @return
+	 */
+	public Handler getId();
 }
