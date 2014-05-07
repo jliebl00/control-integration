@@ -71,7 +71,7 @@ public class VariableAccountRequestGUI extends JFrame {
 		gbc_introduction.gridx = 5;
 		gbc_introduction.gridy = 4;
 		contentPane.add(introduction, gbc_introduction);
-		introduction.setText("El cliente no dispone de una cuenta de inversi—n y esta es necesaria"
+		introduction.setText("El cliente no dispone de una cuenta de inversion y esta es necesaria"
 				+ "\npara poder comprar acciones o contratar un fondo de inversion"
 				+ "\n\nPara abrir la cuenta el cliente ha de ser evaluado por "
 				+ "el empleado \ny ha de responder a las siguientes preguntas:");
