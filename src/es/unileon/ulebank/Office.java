@@ -5,7 +5,6 @@ package es.unileon.ulebank;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.logging.Logger;
 
 import es.unileon.ulebank.account.Account;
 import es.unileon.ulebank.account.AccountHandler;
@@ -18,6 +17,7 @@ import es.unileon.ulebank.handler.DNIHandler;
 import es.unileon.ulebank.handler.Handler;
 import es.unileon.ulebank.history.Transaction;
 import es.unileon.ulebank.history.TransactionType;
+import org.apache.log4j.Logger;
 
 /**
  *

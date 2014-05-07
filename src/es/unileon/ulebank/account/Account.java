@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import java.util.logging.Logger;
 
 import es.unileon.ulebank.Office;
 import es.unileon.ulebank.bank.Bank;
@@ -17,6 +16,7 @@ import es.unileon.ulebank.history.History;
 import es.unileon.ulebank.history.Transaction;
 import es.unileon.ulebank.history.TransactionType;
 import es.unileon.ulebank.payments.Card;
+import org.apache.log4j.Logger;
 
 /**
  *
