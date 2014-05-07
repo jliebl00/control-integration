@@ -27,8 +27,8 @@ public class StockPackTest {
 	public void setUp() throws Exception {
 		
 		date = new Date(112,7,7,18,25,12);
-		stockPack1 = new StockPack(null, 1000, null, 20.5, null);
-		stockPack2 = new StockPack(null, 1000, null, 165.25, date);
+		stockPack1 = new StockPack(null, 1000, 20.5, null);
+		stockPack2 = new StockPack(null, 1000, 165.25, date);
 		
 	}
 

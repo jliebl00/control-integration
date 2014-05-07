@@ -12,7 +12,6 @@ import org.junit.Test;
 import es.unileon.ulebank.brokerage.buyable.Buyable;
 import es.unileon.ulebank.brokerage.buyable.Enterprise;
 import es.unileon.ulebank.brokerage.buyable.NotEnoughParticipationsException;
-import es.unileon.ulebank.brokerage.pack.StockPack;
 import es.unileon.ulebank.handler.Handler;
 
 /**
@@ -36,8 +35,8 @@ public class StockPackTest {
 		amount = 1000;
 		product1 = new Enterprise(id1, 5, 50.0);
 		date = new Date(112,7,7,18,25,12);
-		stockPack1 = new StockPack(product1, amount, null, 20.5, null);
-		stockPack2 = new StockPack(null, 1, null, 165.25, date);
+		stockPack1 = new StockPack(product1, amount, 20.5, null);
+		stockPack2 = new StockPack(null, 1, 165.25, date);
 		
 	}
 

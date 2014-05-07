@@ -70,7 +70,9 @@ public class OfficeTest {
     @Test
     public void testSetIdOffice() throws MalformedHandlerException {
         Handler idOffice = new OfficeHandler(5995);
-        testOffice.setIdOffice(idOffice);
+        
+//        testOffice.setIdOffice(idOffice); --> método no existente
+        fail("Need to fix the method");
 
         Handler result = testOffice.getIdOffice();
         assertEquals(idOffice, result);
@@ -136,20 +138,24 @@ public class OfficeTest {
 
     @Test
     public void testGetAccountList() {
-        testOffice.setAccountList(accountTest);
-        ArrayList<Account> result = testOffice.getAccountList();
+//        testOffice.setAccountList(accountTest); --> method not exists
+//        ArrayList<Account> result = testOffice.getAccountList();--> method not exists
+        fail("Need to fix the method");
+        
+        
         ArrayList<Account> expected = accountTest;
 
-        assertEquals(result, expected);
+//        assertEquals(result, expected);
     }
 
     @Test
     public void testSetAccountList() {
-        testOffice.setAccountList(accountTest);;
-        ArrayList<Account> result = testOffice.getAccountList();
+//        testOffice.setAccountList(accountTest);; --> line empty!!!! double ;
+//        ArrayList<Account> result = testOffice.getAccountList();--> method not exists
+        fail("Need to fix the method");
         ArrayList<Account> expected = accountTest;
 
-        assertEquals(result, expected);
+//        assertEquals(result, expected);
 
     }
 
@@ -181,7 +187,8 @@ public class OfficeTest {
 
     @Test
     public void testAddAccount() {
-        testOffice.setAccountList(accountTest);
+//        testOffice.setAccountList(accountTest);--> method not exists
+        fail("Need to fix the method");
         testOffice.addAccount(testAccount);
 
         Account result = accountTest.get(0);
@@ -192,7 +199,9 @@ public class OfficeTest {
 
     @Test
     public void testDeleteAccount() {
-        testOffice.setAccountList(accountTest);
+//        testOffice.setAccountList(accountTest);--> method not exists
+        fail("Need to fix the method");
+        
         testOffice.addAccount(testAccount);
 
         Account result = accountTest.get(0);
@@ -200,7 +209,7 @@ public class OfficeTest {
 
         assertEquals(result, expected);
 
-        testOffice.deleteAccount(testAccount);
+//        testOffice.deleteAccount(testAccount);
         assertTrue(accountTest.isEmpty());
     }
 
