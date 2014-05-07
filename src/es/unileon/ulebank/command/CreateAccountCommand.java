@@ -52,17 +52,17 @@ public class CreateAccountCommand implements Command {
      *
      * @return
      */
-    @Override
-    public Date getEffectiveDate() {
-        return this.effectiveDate;
-    }
+//    @Override
+//    public Date getEffectiveDate() {
+//        return this.effectiveDate;
+//    }
 
     /**
      *
      * @return
      */
     @Override
-    public Handler getID() {
+    public Handler getId() {
         return this.commandID;
     }
 

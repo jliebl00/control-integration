@@ -23,7 +23,7 @@ public class Task {
     }
 
     public Handler getID() {
-        return this.command.getID();
+        return this.command.getId();
     }
 
     public void execute() {

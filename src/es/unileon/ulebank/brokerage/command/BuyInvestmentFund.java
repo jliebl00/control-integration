@@ -17,13 +17,13 @@ import java.util.Date;
  */
 public class BuyInvestmentFund implements Command {
 
-    @Override
-    public Date getEffectiveDate() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+//    @Override
+//    public Date getEffectiveDate() {
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//    }
 
     @Override
-    public Handler getID() {
+    public Handler getId() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

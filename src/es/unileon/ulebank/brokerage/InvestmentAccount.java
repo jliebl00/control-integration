@@ -3,7 +3,7 @@ package es.unileon.ulebank.brokerage;
 import es.unileon.ulebank.Employee;
 import es.unileon.ulebank.account.Account;
 import es.unileon.ulebank.account.exception.BalanceException;
-import es.unileon.ulebank.account.exception.TransactionException;
+import es.unileon.ulebank.exceptions.TransactionException;
 import es.unileon.ulebank.brokerage.buyable.Enterprise;
 import es.unileon.ulebank.brokerage.buyable.InvalidBuyableException;
 import es.unileon.ulebank.brokerage.buyable.InvestmentFund;
