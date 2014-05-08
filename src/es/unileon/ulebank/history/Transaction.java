@@ -21,7 +21,6 @@ public abstract class Transaction {
     private Date effectiveDate;
     private final String subject;
     private final Enum<TransactionType> type;
-    private DetailedInformation extraInformation;
 
     /**
      *
@@ -32,19 +31,6 @@ public abstract class Transaction {
      * @throws es.unileon.ulebank.history.TransactionException
      */
     public Transaction(double amount, Date date, String subject, Enum<TransactionType> type) throws TransactionException {
-        this(amount, date, subject, type, new DetailedInformation(""));
-    }
-
-    /**
-     *
-     * @param amount
-     * @param date
-     * @param subject
-     * @param type
-     * @param info
-     * @throws es.unileon.ulebank.history.TransactionException
-     */
-    public Transaction(double amount, Date date, String subject, Enum<TransactionType> type, DetailedInformation info) throws TransactionException {
         this.id = TransactionHandlerProvider.getTransactionHandler();
         
         if (amount == 0) {
@@ -59,8 +45,6 @@ public abstract class Transaction {
         this.date = date;
         this.subject = subject;
         this.type = type;
-        this.extraInformation = info;
-        this.extraInformation.doFinal();
     }
 
     /**

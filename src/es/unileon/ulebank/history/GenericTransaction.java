@@ -19,20 +19,9 @@ public class GenericTransaction extends Transaction {
      * @param date ( Transaction date )
      * @param subject ( Transaction subject )
      * @param type (Transaction type)
+     * @throws es.unileon.ulebank.history.TransactionException
      */
-    public GenericTransaction(double amount, Date date, String subject, Enum<TransactionType> type) {
+    public GenericTransaction(double amount, Date date, String subject, Enum<TransactionType> type) throws TransactionException {
         super(amount, date, subject, type);
-    }
-
-    /**
-     * Create a new generic transaction
-     *
-     * @param amount ( Transaction amount )
-     * @param date ( Transaction date )
-     * @param subject ( Transaction subject )
-     * @param type (Transaction type)
-     */
-    public GenericTransaction(double amount, Date date, String subject, Enum<TransactionType> type, DetailedInformation extraInfo) {
-        super(amount, date, subject, type, extraInfo);
     }
 }
