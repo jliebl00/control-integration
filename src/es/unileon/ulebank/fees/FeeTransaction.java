@@ -7,6 +7,7 @@
 package es.unileon.ulebank.fees;
 
 import es.unileon.ulebank.history.Transaction;
+import es.unileon.ulebank.history.TransactionException;
 import es.unileon.ulebank.history.TransactionType;
 import java.util.Date;
 
@@ -19,7 +20,7 @@ public class FeeTransaction extends Transaction {
     private final Transaction related;
     private static final String subjectAmmend = "Com. ";
 
-    public FeeTransaction(double amount, Date date, Transaction related) {
+    public FeeTransaction(double amount, Date date, Transaction related) throws TransactionException {
         super(amount, date, subjectAmmend + related.getSubject(), TransactionType.IN);
         
         this.related = related;
