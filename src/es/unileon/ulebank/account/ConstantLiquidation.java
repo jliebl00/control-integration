@@ -53,7 +53,7 @@ public class ConstantLiquidation implements LiquidationStrategy {
         Transaction t = null;
         try {
             long actualTime = Time.getInstance().getTime();
-            t = new GenericTransaction(this.amount, new Date(actualTime), subject, null);
+            t = new GenericTransaction(this.amount, new Date(actualTime), subject);
             t.setEffectiveDate(new Date(actualTime));
         } catch (TransactionException ex) {
             Logger.getLogger(ConstantLiquidation.class.getName()).log(Level.SEVERE, null, ex);
