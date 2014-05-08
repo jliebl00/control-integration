@@ -8,7 +8,6 @@ import es.unileon.ulebank.handler.Handler;
 import es.unileon.ulebank.history.GenericTransaction;
 import es.unileon.ulebank.history.Transaction;
 import es.unileon.ulebank.history.TransactionException;
-import es.unileon.ulebank.history.TransactionType;
 import es.unileon.ulebank.transacionManager.TransactionManager;
 import java.util.Date;
 import java.util.logging.Level;
@@ -25,7 +24,6 @@ public class DoTransactionCommand implements Command {
     private final Date date;
     private Date effectiveDate;
     private final String subject;
-    private final Enum<TransactionType> type;
     private Transaction transaction;
     private TransactionManager trans;
 
@@ -34,15 +32,13 @@ public class DoTransactionCommand implements Command {
      * @param amount
      * @param date
      * @param subject
-     * @param type
      * @param commandId
      */
 
-    public DoTransactionCommand(double amount, Date date, String subject, Enum<TransactionType> type, Handler commandId) {
+    public DoTransactionCommand(double amount, Date date, String subject, Handler commandId) {
         this.amount = amount;
         this.date = date;
         this.subject = subject;
-        this.type = type;
         this.commandID = commandId;
     }
 
@@ -52,7 +48,7 @@ public class DoTransactionCommand implements Command {
     @Override
     public void execute() {
         try {
-            this.transaction = new GenericTransaction(this.amount, this.date, this.subject, this.type);
+            this.transaction = new GenericTransaction(this.amount, this.date, this.subject);
             // this.trans.doTransaction(transaction, );
         } catch (TransactionException ex) {
             Logger.getLogger(DoTransactionCommand.class.getName()).log(Level.SEVERE, null, ex);

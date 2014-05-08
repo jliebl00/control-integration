@@ -2,7 +2,6 @@
  group.*/
 package es.unileon.ulebank.history;
 
-import es.unileon.ulebank.account.DetailedInformation;
 import java.util.Date;
 
 /**
@@ -18,10 +17,9 @@ public class GenericTransaction extends Transaction {
      * @param amount ( Transaction amount )
      * @param date ( Transaction date )
      * @param subject ( Transaction subject )
-     * @param type (Transaction type)
      * @throws es.unileon.ulebank.history.TransactionException
      */
-    public GenericTransaction(double amount, Date date, String subject, Enum<TransactionType> type) throws TransactionException {
-        super(amount, date, subject, type);
+    public GenericTransaction(double amount, Date date, String subject) throws TransactionException {
+        super(amount, date, subject);
     }
 }

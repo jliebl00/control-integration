@@ -5,7 +5,6 @@
  */
 package es.unileon.ulebank.history;
 
-import es.unileon.ulebank.account.DetailedInformation;
 import es.unileon.ulebank.handler.Handler;
 import java.util.Date;
 
@@ -20,17 +19,15 @@ public abstract class Transaction {
     private final Date date;
     private Date effectiveDate;
     private final String subject;
-    private final Enum<TransactionType> type;
 
     /**
      *
      * @param amount
      * @param date
      * @param subject
-     * @param type
      * @throws es.unileon.ulebank.history.TransactionException
      */
-    public Transaction(double amount, Date date, String subject, Enum<TransactionType> type) throws TransactionException {
+    public Transaction(double amount, Date date, String subject) throws TransactionException {
         this.id = TransactionHandlerProvider.getTransactionHandler();
         
         if (amount == 0) {
@@ -44,7 +41,6 @@ public abstract class Transaction {
         this.amount = amount;
         this.date = date;
         this.subject = subject;
-        this.type = type;
     }
 
     /**
@@ -84,9 +80,15 @@ public abstract class Transaction {
 
     /**
      * @return the type
+     * @deprecated This method is no longer supported. Compare the sign of getBalance instead.
      */
+    @Deprecated
     public Enum<TransactionType> getType() {
-        return type;
+        if (this.amount < 0) {
+            return TransactionType.OUT;
+        } else {
+            return TransactionType.IN;
+        }
     }
 
     /**

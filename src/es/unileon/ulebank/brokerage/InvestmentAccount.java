@@ -16,7 +16,6 @@ import es.unileon.ulebank.fees.DefaultFeeProvider;
 import es.unileon.ulebank.fees.FeeStrategy;
 import es.unileon.ulebank.fees.FeeTransaction;
 import es.unileon.ulebank.history.History;
-import es.unileon.ulebank.history.TransactionType;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Level;
@@ -52,14 +51,15 @@ public class InvestmentAccount {
      * @throws es.unileon.ulebank.account.exception.BalanceException
      * @throws
      * es.unileon.ulebank.brokerage.buyable.NotEnoughParticipationsException
+     * @throws es.unileon.ulebank.history.TransactionException
      */
-    public void buyStockage(Enterprise e, Account acc, int amount, Employee operator) throws InvalidBuyableException, BalanceException, NotEnoughParticipationsException {
+    public void buyStockage(Enterprise e, Account acc, int amount, Employee operator) throws InvalidBuyableException, BalanceException, NotEnoughParticipationsException, es.unileon.ulebank.history.TransactionException {
         StockPack p = e.buy(amount, operator);
         p.setAccount(acc);
         stockPacks.add(p);
 
         double price = amount * e.getPPP();
-        PackTransaction transaction = new PackTransaction(price, new Date(), "Compra de acciones", TransactionType.OUT, p, operator);
+        PackTransaction transaction = new PackTransaction(price, new Date(), "Compra de acciones", p, operator);
         FeeTransaction feeTransaction = new FeeTransaction(this.sellStockageFee.getFee(price), new Date(), transaction);
 
         try {
@@ -73,7 +73,7 @@ public class InvestmentAccount {
         this.history.add(transaction);
     }
 
-    public void sellStockage(StockPack p, int amount, Employee operator) throws NotEnoughParticipationsException {
+    public void sellStockage(StockPack p, int amount, Employee operator) throws NotEnoughParticipationsException, es.unileon.ulebank.history.TransactionException {
         if (p.getAmount() < amount) {
             throw new NotEnoughParticipationsException();
         }
@@ -81,7 +81,7 @@ public class InvestmentAccount {
         p.setAmount(p.getAmount() - amount);
 
         double price = p.getProduct().getPPP() * amount;
-        PackTransaction transaction = new PackTransaction(price, new Date(), "Venta de acciones", TransactionType.IN, p, operator);
+        PackTransaction transaction = new PackTransaction(price, new Date(), "Venta de acciones", p, operator);
         FeeTransaction feeTransaction = new FeeTransaction(this.sellStockageFee.getFee(price), new Date(), transaction);
 
         try {
@@ -97,11 +97,11 @@ public class InvestmentAccount {
         this.prunePacks();
     }
 
-    public void buyInvestmentFund(InvestmentFund i, Account acc, int amount, Employee operator) throws InvalidBuyableException, BalanceException, NotEnoughParticipationsException {
+    public void buyInvestmentFund(InvestmentFund i, Account acc, int amount, Employee operator) throws InvalidBuyableException, BalanceException, NotEnoughParticipationsException, es.unileon.ulebank.history.TransactionException {
         InvestmentFundPack ifp = i.buy(amount, operator);
         fundPacks.add(ifp);
         double price = amount * i.getPPP();
-        PackTransaction transaction = new PackTransaction(price, new Date(), "Compra de fondos", TransactionType.OUT, ifp, operator);
+        PackTransaction transaction = new PackTransaction(price, new Date(), "Compra de fondos", ifp, operator);
         FeeTransaction feeTransaction = new FeeTransaction(i.getFee().getFee(price), new Date(), transaction);
 
         try {

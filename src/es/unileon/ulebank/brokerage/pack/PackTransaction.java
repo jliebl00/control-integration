@@ -20,8 +20,8 @@ public class PackTransaction extends Transaction {
     private final Pack pack;
     private final Employee operator;
 
-    public PackTransaction(double amount, Date date, String subject, Enum<TransactionType> type, Pack pack, Employee operator) throws TransactionException {
-        super(amount, date, subject, type);
+    public PackTransaction(double amount, Date date, String subject, Pack pack, Employee operator) throws TransactionException {
+        super(amount, date, subject);
 
         this.pack = pack;
         this.operator = operator;
