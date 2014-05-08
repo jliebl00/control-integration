@@ -29,8 +29,9 @@ public abstract class Transaction {
      * @param date
      * @param subject
      * @param type
+     * @throws es.unileon.ulebank.history.TransactionException
      */
-    public Transaction(double amount, Date date, String subject, Enum<TransactionType> type) {
+    public Transaction(double amount, Date date, String subject, Enum<TransactionType> type) throws TransactionException {
         this(amount, date, subject, type, new DetailedInformation(""));
     }
 
@@ -41,9 +42,19 @@ public abstract class Transaction {
      * @param subject
      * @param type
      * @param info
+     * @throws es.unileon.ulebank.history.TransactionException
      */
-    public Transaction(double amount, Date date, String subject, Enum<TransactionType> type, DetailedInformation info) {
+    public Transaction(double amount, Date date, String subject, Enum<TransactionType> type, DetailedInformation info) throws TransactionException {
         this.id = TransactionHandlerProvider.getTransactionHandler();
+        
+        if (amount == 0) {
+            throw new TransactionException("Amount can't be 0");
+        }
+        
+        if (this.subject.isEmpty()) {
+            throw new TransactionException("Subject can't be empty");
+        }
+        
         this.amount = amount;
         this.date = date;
         this.subject = subject;
