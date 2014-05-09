@@ -2,7 +2,6 @@
  group.*/
 package es.unileon.ulebank.office;
 
-import es.unileon.ulebank.Office;
 import es.unileon.ulebank.account.Account;
 import es.unileon.ulebank.exceptions.TransactionException;
 import es.unileon.ulebank.bank.Bank;

@@ -11,7 +11,7 @@ import es.unileon.ulebank.exceptions.MalformedHandlerException;
 import es.unileon.ulebank.history.GenericTransaction;
 import es.unileon.ulebank.history.Transaction;
 import es.unileon.ulebank.history.TransactionType;
-import es.unileon.ulebank.Office;
+import es.unileon.ulebank.office.Office;
 import java.util.Date;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;

@@ -1,5 +1,6 @@
-package es.unileon.ulebank;
+package es.unileon.ulebank.users;
 
+import es.unileon.ulebank.office.Office;
 import es.unileon.ulebank.handler.Handler;
 
 /**

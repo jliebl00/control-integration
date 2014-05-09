@@ -1,6 +1,6 @@
 package es.unileon.ulebank.brokerage;
 
-import es.unileon.ulebank.Employee;
+import es.unileon.ulebank.users.Employee;
 import es.unileon.ulebank.account.Account;
 import es.unileon.ulebank.account.exception.BalanceException;
 import es.unileon.ulebank.exceptions.TransactionException;

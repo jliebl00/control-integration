@@ -1,7 +1,8 @@
 /* Application developed for AW subject, belonging to passive operations
  group.*/
-package es.unileon.ulebank;
+package es.unileon.ulebank.office;
 
+import es.unileon.ulebank.users.Employee;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;

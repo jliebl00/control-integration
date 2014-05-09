@@ -4,7 +4,7 @@ import es.unileon.ulebank.account.Account;
 import es.unileon.ulebank.bank.Bank;
 import es.unileon.ulebank.handler.Handler;
 import es.unileon.ulebank.exceptions.MalformedHandlerException;
-import es.unileon.ulebank.Office;
+import es.unileon.ulebank.office.Office;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
