@@ -1,45 +1,85 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package es.unileon.ulebank.brokerage.command;
 
+import es.unileon.ulebank.Employee;
+import es.unileon.ulebank.brokerage.InvestmentAccount;
+import es.unileon.ulebank.brokerage.buyable.InvalidBuyableException;
+import es.unileon.ulebank.brokerage.buyable.InvestmentFund;
+import es.unileon.ulebank.brokerage.buyable.NotEnoughParticipationsException;
+import es.unileon.ulebank.client.Client;
 import es.unileon.ulebank.command.Command;
-import es.unileon.ulebank.exceptions.MalformedHandlerException;
+import es.unileon.ulebank.fees.FeeStrategy;
+import es.unileon.ulebank.handler.FundsHandler;
 import es.unileon.ulebank.handler.Handler;
-import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
- * @author roobre
+ * @author steinbeck
  */
 public class BuyInvestmentFund implements Command {
+
+    private InvestmentFund investmentFund;
+    private InvestmentAccount account;//Implementar contructor, atributos
+    private Client investClient;
+    private Employee opener;
+    private int amount;
+    private double totalPrice;
+    private Handler id;
+    private FundsHandler fundsId;
+    private double profitability;
+    private FeeStrategy cancellationFee;
+    private FeeStrategy fee;
+
+    public BuyInvestmentFund(FundsHandler fundsId, int amount, double totalPrice, Employee opener, FeeStrategy fee, FeeStrategy cancellationFee, double profitability) {
+        this.fundsId = fundsId;
+        this.amount = amount;
+        this.opener = opener;
+        this.totalPrice = totalPrice;
+        this.profitability = profitability;
+        this.fee = fee;
+        this.cancellationFee = cancellationFee;
+
+        try {
+
+            this.investmentFund = new InvestmentFund(this.fundsId, this.amount, this.totalPrice, this.opener, this.fee, this.cancellationFee, profitability);
+        } catch (InvalidBuyableException ex) {
+            Logger.getLogger(BuyInvestmentFund.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 
 //    @Override
 //    public Date getEffectiveDate() {
 //        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 //    }
-
+    
+    
     @Override
-    public Handler getId() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void execute() throws MalformedHandlerException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void execute() {
+        try {
+            this.investmentFund.buy(this.amount, this.opener);
+        } catch (NotEnoughParticipationsException ex) {
+            Logger.getLogger(BuyInvestmentFund.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override
     public void undo() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //no confirmado como realizarlo  
     }
 
     @Override
     public void redo() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try {
+            this.investmentFund.buy(this.amount, this.opener);
+        } catch (NotEnoughParticipationsException ex) {
+            Logger.getLogger(BuyInvestmentFund.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
-    
+
+    @Override
+    public Handler getId() {
+        return this.fundsId;
+    }
+
 }
