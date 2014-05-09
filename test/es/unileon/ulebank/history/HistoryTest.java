@@ -11,7 +11,6 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -33,8 +32,8 @@ public class HistoryTest {
      * Test of add method, of class AccountHistory.
      */
     @Test
-    public void testAddGenericTransaction() {
-        Transaction transaction = new GenericTransaction(10.5d, new Date(), "Imposicion", TransactionType.CHARGE);
+    public void testAddGenericTransaction() throws TransactionException {
+        Transaction transaction = new GenericTransaction(10.5d, new Date(), "Imposicion");//, TransactionType.CHARGE);
         assertTrue(this.accountHistory.add(transaction));
     }
 
@@ -42,16 +41,16 @@ public class HistoryTest {
      * Test of getTransactions method, of class AccountHistory.
      */
     @Test
-    public void testGetTransactions() throws ParseException {
+    public void testGetTransactions() throws ParseException, TransactionException {
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd/M/yyyy");
         Date date1 = sdf.parse("01/01/2014");
         Date date2 = sdf.parse("01/02/2014");
         Date date3 = sdf.parse("01/03/2014");
 
-        Transaction transaction1 = new GenericTransaction(10.5d, date1, "Imposicion", TransactionType.CHARGE);
-        Transaction transaction2 = new GenericTransaction(10.5d, date2, "Imposicion", TransactionType.CHARGE);
-        Transaction transaction3 = new GenericTransaction(10.5d, date3, "Imposicion", TransactionType.CHARGE);
+        Transaction transaction1 = new GenericTransaction(10.5d, date1, "Imposicion");//, TransactionType.CHARGE);
+        Transaction transaction2 = new GenericTransaction(10.5d, date2, "Imposicion");//, TransactionType.CHARGE);
+        Transaction transaction3 = new GenericTransaction(10.5d, date3, "Imposicion");//, TransactionType.CHARGE);
         List<Transaction> added = new ArrayList<>();
         added.add(transaction1);
         added.add(transaction2);

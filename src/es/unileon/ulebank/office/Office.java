@@ -13,10 +13,10 @@ import es.unileon.ulebank.bank.Bank;
 import es.unileon.ulebank.client.Client;
 import es.unileon.ulebank.exceptions.ClientNotFoundException;
 import es.unileon.ulebank.exceptions.MalformedHandlerException;
-import es.unileon.ulebank.exceptions.TransactionException;
 import es.unileon.ulebank.handler.DNIHandler;
 import es.unileon.ulebank.handler.Handler;
 import es.unileon.ulebank.history.Transaction;
+import es.unileon.ulebank.history.TransactionException;
 import es.unileon.ulebank.history.TransactionType;
 import org.apache.log4j.Logger;
 

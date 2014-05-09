@@ -4,12 +4,12 @@
 package es.unileon.ulebank.transacionManager;
 
 import es.unileon.ulebank.account.Account;
-import es.unileon.ulebank.exceptions.TransactionException;
 import es.unileon.ulebank.bank.Bank;
 import es.unileon.ulebank.handler.GenericHandler;
 import es.unileon.ulebank.exceptions.MalformedHandlerException;
 import es.unileon.ulebank.history.GenericTransaction;
 import es.unileon.ulebank.history.Transaction;
+import es.unileon.ulebank.history.TransactionException;
 import es.unileon.ulebank.history.TransactionType;
 import es.unileon.ulebank.office.Office;
 import java.util.Date;
@@ -124,7 +124,7 @@ public class TransactionManagerTest {
         Account account = new Account(office, this.bank, "1234567890");
         office.addAccount(account);
         
-        Transaction transaction = new GenericTransaction( 2.0, new Date(), "Salary", TransactionType.PAYMENT);
+        Transaction transaction = new GenericTransaction( 2.0, new Date(), "Salary");//, TransactionType.PAYMENT);
         transaction.setEffectiveDate(new Date());
         
         this.manager.doTransaction(transaction,account.getID());
@@ -157,7 +157,7 @@ public class TransactionManagerTest {
         
         Account account = new Account(office, this.bank, "1234567890");
         
-        Transaction transaction = new GenericTransaction( 2.0, new Date(), "Salary", TransactionType.PAYMENT);
+        Transaction transaction = new GenericTransaction( 2.0, new Date(), "Salary");//, TransactionType.PAYMENT);
         
         this.manager.doTransaction(transaction, account.getID());
     }
@@ -166,7 +166,7 @@ public class TransactionManagerTest {
     public void testDoTransactionNegativeAmount() throws TransactionException, MalformedHandlerException {
         Office office = new Office(new GenericHandler("2345"), this.bank);
         Account account = new Account(office, this.bank, "1234567890");
-        Transaction transaction = new GenericTransaction(-1.0, new Date(), "Subject", TransactionType.CHARGE);
+        Transaction transaction = new GenericTransaction(-1.0, new Date(), "Subject");//, TransactionType.CHARGE);
         this.manager.doTransaction(transaction, account.getID());
     }
 
@@ -174,7 +174,7 @@ public class TransactionManagerTest {
     public void testDoWithdrawalNegativeAmountBadType() throws TransactionException, MalformedHandlerException{
         Office office = new Office(new GenericHandler("2345"), this.bank);
         Account account = new Account(office, this.bank, "1234567890");
-        Transaction transaction = new GenericTransaction(-1.0, new Date(), "Subject", TransactionType.PAYMENT);
+        Transaction transaction = new GenericTransaction(-1.0, new Date(), "Subject");//, TransactionType.PAYMENT);
         this.manager.doTransaction(transaction, account.getID());
     }
 
@@ -182,7 +182,7 @@ public class TransactionManagerTest {
     public void testDoTransactionSubjectNull() throws TransactionException, MalformedHandlerException{
         Office office = new Office(new GenericHandler("2345"), this.bank);
         Account account = new Account(office, this.bank, "1234567890");
-        Transaction transaction = new GenericTransaction(0.0, new Date(), null, TransactionType.CHARGE);
+        Transaction transaction = new GenericTransaction(0.0, new Date(), null);//, TransactionType.CHARGE);
         this.manager.doTransaction(transaction, account.getID());
     }
 
@@ -190,7 +190,7 @@ public class TransactionManagerTest {
     public void testDoTransactionCreationDateNull() throws TransactionException, MalformedHandlerException {
         Office office = new Office(new GenericHandler("2345"), this.bank);
         Account account = new Account(office, this.bank, "1234567890");
-        Transaction transaction = new GenericTransaction(0.0, null, "subject", TransactionType.CHARGE);
+        Transaction transaction = new GenericTransaction(0.0, null, "subject");//, TransactionType.CHARGE);
         this.manager.doTransaction(transaction, account.getID());
     }
 
@@ -198,7 +198,7 @@ public class TransactionManagerTest {
     public void testDoTransactionCreationDateSubjectNull() throws TransactionException, MalformedHandlerException {
         Office office = new Office(new GenericHandler("2345"), this.bank);
         Account account = new Account(office, this.bank, "1234567890");
-        Transaction transaction = new GenericTransaction(0.0, null, null, TransactionType.CHARGE);
+        Transaction transaction = new GenericTransaction(0.0, null, null);//, TransactionType.CHARGE);
         this.manager.doTransaction(transaction, account.getID());
     }
 
@@ -206,7 +206,7 @@ public class TransactionManagerTest {
     public void testDoTransactionNegativeAmountSubjectNull() throws TransactionException, MalformedHandlerException {
         Office office = new Office(new GenericHandler("2345"), this.bank);
         Account account = new Account(office, this.bank, "1234567890");
-        Transaction transaction = new GenericTransaction(-1.0, new Date(), null, TransactionType.CHARGE);
+        Transaction transaction = new GenericTransaction(-1.0, new Date(), null);//, TransactionType.CHARGE);
         this.manager.doTransaction(transaction, account.getID());
     }
 
@@ -214,7 +214,7 @@ public class TransactionManagerTest {
     public void testDoTransactionNegativeAmountCreationDateNull() throws TransactionException, MalformedHandlerException {
         Office office = new Office(new GenericHandler("2345"), this.bank);
         Account account = new Account(office, this.bank, "1234567890");
-        Transaction transaction = new GenericTransaction(-1.0, null, "subject", TransactionType.CHARGE);
+        Transaction transaction = new GenericTransaction(-1.0, null, "subject");//, TransactionType.CHARGE);
         this.manager.doTransaction(transaction, account.getID());
     }
 
@@ -222,7 +222,7 @@ public class TransactionManagerTest {
     public void testDoTransactionNegativeAmountCreationDateSubjectNull() throws TransactionException, MalformedHandlerException {
         Office office = new Office(new GenericHandler("2345"), this.bank);
         Account account = new Account(office, this.bank, "1234567890");
-        Transaction transaction = new GenericTransaction(-1.0, null, null, TransactionType.CHARGE);
+        Transaction transaction = new GenericTransaction(-1.0, null, null);//, TransactionType.CHARGE);
         this.manager.doTransaction(transaction, account.getID());
     }
 
@@ -230,7 +230,7 @@ public class TransactionManagerTest {
     public void testDoTransactionPositiveAmountSubjectNull() throws TransactionException, MalformedHandlerException {
         Office office = new Office(new GenericHandler("2345"), this.bank);
         Account account = new Account(office, this.bank, "1234567890");
-        Transaction transaction = new GenericTransaction(1.0, new Date(), null, TransactionType.CHARGE);
+        Transaction transaction = new GenericTransaction(1.0, new Date(), null);//, TransactionType.CHARGE);
         this.manager.doTransaction(transaction, account.getID());
     }
 
@@ -238,7 +238,7 @@ public class TransactionManagerTest {
     public void testDoTransactionPositiveAmountCreationDateNull() throws TransactionException, MalformedHandlerException {
         Office office = new Office(new GenericHandler("2345"), this.bank);
         Account account = new Account(office, this.bank, "1234567890");
-        Transaction transaction = new GenericTransaction(1.0, null, "subject", TransactionType.CHARGE);
+        Transaction transaction = new GenericTransaction(1.0, null, "subject");//, TransactionType.CHARGE);
         this.manager.doTransaction(transaction, account.getID());
     }
 
@@ -246,7 +246,7 @@ public class TransactionManagerTest {
     public void testDoTransactionPositiveAmountCreationDateSubjectNull() throws TransactionException, MalformedHandlerException {
         Office office = new Office(new GenericHandler("2345"), this.bank);
         Account account = new Account(office, this.bank, "1234567890");
-        Transaction transaction = new GenericTransaction(1.0, null, null, TransactionType.CHARGE);
+        Transaction transaction = new GenericTransaction(1.0, null, null);//, TransactionType.CHARGE);
         this.manager.doTransaction(transaction, account.getID());
     }
 
@@ -254,7 +254,7 @@ public class TransactionManagerTest {
     public void testDoTransactionBadTypeSubjectNull() throws TransactionException, MalformedHandlerException {
         Office office = new Office(new GenericHandler("2345"), this.bank);
         Account account = new Account(office, this.bank, "1234567890");
-        Transaction transaction = new GenericTransaction(0.0, new Date(), null, TransactionType.PAYMENT);
+        Transaction transaction = new GenericTransaction(0.0, new Date(), null);//, TransactionType.PAYMENT);
         this.manager.doTransaction(transaction, account.getID());
     }
 
@@ -262,7 +262,7 @@ public class TransactionManagerTest {
     public void testDoTransactionBadTypeCreationDateNull() throws TransactionException, MalformedHandlerException {
         Office office = new Office(new GenericHandler("2345"), this.bank);
         Account account = new Account(office, this.bank, "1234567890");
-        Transaction transaction = new GenericTransaction(0.0, null, "subject", TransactionType.PAYMENT);
+        Transaction transaction = new GenericTransaction(0.0, null, "subject");//, TransactionType.PAYMENT);
         this.manager.doTransaction(transaction, account.getID());
     }
 
@@ -270,7 +270,7 @@ public class TransactionManagerTest {
     public void testDoTransactionBadTypeCreationDateSubjectNull() throws TransactionException, MalformedHandlerException {
         Office office = new Office(new GenericHandler("2345"), this.bank);
         Account account = new Account(office, this.bank, "1234567890");
-        Transaction transaction = new GenericTransaction(0.0, null, null, TransactionType.PAYMENT);
+        Transaction transaction = new GenericTransaction(0.0, null, null);//, TransactionType.PAYMENT);
         this.manager.doTransaction(transaction, account.getID());
     }
 
@@ -278,7 +278,7 @@ public class TransactionManagerTest {
     public void testDoTransactionBadTypeNegativeAmountSubjectNull() throws TransactionException, MalformedHandlerException {
         Office office = new Office(new GenericHandler("2345"), this.bank);
         Account account = new Account(office, this.bank, "1234567890");
-        Transaction transaction = new GenericTransaction(-1.0, new Date(), null, TransactionType.PAYMENT);
+        Transaction transaction = new GenericTransaction(-1.0, new Date(), null);//, TransactionType.PAYMENT);
         this.manager.doTransaction(transaction, account.getID());
     }
 
@@ -286,7 +286,7 @@ public class TransactionManagerTest {
     public void testDoTransactionBadTypeNegativeAmountCreationDateNull() throws TransactionException, MalformedHandlerException {
         Office office = new Office(new GenericHandler("2345"), this.bank);
         Account account = new Account(office, this.bank, "1234567890");
-        Transaction transaction = new GenericTransaction(-1.0, null, "subject", TransactionType.PAYMENT);
+        Transaction transaction = new GenericTransaction(-1.0, null, "subject");//, TransactionType.PAYMENT);
         this.manager.doTransaction(transaction, account.getID());
     }
 
@@ -294,7 +294,7 @@ public class TransactionManagerTest {
     public void testDoTransactionBadTypeNegativeAmountCreationDateSubjectNull() throws TransactionException, MalformedHandlerException {
         Office office = new Office(new GenericHandler("2345"), this.bank);
         Account account = new Account(office, this.bank, "1234567890");
-        Transaction transaction = new GenericTransaction(-1.0, null, null, TransactionType.PAYMENT);
+        Transaction transaction = new GenericTransaction(-1.0, null, null);//, TransactionType.PAYMENT);
         this.manager.doTransaction(transaction, account.getID());
     }
 
@@ -302,7 +302,7 @@ public class TransactionManagerTest {
     public void testDoTransactionBadTypePositiveAmountSubjectNull() throws TransactionException, MalformedHandlerException {
         Office office = new Office(new GenericHandler("2345"), this.bank);
         Account account = new Account(office, this.bank, "1234567890");
-        Transaction transaction = new GenericTransaction(1.0, new Date(), null, TransactionType.PAYMENT);
+        Transaction transaction = new GenericTransaction(1.0, new Date(), null);//, TransactionType.PAYMENT);
         this.manager.doTransaction(transaction, account.getID());
     }
 
@@ -310,7 +310,7 @@ public class TransactionManagerTest {
     public void testDoTransactionBadTypePositiveAmountCreationDateNull() throws TransactionException, MalformedHandlerException {
         Office office = new Office(new GenericHandler("2345"), this.bank);
         Account account = new Account(office, this.bank, "1234567890");
-        Transaction transaction = new GenericTransaction(1.0, null, "subject", TransactionType.PAYMENT);
+        Transaction transaction = new GenericTransaction(1.0, null, "subject");//, TransactionType.PAYMENT);
         this.manager.doTransaction(transaction, account.getID());
     }
 
@@ -318,7 +318,7 @@ public class TransactionManagerTest {
     public void testDoTransactionBadTypePositiveAmountCreationDateSubjectNull() throws TransactionException, MalformedHandlerException {
         Office office = new Office(new GenericHandler("2345"), this.bank);
         Account account = new Account(office, this.bank, "1234567890");
-        Transaction transaction = new GenericTransaction(1.0, null, null, TransactionType.PAYMENT);
+        Transaction transaction = new GenericTransaction(1.0, null, null);//, TransactionType.PAYMENT);
         this.manager.doTransaction(transaction, account.getID());
     }
 
@@ -326,7 +326,7 @@ public class TransactionManagerTest {
     public void testDoTransactionNegativeAmountBadType() throws TransactionException, MalformedHandlerException {
         Office office = new Office(new GenericHandler("2345"), this.bank);
         Account account = new Account(office, this.bank, "1234567890");
-        Transaction transaction = new GenericTransaction(-1.0, new Date(), "Subject", TransactionType.PAYMENT);
+        Transaction transaction = new GenericTransaction(-1.0, new Date(), "Subject");//, TransactionType.PAYMENT);
         this.manager.doTransaction(transaction, account.getID());
     }
 }

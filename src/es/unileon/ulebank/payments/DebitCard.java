@@ -5,10 +5,10 @@ import java.io.IOException;
 import es.unileon.ulebank.account.Account;
 import es.unileon.ulebank.client.Client;
 import es.unileon.ulebank.exceptions.CommissionException;
+import es.unileon.ulebank.fees.InvalidFeeException;
 import es.unileon.ulebank.handler.CardHandler;
-import es.unileon.ulebank.strategy.StrategyCommissionDebitEmission;
-import es.unileon.ulebank.strategy.StrategyCommissionDebitMaintenance;
-import es.unileon.ulebank.strategy.StrategyCommissionDebitRenovate;
+import es.unileon.ulebank.fees.DebitMaintenanceFee;
+import es.unileon.ulebank.fees.LinearFee;
 
 /**
  * @author Israel
@@ -35,12 +35,12 @@ public class DebitCard extends Card {
 	 */
 	public DebitCard(CardHandler cardId, Client owner, Account account,
 			double buyLimitDiary, double buyLimitMonthly, double cashLimitDiary, double cashLimitMonthly,
-			float commissionEmission, float commissionMaintenance, float commissionRenovate, double limitDebit) throws NumberFormatException, CommissionException, IOException {
+			float commissionEmission, float commissionMaintenance, float commissionRenovate, double limitDebit) throws NumberFormatException, CommissionException, IOException, InvalidFeeException {
 		super(cardId, CardType.DEBIT,
 				buyLimitDiary, buyLimitMonthly, cashLimitDiary, cashLimitMonthly,
-				new StrategyCommissionDebitEmission(commissionEmission), 
-				new StrategyCommissionDebitMaintenance(owner, commissionMaintenance), 
-				new StrategyCommissionDebitRenovate(commissionRenovate),
+				new LinearFee(commissionEmission,0), 
+				new DebitMaintenanceFee(owner, commissionMaintenance), 
+				new LinearFee(commissionRenovate,0),
 				limitDebit);
 	}
 }

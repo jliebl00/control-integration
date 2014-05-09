@@ -4,6 +4,7 @@ package es.unileon.ulebank.history.condition;
 
 import es.unileon.ulebank.history.GenericTransaction;
 import es.unileon.ulebank.history.Transaction;
+import es.unileon.ulebank.history.TransactionException;
 import es.unileon.ulebank.history.TransactionType;
 import es.unileon.ulebank.history.conditions.ConditionTransactionBetweenTwoAmounts;
 import es.unileon.ulebank.history.conditions.WrongArgsException;
@@ -18,7 +19,7 @@ import org.junit.Test;
 public class ConditionTransactionBetweenTwoAmountsTest {
 
     @Test
-    public void testBetweenOk() throws WrongArgsException {
+    public void testBetweenOk() throws WrongArgsException, TransactionException {
         ConditionTransactionBetweenTwoAmounts condition = new ConditionTransactionBetweenTwoAmounts<>(100, 100);
         assertTrue(condition.test(this.getTransaction(100)));
         condition = new ConditionTransactionBetweenTwoAmounts<>(100, 125);
@@ -29,7 +30,7 @@ public class ConditionTransactionBetweenTwoAmountsTest {
     }
 
     @Test
-    public void testBetweenNotOk() throws WrongArgsException {
+    public void testBetweenNotOk() throws WrongArgsException, TransactionException {
         ConditionTransactionBetweenTwoAmounts condition = new ConditionTransactionBetweenTwoAmounts<>(100, 100);
         assertFalse(condition.test(this.getTransaction(101)));
         condition = new ConditionTransactionBetweenTwoAmounts<>(100, 125);
@@ -38,8 +39,8 @@ public class ConditionTransactionBetweenTwoAmountsTest {
         
     }
 
-    public final Transaction getTransaction(double amount) {
-        Transaction t = new GenericTransaction(amount, null, "", TransactionType.CHARGE);
+    public final Transaction getTransaction(double amount) throws TransactionException {
+        Transaction t = new GenericTransaction(amount, null, "");//, TransactionType.CHARGE);
         return t;
     }
 }

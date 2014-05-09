@@ -4,6 +4,7 @@ package es.unileon.ulebank.history.condition;
 
 import es.unileon.ulebank.history.GenericTransaction;
 import es.unileon.ulebank.history.Transaction;
+import es.unileon.ulebank.history.TransactionException;
 import es.unileon.ulebank.history.TransactionType;
 import es.unileon.ulebank.history.conditions.ConditionTransactionBetweenTwoDates;
 import java.util.Date;
@@ -33,7 +34,7 @@ public class ConditionalTransactionBetweenTwoDays {
     }
 
     @Test
-    public void testConditionBetweenOK() {
+    public void testConditionBetweenOK() throws TransactionException {
         assertTrue(this.conditionBetween.test(this.getTransaction(new Date(this.min.getTime() + (this.max.getTime() - this.min.getTime())))));
         assertTrue(this.conditionBetween.test(this.getTransaction(new Date(this.min.getTime()))));
         assertTrue(this.conditionBetween.test(this.getTransaction(new Date(this.max.getTime()))));
@@ -41,14 +42,14 @@ public class ConditionalTransactionBetweenTwoDays {
     }
 
     @Test
-    public void testConditionBetweenNoOK() {
+    public void testConditionBetweenNoOK() throws TransactionException {
         assertFalse(this.conditionBetween.test(this.getTransaction(new Date(this.min.getTime() - 1))));
         assertFalse(this.conditionBetween.test(this.getTransaction(new Date(this.max.getTime() + 1))));
 
     }
 
-    public final Transaction getTransaction(Date date) {
-        Transaction t = new GenericTransaction(0, date, "", TransactionType.CHARGE);
+    public final Transaction getTransaction(Date date) throws TransactionException {
+        Transaction t = new GenericTransaction(0, date, "");//, TransactionType.CHARGE);
         t.setEffectiveDate(date);
         return t;
     }

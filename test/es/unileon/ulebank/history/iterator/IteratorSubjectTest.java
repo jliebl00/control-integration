@@ -4,6 +4,7 @@ package es.unileon.ulebank.history.iterator;
 
 import es.unileon.ulebank.history.GenericTransaction;
 import es.unileon.ulebank.history.Transaction;
+import es.unileon.ulebank.history.TransactionException;
 import es.unileon.ulebank.history.TransactionHandlerProvider;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -29,7 +30,7 @@ public class IteratorSubjectTest {
     private String word;
 
     @Before
-    public void setup() {
+    public void setup() throws TransactionException {
         this.elements = new ArrayList<>();
         this.correctElements = new ArrayList<>();
         this.invalidElements = new ArrayList<>();
@@ -106,7 +107,7 @@ public class IteratorSubjectTest {
         assertEquals(this.iteratorFromListNegate.next(), null);
     }
 
-    public Transaction getTransaction(String subject) {
-        return new GenericTransaction(0, null, subject, null);
+    public Transaction getTransaction(String subject) throws TransactionException {
+        return new GenericTransaction(0, null, subject);//, null);
     }
 }
