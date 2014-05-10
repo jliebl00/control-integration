@@ -8,7 +8,6 @@ import java.util.StringTokenizer;
 
 import es.unileon.ulebank.client.Client;
 import es.unileon.ulebank.exceptions.CommissionException;
-import es.unileon.ulebank.fees.FeeStrategy;
 
 /**
  * @class StrategyCommissionDebitMaintenance

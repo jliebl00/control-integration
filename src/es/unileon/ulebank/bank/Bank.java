@@ -8,7 +8,7 @@ import es.unileon.ulebank.exceptions.MalformedHandlerException;
 import es.unileon.ulebank.history.Transaction;
 import es.unileon.ulebank.history.TransactionException;
 import es.unileon.ulebank.office.Office;
-import es.unileon.ulebank.transacionManager.TransactionManager;
+import es.unileon.ulebank.transactionManager.TransactionManager;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.log4j.Logger;

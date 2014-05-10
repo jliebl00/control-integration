@@ -9,7 +9,7 @@ import es.unileon.ulebank.bank.Bank;
 import es.unileon.ulebank.handler.GenericHandler;
 import es.unileon.ulebank.exceptions.MalformedHandlerException;
 import es.unileon.ulebank.office.Office;
-import es.unileon.ulebank.transacionManager.TransactionManager;
+import es.unileon.ulebank.transactionManager.TransactionManager;
 import java.util.Date;
 import static org.junit.Assert.assertEquals;
 import org.junit.Before;

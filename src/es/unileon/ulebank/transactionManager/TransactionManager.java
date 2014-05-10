@@ -1,6 +1,6 @@
 /* Application developed for AW subject, belonging to passive operations
  group.*/
-package es.unileon.ulebank.transacionManager;
+package es.unileon.ulebank.transactionManager;
 
 import es.unileon.ulebank.account.AccountHandler;
 import es.unileon.ulebank.bank.Bank;

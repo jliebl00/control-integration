@@ -10,7 +10,14 @@ import org.junit.runners.Suite;
  */
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
-    es.unileon.ulebank.PackageUlebankTest.class,
+            es.unileon.ulebank.account.PackageAccountTest.class,
+    es.unileon.ulebank.bank.PackageBankTest.class,
+    es.unileon.ulebank.command.PackageCommandTest.class,
+    es.unileon.ulebank.history.PackageHistoryTest.class,
+    es.unileon.ulebank.office.PackageOfficeTest.class,
+    es.unileon.ulebank.time.PackageTime.class,
+    es.unileon.ulebank.transactionManager.PackageTransactionManager.class,
+    es.unileon.ulebank.users.PackageUsersTest.class,
     es.unileon.ulebank.handler.PackageHandlerTest.class,
     es.unileon.ulebank.fees.PackageFeesTest.class,
     es.unileon.ulebank.pack.PackagePackTest.class,

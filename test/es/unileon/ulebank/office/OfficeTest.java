@@ -7,12 +7,16 @@ import es.unileon.ulebank.bank.Bank;
 import es.unileon.ulebank.handler.GenericHandler;
 import es.unileon.ulebank.handler.Handler;
 import es.unileon.ulebank.exceptions.MalformedHandlerException;
+import es.unileon.ulebank.handler.DNIHandler;
 import es.unileon.ulebank.history.GenericTransaction;
 import es.unileon.ulebank.history.Transaction;
 import es.unileon.ulebank.history.TransactionException;
 import es.unileon.ulebank.history.TransactionType;
-import es.unileon.ulebank.transacionManager.TransactionManager;
+import es.unileon.ulebank.transactionManager.TransactionManager;
+import es.unileon.ulebank.users.Employee;
+import java.util.ArrayList;
 import java.util.Date;
+import org.junit.Assert;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -29,7 +33,13 @@ public class OfficeTest {
     private Bank bank;
     private Account account;
     private TransactionManager manager;
-
+    private int testExpenses;
+    private int totalExpenses;
+    private int totalIncome;
+    private ArrayList<Employee> employeeTestList;
+    Employee oneEmployee;
+    DNIHandler dni;
+    
     @Before
     public void setUp() throws MalformedHandlerException {
 
@@ -37,6 +47,100 @@ public class OfficeTest {
         this.bank = new Bank(this.manager, new GenericHandler("1234"));
         this.office = new Office(new GenericHandler("1234"), this.bank);
         this.account = new Account(office, bank, "1234567890");
+        
+        
+        employeeTestList = new ArrayList<>();
+        testExpenses = 1000;
+        totalExpenses = 3000;
+        totalIncome = 1000;
+        dni = new DNIHandler("36167364W");
+        oneEmployee = new Employee("name", "surname", "address", 0, dni);
+
+        office.setExpenses(testExpenses, testExpenses, testExpenses);
+    }
+    
+    @Test
+    public void testGetExpenses() {
+        assertTrue(this.office.getExpenses() == totalExpenses);
+    }
+
+    @Test
+    public void testSetExpenses() {
+        int newTestExpenses = 3000;
+        int newTotalExenses = 9000;
+        office.setExpenses(newTestExpenses, newTestExpenses, newTestExpenses);
+
+        assertTrue(newTotalExenses == office.getExpenses());
+    }
+
+    @Test
+    public void testGetTotalIncome() {
+        office.setTotalIncome(totalIncome);
+        int result = office.getTotalIncome();
+        int expected = totalIncome;
+
+        assertEquals(result, expected);
+    }
+
+    @Test
+    public void testSetTotalIncome() {
+        int testIncome = 3000;
+        office.setTotalIncome(totalIncome);
+        int result = office.getTotalIncome();
+        int expected = totalIncome;
+
+        assertEquals(result, expected);
+
+        office.setTotalIncome(testIncome);
+        result = office.getTotalIncome();
+
+        assertTrue(result!=expected);
+
+    }
+
+    @Test
+    public void testGetEmployeeList() {
+        office.setEmployeeList(employeeTestList);
+        ArrayList<Employee> result = office.getEmployeeList();
+        ArrayList<Employee> expected = employeeTestList;
+
+        assertEquals(result, expected);
+    }
+
+    @Test
+    public void testSetEmployeeList() {
+        office.setEmployeeList(employeeTestList);
+        ArrayList<Employee> result = office.getEmployeeList();
+        ArrayList<Employee> expected = employeeTestList;
+
+        assertEquals(result, expected);
+
+    }
+    
+    @Test
+    public void testAddEmployee() {
+        office.setEmployeeList(employeeTestList);
+        office.addEmployee(oneEmployee);
+
+        Employee result = employeeTestList.get(0);
+        Employee expected = oneEmployee;
+
+        assertEquals(result, expected);
+
+    }
+
+    @Test
+    public void testDeleteEmployee() {
+        office.setEmployeeList(employeeTestList);
+        office.addEmployee(oneEmployee);
+
+        Employee result = employeeTestList.get(0);
+        Employee expected = oneEmployee;
+
+        assertEquals(result, expected);
+
+        office.deleteEmployee(oneEmployee);
+        assertTrue(employeeTestList.isEmpty());
     }
 
     /**
@@ -62,6 +166,10 @@ public class OfficeTest {
         assertFalse(this.office.addAccount(null));
     }
 
+    public void testDeleteAccount(){
+        Assert.fail("Probar...");
+    }
+    
     /**
      * Test of getID method, of class Office.
      */

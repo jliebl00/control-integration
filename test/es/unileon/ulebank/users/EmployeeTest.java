@@ -1,4 +1,4 @@
-package es.unileon.ulebank;
+package es.unileon.ulebank.users;
 
 import es.unileon.ulebank.users.Employee;
 import es.unileon.ulebank.office.Office;
@@ -8,7 +8,7 @@ import es.unileon.ulebank.exceptions.MalformedHandlerException;
 import es.unileon.ulebank.handler.Handler;
 import es.unileon.ulebank.handler.DNIHandler;
 import es.unileon.ulebank.handler.OfficeHandler;
-import es.unileon.ulebank.transacionManager.TransactionManager;
+import es.unileon.ulebank.transactionManager.TransactionManager;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package es.unileon.ulebank;
+package es.unileon.ulebank.users;
 
 import es.unileon.ulebank.users.Admin;
 import es.unileon.ulebank.office.Office;
