@@ -122,10 +122,7 @@ public class Loan implements FinancialProduct {
 		StringBuffer exceptionMessage = new StringBuffer();
 
 		this.loanHistory = new LoanHistory();
-		
-
 		this.idLoan = idLoan;
-		
 		this.debt = initialCapital;
 
 		if (interest >= 0 && interest <= 1) {
@@ -135,7 +132,7 @@ public class Loan implements FinancialProduct {
 					.append("The interest value must be a value between 0 and 1\n");
 		}
                 
-                this.cancelCommission = new LinearFee(interest,0);
+        this.cancelCommission = new LinearFee(interest,0);
 		this.studyCommission = new LinearFee(interest,0);
 		this.cancelCommission = new LinearFee(interest,0);
 		this.modifyCommission = new LinearFee(interest,0);
@@ -273,19 +270,12 @@ public class Loan implements FinancialProduct {
 
 		// Si la transaccion se realizo con exito descontamos el dinero de la
 		// deuda
-		if (!this.modifyCommission.getClass().equals(LinearFee.class)) {
-			comission = this.modifyCommission.getFee(quantity);//quantity * this.modifyCommission.calculateCommission();
-			quantity -= comission;
-			this.debt -= quantity;
-			this.setAmortized(this.initialCapital - this.debt);
-			update();
-		} else {
-			comission = this.modifyCommission.getFee(quantity);//calculateCommission();
-			quantity -= comission;
-			this.debt -= quantity;
-			this.setAmortized(this.initialCapital - this.debt);
-			update();
-		}
+		
+		comission = this.modifyCommission.getFee(quantity);//quantity * this.modifyCommission.calculateCommission();
+		quantity -= comission;
+		this.debt -= quantity;
+		this.setAmortized(this.initialCapital - this.debt);
+		update();
 
 		return comission;
 	}

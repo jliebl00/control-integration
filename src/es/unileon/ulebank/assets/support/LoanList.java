@@ -9,7 +9,6 @@ import es.unileon.ulebank.assets.Loan;
 import es.unileon.ulebank.handler.Handler;
 import es.unileon.ulebank.assets.strategy.loan.ScheduledPayment;
 
-
 public class LoanList<T extends Loan> {
 	/**
 	 * Loans list

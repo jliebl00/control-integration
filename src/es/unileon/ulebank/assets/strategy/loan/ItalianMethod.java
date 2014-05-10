@@ -6,7 +6,6 @@ import java.util.Date;
 import es.unileon.ulebank.assets.Loan;
 import es.unileon.ulebank.assets.support.DateWrap;
 
-
 public class ItalianMethod implements StrategyLoan {
 	
 	private Loan loan;

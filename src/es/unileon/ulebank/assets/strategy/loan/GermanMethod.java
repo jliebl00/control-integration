@@ -6,7 +6,6 @@ import java.util.Date;
 import es.unileon.ulebank.assets.Loan;
 import es.unileon.ulebank.assets.support.DateWrap;
 
-
 /**
  * Implementacion de una de las estrategias para calcular las cuotas mensuales de los prestamos siguiendo el metodo aleman
  * 

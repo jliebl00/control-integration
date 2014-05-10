@@ -5,7 +5,6 @@ import java.util.List;
 
 import es.unileon.ulebank.assets.strategy.loan.ScheduledPayment;
 
-
 public class LoanIterator implements Iterator<ScheduledPayment> {
 
 	private List<ScheduledPayment> loanPayments;

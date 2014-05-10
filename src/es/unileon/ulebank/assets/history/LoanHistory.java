@@ -7,9 +7,10 @@ import es.unileon.ulebank.assets.iterator.LoanIterator;
 import es.unileon.ulebank.assets.iterator.LoanIteratorDates;
 import es.unileon.ulebank.assets.strategy.loan.ScheduledPayment;
 
-
 public class LoanHistory {
+	
 	private ArrayList<ScheduledPayment> payments;
+	
 	public LoanHistory() {
 		this.payments = new ArrayList<>();
 	}

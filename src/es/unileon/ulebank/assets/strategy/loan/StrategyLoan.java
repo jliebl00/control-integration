@@ -2,8 +2,6 @@ package es.unileon.ulebank.assets.strategy.loan;
 
 import java.util.ArrayList;
 
-
-
 /**
  * Interface for implement the strategy pattern over method of of calculate interest.
  * 
@@ -13,4 +11,5 @@ import java.util.ArrayList;
 public interface StrategyLoan {
 	
 	public ArrayList<ScheduledPayment> doCalculationOfPayments();
+	
 }

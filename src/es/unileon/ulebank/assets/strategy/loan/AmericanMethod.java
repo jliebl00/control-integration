@@ -8,7 +8,6 @@ import es.unileon.ulebank.assets.strategy.loan.ScheduledPayment;
 import es.unileon.ulebank.assets.strategy.loan.StrategyLoan;
 import es.unileon.ulebank.assets.support.DateWrap;
 
-
 public class AmericanMethod implements StrategyLoan {
 	
 	private Loan loan;

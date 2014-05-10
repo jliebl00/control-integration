@@ -2,12 +2,8 @@ package es.unileon.ulebank.assets.strategy.loan;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 
 import es.unileon.ulebank.assets.Loan;
-import es.unileon.ulebank.documents.GeneratePDFDocument;
-import es.unileon.ulebank.assets.support.PaymentPeriod;
-
 
 /**
  * Implementation of strategy for calculated all fee of the loan following the
@@ -32,7 +28,7 @@ public class FrenchMethod implements StrategyLoan {
 	 */
 	public FrenchMethod(Loan loan) {
 		this.loan = loan;
-		this.payments = new ArrayList<ScheduledPayment>();
+		this.setPayments(new ArrayList<ScheduledPayment>());
 	}
 
 	/**
@@ -118,7 +114,7 @@ public class FrenchMethod implements StrategyLoan {
 					amortized, interest, totalCapital));
 		}
 		
-		this.payments = paymentsFrench;
+		this.setPayments(paymentsFrench);
 		return paymentsFrench;
 	}
 
@@ -137,6 +133,14 @@ public class FrenchMethod implements StrategyLoan {
 		num = Math.round(num);
 		num = num / factor;
 		return num;
+	}
+
+	public ArrayList<ScheduledPayment> getPayments() {
+		return payments;
+	}
+
+	public void setPayments(ArrayList<ScheduledPayment> payments) {
+		this.payments = payments;
 	}
 	
 

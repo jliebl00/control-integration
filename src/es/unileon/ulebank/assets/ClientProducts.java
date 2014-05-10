@@ -1,16 +1,14 @@
 package es.unileon.ulebank.assets;
 
-//cambio para corregir enlace
 import java.util.ArrayList;
 import java.util.Iterator;
 
 import es.unileon.ulebank.handler.Handler;
-
 import es.unileon.ulebank.client.Client;
 
 public class ClientProducts {
-	private Client client;
 	
+	private Client client;
 	private ArrayList<FinancialProduct> financialProducts;
 
 	public ClientProducts() {
@@ -53,7 +51,7 @@ public class ClientProducts {
 	 * product is not found the method returns null
 	 * 
 	 * @param handler
-	 * @return
+	 * @return product
 	 */
 	public FinancialProduct search(Handler handler) {
 		Iterator<FinancialProduct> iterator = this.financialProducts.iterator();
@@ -70,6 +68,12 @@ public class ClientProducts {
 		
 		return product;
 	}
-}
 
-//
+	public Client getClient() {
+		return client;
+	}
+
+	public void setClient(Client client) {
+		this.client = client;
+	}
+}

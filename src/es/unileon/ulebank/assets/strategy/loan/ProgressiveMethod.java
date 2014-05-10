@@ -2,10 +2,8 @@ package es.unileon.ulebank.assets.strategy.loan;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 
 import es.unileon.ulebank.assets.Loan;
-
 
 /**
  * Implementation of strategy for calculated all fee of the loan following the
