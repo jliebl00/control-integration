@@ -1,9 +1,9 @@
-package src.es.unileon.ulebank.assets.iterator;
+package es.unileon.ulebank.assets.iterator;
 
 import java.util.Iterator;
 import java.util.List;
 
-import src.es.unileon.ulebank.assets.strategy.loan.ScheduledPayment;
+import es.unileon.ulebank.assets.strategy.loan.ScheduledPayment;
 
 
 public class LoanIterator implements Iterator<ScheduledPayment> {

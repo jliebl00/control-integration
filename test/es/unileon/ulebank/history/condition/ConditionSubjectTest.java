@@ -50,7 +50,7 @@ public class ConditionSubjectTest {
     }
 
     public final Transaction getTransaction(String subject) throws TransactionException {
-        Transaction t = new GenericTransaction(0, null, subject);//, TransactionType.CHARGE);
+        Transaction t = new GenericTransaction(0, null, subject, TransactionType.CHARGE);
         return t;
     }
 }

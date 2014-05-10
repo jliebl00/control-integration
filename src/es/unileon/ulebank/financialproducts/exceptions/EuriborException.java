@@ -1,4 +1,4 @@
-package src.es.unileon.ulebank.assets.financialproducts.exceptions;
+package es.unileon.ulebank.financialproducts.exceptions;
 
 public class EuriborException extends Exception {
 	

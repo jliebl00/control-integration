@@ -1,6 +1,6 @@
-package src.es.unileon.ulebank.assets;
+package es.unileon.ulebank.assets;
 
-import src.es.unileon.ulebank.assets.handler.Handler;
+import es.unileon.ulebank.handler.Handler;
 
 public interface FinancialProduct {
 	public void update();

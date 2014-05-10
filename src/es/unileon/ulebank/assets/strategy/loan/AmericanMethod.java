@@ -1,12 +1,12 @@
-package src.es.unileon.ulebank.assets.strategy.loan;
+package es.unileon.ulebank.assets.strategy.loan;
 
 import java.util.ArrayList;
 import java.util.Date;
 
-import src.es.unileon.ulebank.assets.Loan;
-import src.es.unileon.ulebank.assets.documents.GeneratePDFDocument;
-import src.es.unileon.ulebank.assets.support.DateWrap;
-import src.es.unileon.ulebank.assets.support.PaymentPeriod;
+import es.unileon.ulebank.assets.Loan;
+import es.unileon.ulebank.assets.strategy.loan.ScheduledPayment;
+import es.unileon.ulebank.assets.strategy.loan.StrategyLoan;
+import es.unileon.ulebank.assets.support.DateWrap;
 
 
 public class AmericanMethod implements StrategyLoan {

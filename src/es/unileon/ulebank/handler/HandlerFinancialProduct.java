@@ -1,4 +1,4 @@
-package src.es.unileon.ulebank.assets.handler;
+package es.unileon.ulebank.handler;
 
 public class HandlerFinancialProduct implements Handler {
 	

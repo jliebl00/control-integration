@@ -1,4 +1,4 @@
-package src.es.unileon.ulebank.assets.handler.exceptions;
+package es.unileon.ulebank.handler.exceptions;
 
 public class LINCMalformedException extends Exception {
 	

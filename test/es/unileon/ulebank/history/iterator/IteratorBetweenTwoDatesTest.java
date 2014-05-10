@@ -102,7 +102,7 @@ public class IteratorBetweenTwoDatesTest {
     }
 
     public Transaction getTransaction(long timestamp) throws TransactionException {
-        Transaction t = new GenericTransaction(0, null, null);//, TransactionType.CHARGE);
+        Transaction t = new GenericTransaction(0, null, null, TransactionType.CHARGE);
         t.setEffectiveDate(new Date(timestamp));
         return t;
     }

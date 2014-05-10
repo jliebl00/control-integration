@@ -1,10 +1,10 @@
-package src.es.unileon.ulebank.assets.handler;
+package es.unileon.ulebank.handler;
 
 import java.util.Calendar;
 import java.util.Locale;
 import java.util.Random;
 
-import src.es.unileon.ulebank.assets.handler.exceptions.LINCMalformedException;
+import es.unileon.ulebank.handler.exceptions.LINCMalformedException;
 
 
 public class LoanIdentificationNumberCode {

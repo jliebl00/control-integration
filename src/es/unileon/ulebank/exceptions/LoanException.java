@@ -1,4 +1,4 @@
-package src.es.unileon.ulebank.assets.exceptions;
+package es.unileon.ulebank.exceptions;
 
 public class LoanException extends Exception {
 	public LoanException() {

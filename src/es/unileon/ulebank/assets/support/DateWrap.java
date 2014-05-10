@@ -1,4 +1,4 @@
-package src.es.unileon.ulebank.assets.support;
+package es.unileon.ulebank.assets.support;
 
 import java.util.Calendar;
 import java.util.Date;

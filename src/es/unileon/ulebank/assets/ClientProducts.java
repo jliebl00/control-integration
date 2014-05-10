@@ -1,10 +1,10 @@
-package src.es.unileon.ulebank.assets;
+package es.unileon.ulebank.assets;
 
 //cambio para corregir enlace
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import src.es.unileon.ulebank.assets.handler.Handler;
+import es.unileon.ulebank.handler.Handler;
 
 import es.unileon.ulebank.client.Client;
 

@@ -1,10 +1,9 @@
-package src.es.unileon.ulebank.assets.iterator;
+package es.unileon.ulebank.assets.iterator;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
-import src.es.unileon.ulebank.assets.strategy.loan.ScheduledPayment;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
+import es.unileon.ulebank.assets.strategy.loan.ScheduledPayment;
 
 public class LoanIteratorDates implements Iterator<ScheduledPayment> {
 

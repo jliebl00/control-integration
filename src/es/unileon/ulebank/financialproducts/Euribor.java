@@ -1,4 +1,4 @@
-package src.es.unileon.ulebank.assets.financialproducts;
+package es.unileon.ulebank.financialproducts;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -14,7 +14,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
-import src.es.unileon.ulebank.assets.financialproducts.exceptions.EuriborException;
+import es.unileon.ulebank.financialproducts.exceptions.EuriborException;
 
 
 public class Euribor implements InterestRate{

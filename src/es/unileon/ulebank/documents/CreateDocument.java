@@ -1,10 +1,10 @@
-package src.es.unileon.ulebank.assets.documents;
+package es.unileon.ulebank.documents;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import src.es.unileon.ulebank.assets.strategy.loan.ScheduledPayment;
+import es.unileon.ulebank.assets.strategy.loan.ScheduledPayment;
 
 import jxl.*;
 import jxl.write.*;
@@ -154,54 +154,54 @@ public class CreateDocument {
 
 	// Add data to some cells.
 	public void addFeeAmount(double number) {
-		try {
-			sheet.addCell(new Number(2, counter2, number));
-
-			counter2++;
-		} catch (RowsExceededException e) {
-			e.printStackTrace();
-		} catch (WriteException e) {
-			e.printStackTrace();
-		}
+//		try {
+//			sheet.addCell(new Number(2, counter2, number));
+//
+//			counter2++;
+//		} catch (RowsExceededException e) {
+//			e.printStackTrace();
+//		} catch (WriteException e) {
+//			e.printStackTrace();
+//		}
 	}
 
 	// Add the money that are been payed.
 	public void addAmortizedCapital(double number) {
-		try {
-			sheet.addCell(new Number(4, counter3, number));
-
-			counter3++;
-		} catch (RowsExceededException e) {
-			e.printStackTrace();
-		} catch (WriteException e) {
-			e.printStackTrace();
-		}
+//		try {
+//			sheet.addCell(new Number(4, counter3, number));
+//
+//			counter3++;
+//		} catch (RowsExceededException e) {
+//			e.printStackTrace();
+//		} catch (WriteException e) {
+//			e.printStackTrace();
+//		}
 	}
 
 	// Add data to interes colummns.
 	public void addInteres(double number) {
-		try {
-			sheet.addCell(new Number(6, counter4, number));
-
-			counter4++;
-		} catch (RowsExceededException e) {
-			e.printStackTrace();
-		} catch (WriteException e) {
-			e.printStackTrace();
-		}
+//		try {
+//			sheet.addCell(new Number(6, counter4, number));
+//
+//			counter4++;
+//		} catch (RowsExceededException e) {
+//			e.printStackTrace();
+//		} catch (WriteException e) {
+//			e.printStackTrace();
+//		}
 	}
 
 	// Add data to the money that the owner do not pay.
 	public void addPendingCapital(double number) {
-		try {
-			sheet.addCell(new Number(8, counter5, number));
-
-			counter5++;
-		} catch (RowsExceededException e) {
-			e.printStackTrace();
-		} catch (WriteException e) {
-			e.printStackTrace();
-		}
+//		try {
+//			sheet.addCell(new Number(8, counter5, number));
+//
+//			counter5++;
+//		} catch (RowsExceededException e) {
+//			e.printStackTrace();
+//		} catch (WriteException e) {
+//			e.printStackTrace();
+//		}
 	}
 
 	// Generate the Excell file

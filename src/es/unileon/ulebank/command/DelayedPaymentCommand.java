@@ -1,7 +1,7 @@
-package src.es.unileon.ulebank.assets.command;
+package es.unileon.ulebank.command;
 
-import src.es.unileon.ulebank.assets.Loan;
-import src.es.unileon.ulebank.assets.handler.Handler;
+import es.unileon.ulebank.assets.Loan;
+import es.unileon.ulebank.handler.Handler;
 
 public class DelayedPaymentCommand implements Command {
 	private Handler idCommand;

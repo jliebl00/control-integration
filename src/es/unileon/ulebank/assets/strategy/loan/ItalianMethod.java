@@ -1,10 +1,10 @@
-package src.es.unileon.ulebank.assets.strategy.loan;
+package es.unileon.ulebank.assets.strategy.loan;
 
 import java.util.ArrayList;
 import java.util.Date;
 
-import src.es.unileon.ulebank.assets.Loan;
-import src.es.unileon.ulebank.assets.support.DateWrap;
+import es.unileon.ulebank.assets.Loan;
+import es.unileon.ulebank.assets.support.DateWrap;
 
 
 public class ItalianMethod implements StrategyLoan {

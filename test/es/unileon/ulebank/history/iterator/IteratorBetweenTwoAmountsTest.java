@@ -100,6 +100,6 @@ public class IteratorBetweenTwoAmountsTest {
     }
 
     public Transaction getTransaction(double amount) throws TransactionException {
-        return new GenericTransaction(amount, null, null);//, null);
+        return new GenericTransaction(amount, null, null, null);
     }
 }

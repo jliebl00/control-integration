@@ -1,13 +1,13 @@
-package src.es.unileon.ulebank.assets.support;
+package es.unileon.ulebank.assets.support;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-import src.es.unileon.ulebank.assets.Loan;
-import src.es.unileon.ulebank.assets.handler.Handler;
-import src.es.unileon.ulebank.assets.strategy.loan.ScheduledPayment;
+import es.unileon.ulebank.assets.Loan;
+import es.unileon.ulebank.handler.Handler;
+import es.unileon.ulebank.assets.strategy.loan.ScheduledPayment;
 
 
 public class LoanList<T extends Loan> {

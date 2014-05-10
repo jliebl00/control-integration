@@ -1,11 +1,11 @@
-package src.es.unileon.ulebank.assets.history;
+package es.unileon.ulebank.assets.history;
 
 import java.util.ArrayList;
 import java.util.Date;
 
-import src.es.unileon.ulebank.assets.iterator.LoanIterator;
-import src.es.unileon.ulebank.assets.iterator.LoanIteratorDates;
-import src.es.unileon.ulebank.assets.strategy.loan.ScheduledPayment;
+import es.unileon.ulebank.assets.iterator.LoanIterator;
+import es.unileon.ulebank.assets.iterator.LoanIteratorDates;
+import es.unileon.ulebank.assets.strategy.loan.ScheduledPayment;
 
 
 public class LoanHistory {

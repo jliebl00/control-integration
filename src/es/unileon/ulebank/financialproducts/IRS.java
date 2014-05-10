@@ -1,8 +1,8 @@
-package src.es.unileon.ulebank.assets.financialproducts;
+package es.unileon.ulebank.financialproducts;
 
 import java.io.IOException;
 
-import src.es.unileon.ulebank.assets.financialproducts.exceptions.IRSException;
+import es.unileon.ulebank.financialproducts.exceptions.IRSException;
 
 
 public class IRS implements InterestRate {

@@ -40,7 +40,7 @@ public class ConditionTransactionBetweenTwoAmountsTest {
     }
 
     public final Transaction getTransaction(double amount) throws TransactionException {
-        Transaction t = new GenericTransaction(amount, null, "");//, TransactionType.CHARGE);
+        Transaction t = new GenericTransaction(amount, null, "", TransactionType.CHARGE);
         return t;
     }
 }

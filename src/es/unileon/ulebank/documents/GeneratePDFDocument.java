@@ -1,4 +1,4 @@
-package src.es.unileon.ulebank.assets.documents;
+package es.unileon.ulebank.documents;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -11,8 +11,8 @@ import org.jsoup.Connection.Method;
 import org.jsoup.Jsoup;
 import org.jsoup.select.Elements;
 
-import src.es.unileon.ulebank.assets.strategy.loan.ScheduledPayment;
-import src.es.unileon.ulebank.assets.strategy.loan.StrategyLoan;
+import es.unileon.ulebank.assets.strategy.loan.ScheduledPayment;
+import es.unileon.ulebank.assets.strategy.loan.StrategyLoan;
 
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Document;

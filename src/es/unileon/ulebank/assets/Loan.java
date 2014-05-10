@@ -1,22 +1,25 @@
-package src.es.unileon.ulebank.assets;
+package es.unileon.ulebank.assets;
 
 import java.util.ArrayList;
 import java.util.Date;
 
-import src.es.unileon.ulebank.assets.exceptions.LoanException;
-import src.es.unileon.ulebank.assets.handler.Handler;
-import src.es.unileon.ulebank.assets.history.LoanHistory;
-import src.es.unileon.ulebank.assets.iterator.LoanIterator;
-import src.es.unileon.ulebank.assets.iterator.LoanIteratorDates;
-import src.es.unileon.ulebank.assets.strategy.commission.*;
-import src.es.unileon.ulebank.assets.strategy.loan.FrenchMethod;
-import src.es.unileon.ulebank.assets.strategy.loan.ScheduledPayment;
-import src.es.unileon.ulebank.assets.strategy.loan.StrategyLoan;
-import src.es.unileon.ulebank.assets.support.PaymentPeriod;
+import es.unileon.ulebank.exceptions.LoanException;
+import es.unileon.ulebank.handler.Handler;
+import es.unileon.ulebank.assets.history.LoanHistory;
+import es.unileon.ulebank.assets.iterator.LoanIterator;
+import es.unileon.ulebank.assets.iterator.LoanIteratorDates;
+import es.unileon.ulebank.assets.strategy.loan.FrenchMethod;
+import es.unileon.ulebank.assets.strategy.loan.ScheduledPayment;
+import es.unileon.ulebank.assets.strategy.loan.StrategyLoan;
+import es.unileon.ulebank.assets.support.PaymentPeriod;
 
 import es.unileon.ulebank.account.Account;
-import es.unileon.ulebank.exceptions.TransactionException;
+import es.unileon.ulebank.fees.FeeStrategy;
+import es.unileon.ulebank.fees.InvalidFeeException;
+import es.unileon.ulebank.fees.LinearFee;
+import es.unileon.ulebank.history.GenericTransaction;
 import es.unileon.ulebank.history.Transaction;
+import es.unileon.ulebank.history.TransactionException;
 import es.unileon.ulebank.history.TransactionType;
 
 // TODO PREGUNTAR A CAMINO COMO ACTUALIZAR DEBT CUANDO PASIVOS REALIZA EL PAGO DE LA CUOTA
@@ -76,10 +79,10 @@ public class Loan implements FinancialProduct {
 	/**
 	 * all commisions that you have in the contract
 	 */
-	private StrategyCommission cancelCommission;
-	private StrategyCommission studyCommission;
-	private StrategyCommission openningCommission;
-	private StrategyCommission modifyCommission;
+	private FeeStrategy cancelCommission;
+	private FeeStrategy studyCommission;
+	private FeeStrategy openningCommission;
+	private FeeStrategy modifyCommission;
 
 	private Account account;
 
@@ -115,15 +118,11 @@ public class Loan implements FinancialProduct {
 	 */
 	public Loan(Handler idLoan, double initialCapital,
 			double interest, PaymentPeriod paymentPeriod, int amortizationTime,
-			Account account) throws LoanException {
+			Account account) throws LoanException, InvalidFeeException {
 		StringBuffer exceptionMessage = new StringBuffer();
 
 		this.loanHistory = new LoanHistory();
-		this.cancelCommission = new PercentCommission();
-		this.studyCommission = new PercentCommission();
-		this.cancelCommission = new PercentCommission();
-		this.modifyCommission = new PercentCommission();
-		this.openningCommission = new PercentCommission();
+		
 
 		this.idLoan = idLoan;
 		
@@ -135,17 +134,23 @@ public class Loan implements FinancialProduct {
 			exceptionMessage
 					.append("The interest value must be a value between 0 and 1\n");
 		}
+                
+                this.cancelCommission = new LinearFee(interest,0);
+		this.studyCommission = new LinearFee(interest,0);
+		this.cancelCommission = new LinearFee(interest,0);
+		this.modifyCommission = new LinearFee(interest,0);
+		this.openningCommission = new LinearFee(interest,0);
 
-		if (!this.openningCommission.getClass().equals(PercentCommission.class)) {
-			this.debt += openningCommission.calculateCommission();
+		if (!this.openningCommission.getClass().equals(LinearFee.class)) {
+			this.debt += openningCommission.getFee(debt);//calculateCommission();
 		} else {
-			this.debt += this.debt * (openningCommission.calculateCommission());
+			this.debt += this.debt * (openningCommission.getFee(0));//calculateCommission());
 		}
 
-		if (!this.studyCommission.getClass().equals(PercentCommission.class)) {
-			this.debt += studyCommission.calculateCommission();
+		if (!this.studyCommission.getClass().equals(LinearFee.class)) {
+			this.debt += studyCommission.getFee(0);//calculateCommission();
 		} else {
-			this.debt += this.debt * (studyCommission.calculateCommission());
+			this.debt += this.debt * (studyCommission.getFee(debt));//calculateCommission());
 		}
 
 		this.paymentPeriod = paymentPeriod;
@@ -183,11 +188,10 @@ public class Loan implements FinancialProduct {
 	public double cancelLoan() throws LoanException {
 		StringBuffer msgException = new StringBuffer();
 		double feeCancel = 0;
-		if (this.cancelCommission.getClass().equals(PercentCommission.class)) {
-			feeCancel = this.cancelCommission.calculateCommission() * this.debt;
-			feeCancel += this.debt;
+		if (this.cancelCommission.getClass().equals(LinearFee.class)) {
+			feeCancel = this.cancelCommission.getFee(debt);
 		} else {
-			feeCancel += this.cancelCommission.calculateCommission()
+			feeCancel += this.cancelCommission.getFee(debt)//calculateCommission()
 					+ this.debt;
 		}
 
@@ -195,7 +199,7 @@ public class Loan implements FinancialProduct {
 		// of
 		// the customer
 		try {
-			Transaction transactionCharge = new Transaction(feeCancel,
+			Transaction transactionCharge = new GenericTransaction(feeCancel,
 					new Date(), "liquidate", TransactionType.CHARGE);
 			transactionCharge.setEffectiveDate(new Date(System
 					.currentTimeMillis()));
@@ -251,7 +255,7 @@ public class Loan implements FinancialProduct {
 		// of
 		// the customer.
 		try {
-			Transaction transactionCharge = new Transaction(quantity,
+			Transaction transactionCharge = new GenericTransaction(quantity,
 					new Date(), "liquidate", TransactionType.CHARGE);
 			transactionCharge.setEffectiveDate(new Date(System
 					.currentTimeMillis()));
@@ -269,14 +273,14 @@ public class Loan implements FinancialProduct {
 
 		// Si la transaccion se realizo con exito descontamos el dinero de la
 		// deuda
-		if (!this.modifyCommission.getClass().equals(PercentCommission.class)) {
-			comission = quantity * this.modifyCommission.calculateCommission();
+		if (!this.modifyCommission.getClass().equals(LinearFee.class)) {
+			comission = this.modifyCommission.getFee(quantity);//quantity * this.modifyCommission.calculateCommission();
 			quantity -= comission;
 			this.debt -= quantity;
 			this.setAmortized(this.initialCapital - this.debt);
 			update();
 		} else {
-			comission = this.modifyCommission.calculateCommission();
+			comission = this.modifyCommission.getFee(quantity);//calculateCommission();
 			quantity -= comission;
 			this.debt -= quantity;
 			this.setAmortized(this.initialCapital - this.debt);
@@ -379,12 +383,12 @@ public class Loan implements FinancialProduct {
 		output.append("ID: " + this.idLoan.toString() + "\n");
 		output.append("Debt: " + this.debt + "\n");
 		output.append("Payment period: " + this.paymentPeriod + "\n");
-		if (!this.openningCommission.getClass().equals(PercentCommission.class))
+		if (!this.openningCommission.getClass().equals(LinearFee.class))
 			output.append("Comision for opening "
-					+ this.openningCommission.calculateCommission() + "\n");
+					+ this.openningCommission.getFee(debt));//calculateCommission() + "\n");
 		else
 			output.append("Comision for opening "
-					+ this.openningCommission.calculateCommission() + "\n");
+					+ this.openningCommission.getFee(debt));//calculateCommission() + "\n");
 
 		return output.toString();
 	}

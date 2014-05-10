@@ -1,4 +1,4 @@
-package src.es.unileon.ulebank.assets.financialproducts;
+package es.unileon.ulebank.financialproducts;
 
 public interface EuriborPeriod {
 	public static final String euriborOneWeek = "euribor-1-semana";

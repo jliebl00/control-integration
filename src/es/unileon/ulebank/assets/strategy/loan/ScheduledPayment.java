@@ -1,4 +1,4 @@
-package src.es.unileon.ulebank.assets.strategy.loan;
+package es.unileon.ulebank.assets.strategy.loan;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

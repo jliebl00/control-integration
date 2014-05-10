@@ -108,6 +108,6 @@ public class IteratorSubjectTest {
     }
 
     public Transaction getTransaction(String subject) throws TransactionException {
-        return new GenericTransaction(0, null, subject);//, null);
+        return new GenericTransaction(0, null, subject, null);
     }
 }
