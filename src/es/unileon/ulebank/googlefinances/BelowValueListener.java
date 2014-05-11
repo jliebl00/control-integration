@@ -12,7 +12,7 @@ public class BelowValueListener extends EnterpriseDataListener {
     @Override
     public void exec() {
         try {
-            if ((double) this.enterprise.getValue("l_fix") > this.limit) {
+            if (this.enterprise.getValue("l_fix").getDouble() > this.limit) {
                 System.out.println("(BelowValueListener) Limit: " + this.limit + "\t Current: " + this.enterprise.getValue("l_fix"));
             } else {
                 System.out.println("(BelowValueListener) Nothing to do.");

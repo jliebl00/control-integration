@@ -42,25 +42,15 @@ public class EnterpriseData<T> {
      * @return T (Generic Type: Integer || Double || String)
      * @throws ElementNotFoundException
      */
-    public T getValue(String key) throws ElementNotFoundException {
-        T data;
+    public JSONValue getValue(String key) throws ElementNotFoundException {
         if (!map.containsKey(key) || map.get(key).equals("")) {
             throw new ElementNotFoundException(key);
         }
-
-        String value = map.get(key).toString();
-        if (key.contains("_fix")) {
-            data = (T) new Double(Double.parseDouble(value));
-        } else if (key.equals("id")) {
-            data = (T) new Long(Long.parseLong(value));
-        } else {
-            data = (T) value;
-        }
-        return data;
+        return new JSONValue((T) map.get(key).toString());
     }
 
     public void refresh() throws IOException, ParseException, ElementNotFoundException {
-        this.map = GoogleFinancesApi.getInstance().searchToParsedMap((String) this.getValue("t"));
+        this.map = GoogleFinancesApi.getInstance().searchToParsedMap(getValue("t").getString());
         callListeners();
     }
 
@@ -84,26 +74,26 @@ public class EnterpriseData<T> {
             listener.exec();
         }
     }
-    
+
     public Enterprise getEnterprise() {
         Enterprise e = null;
         try {
-            long shares = parseShortenedNumber((String) getValue("shares"));
-            e = new Enterprise(new EnterpriseHandler((String) getValue("t")), shares, (Double) (shares * Double.parseDouble((String) getValue("l_fix"))));
+            long shares = parseShortenedNumber(getValue("shares").getString());
+            e = new Enterprise(new EnterpriseHandler(getValue("t").getString()), shares, (Double) (shares * getValue("l_fix").getDouble()));
         } catch (ElementNotFoundException | InvalidBuyableException ex) {
             Logger.getLogger(EnterpriseData.class.getName()).log(Level.SEVERE, null, ex);
         }
         return e;
     }
-    
+
     private long parseShortenedNumber(String value) {
         Character suffix = value.charAt(value.length() - 1);
         value = value.substring(0, value.length() - 1);
-        if(suffix == 'K') {
+        if (suffix == 'K') {
             return (long) (Double.parseDouble(value) * 1000);
-        } else if(suffix == 'M') {
+        } else if (suffix == 'M') {
             return (long) (Double.parseDouble(value) * 1000000);
-        } else if(suffix == 'G') {
+        } else if (suffix == 'G') {
             return (long) (Double.parseDouble(value) * 1000000000);
         } else {
             return Long.parseLong(value);
@@ -113,7 +103,7 @@ public class EnterpriseData<T> {
     @Override
     public boolean equals(Object object) {
         try {
-            return object != null && ((Long) this.getValue("id")).equals((Long) (((EnterpriseData) object).getValue("id")));
+            return object != null && getValue("id").getString().equals((((EnterpriseData) object).getValue("id").getString()));
         } catch (ElementNotFoundException ex) {
             System.out.println(ex);
             return false;
