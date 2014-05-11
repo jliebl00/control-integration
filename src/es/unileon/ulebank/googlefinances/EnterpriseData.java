@@ -85,14 +85,29 @@ public class EnterpriseData<T> {
         }
     }
     
-    private Enterprise getEnterprise() {
+    public Enterprise getEnterprise() {
         Enterprise e = null;
         try {
-            e = new Enterprise(new EnterpriseHandler((String) getValue("t")), ((Integer) getValue("")), ((Double) getValue("")));
+            long shares = parseShortenedNumber((String) getValue("shares"));
+            e = new Enterprise(new EnterpriseHandler((String) getValue("t")), shares, (Double) (shares * Double.parseDouble((String) getValue("l_fix"))));
         } catch (ElementNotFoundException | InvalidBuyableException ex) {
             Logger.getLogger(EnterpriseData.class.getName()).log(Level.SEVERE, null, ex);
         }
         return e;
+    }
+    
+    private long parseShortenedNumber(String value) {
+        Character suffix = value.charAt(value.length() - 1);
+        value = value.substring(0, value.length() - 1);
+        if(suffix == 'K') {
+            return (long) (Double.parseDouble(value) * 1000);
+        } else if(suffix == 'M') {
+            return (long) (Double.parseDouble(value) * 1000000);
+        } else if(suffix == 'G') {
+            return (long) (Double.parseDouble(value) * 1000000000);
+        } else {
+            return Long.parseLong(value);
+        }
     }
 
     @Override
