@@ -2,17 +2,16 @@ package es.unileon.ulebank.brokerage.buyable;
 
 import es.unileon.ulebank.users.Employee;
 import es.unileon.ulebank.brokerage.pack.StockPack;
-import es.unileon.ulebank.handler.Handler;
 import java.util.Date;
 
 public class Enterprise extends Buyable {
 
-    public Enterprise(Handler id, int amount, double totalPrice) throws InvalidBuyableException {
+    public Enterprise(EnterpriseHandler id, long amount, double totalPrice) throws InvalidBuyableException {
         super(id, amount, totalPrice);
     }
 
     @Override
-    public StockPack buy(int amount, Employee operator) throws NotEnoughParticipationsException {
+    public StockPack buy(long amount, Employee operator) throws NotEnoughParticipationsException {
         if (amount > (this.amount - this.purchasedAmount)) {
             throw new NotEnoughParticipationsException();
         }

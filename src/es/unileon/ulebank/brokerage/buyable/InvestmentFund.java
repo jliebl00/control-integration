@@ -73,7 +73,7 @@ public class InvestmentFund extends Buyable {
     }
 
     @Override
-    public InvestmentFundPack buy(int amount, Employee operator) throws NotEnoughParticipationsException {
+    public InvestmentFundPack buy(long amount, Employee operator) throws NotEnoughParticipationsException {
         if (amount > (this.amount - this.purchasedAmount)) {
             throw new NotEnoughParticipationsException();
         }

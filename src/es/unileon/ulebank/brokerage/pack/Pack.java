@@ -17,9 +17,9 @@ public abstract class Pack {
     protected final Buyable product;
 
     protected Account account;
-    protected int amount;
+    protected long amount;
 
-    public Pack(Buyable product, int amount) {
+    public Pack(Buyable product, long amount) {
         this.product = product;
         this.amount = amount;
     }
@@ -27,7 +27,7 @@ public abstract class Pack {
     /**
      * @return the amount
      */
-    public int getAmount() {
+    public long getAmount() {
         return amount;
     }
 
@@ -55,7 +55,7 @@ public abstract class Pack {
     /**
      * @param amount the amount to set
      */
-    public void setAmount(int amount) {
+    public void setAmount(long amount) {
         this.amount = amount;
     }
 }

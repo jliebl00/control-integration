@@ -7,8 +7,8 @@
 package es.unileon.ulebank.brokerage;
 
 import es.unileon.ulebank.brokerage.buyable.Enterprise;
+import es.unileon.ulebank.brokerage.buyable.EnterpriseHandler;
 import es.unileon.ulebank.brokerage.buyable.InvalidBuyableException;
-import es.unileon.ulebank.handler.Handler;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -29,7 +29,7 @@ public class BagSimulatorTest {
     @Test
     public void testGetEnterpriseHandler() throws InvalidBuyableException {
         System.out.println("getEnterpriseHandler");
-        Handler enterpriseID = null;
+        EnterpriseHandler enterpriseID = null;
         BagSimulator instance = null;
         Enterprise expResult = null;
         Enterprise result = instance.getEnterpriseHandler(enterpriseID);

@@ -1,8 +1,13 @@
 package es.unileon.ulebank.googlefinances;
 
+import es.unileon.ulebank.brokerage.buyable.Enterprise;
+import es.unileon.ulebank.brokerage.buyable.EnterpriseHandler;
+import es.unileon.ulebank.brokerage.buyable.InvalidBuyableException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.json.simple.parser.ParseException;
 
 /**
@@ -78,6 +83,16 @@ public class EnterpriseData<T> {
         for (EnterpriseDataListener listener : this.listeners) {
             listener.exec();
         }
+    }
+    
+    private Enterprise getEnterprise() {
+        Enterprise e = null;
+        try {
+            e = new Enterprise(new EnterpriseHandler((String) getValue("t")), ((Integer) getValue("")), ((Double) getValue("")));
+        } catch (ElementNotFoundException | InvalidBuyableException ex) {
+            Logger.getLogger(EnterpriseData.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return e;
     }
 
     @Override
