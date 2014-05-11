@@ -17,6 +17,7 @@ import java.util.logging.Logger;
  *
  * @author steinbeck
  */
+
 public class BuyInvestmentFund implements Command {
 
     private InvestmentFund investmentFund;
@@ -32,6 +33,7 @@ public class BuyInvestmentFund implements Command {
     private FeeStrategy fee;
 
     public BuyInvestmentFund(FundsHandler fundsId, int amount, double totalPrice, Employee opener, FeeStrategy fee, FeeStrategy cancellationFee, double profitability) {
+
         this.fundsId = fundsId;
         this.amount = amount;
         this.opener = opener;
@@ -52,7 +54,6 @@ public class BuyInvestmentFund implements Command {
 //    public Date getEffectiveDate() {
 //        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 //    }
-    
     
     @Override
     public void execute() {
