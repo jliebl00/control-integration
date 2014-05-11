@@ -3,6 +3,7 @@ package es.unileon.ulebank.handler;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.UUID;
 
 /**
  * CommandHandler class
@@ -12,6 +13,7 @@ import java.util.Date;
  */
 public class CommandHandler implements Handler {
 
+    private UUID uuid;
 	private Handler id;
 	private String date;
 	
@@ -21,6 +23,7 @@ public class CommandHandler implements Handler {
 	 */
 	public CommandHandler(Handler id){
 		this.id = id;
+                this.uuid = UUID.randomUUID();
 		DateFormat dateFormat = new SimpleDateFormat("ddMMyyyyHHmmss");
 		this.date = dateFormat.format(new Date());
 	}

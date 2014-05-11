@@ -22,4 +22,16 @@ public class GenericTransaction extends Transaction {
     public GenericTransaction(double amount, Date date, String subject) throws TransactionException {
         super(amount, date, subject);
     }
+    
+    /**
+     * @deprecated 
+     * @param amount
+     * @param date
+     * @param subject
+     * @param type
+     * @throws TransactionException 
+     */
+    public GenericTransaction(double amount, Date date, String subject, TransactionType type) throws TransactionException{
+        this(amount, date, subject);
+    }
 }

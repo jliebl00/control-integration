@@ -7,7 +7,7 @@ import es.unileon.ulebank.client.Client;
 import es.unileon.ulebank.client.Person;
 import es.unileon.ulebank.handler.Handler;
 import es.unileon.ulebank.exceptions.MalformedHandlerException;
-import es.unileon.ulebank.Office;
+import es.unileon.ulebank.office.Office;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;

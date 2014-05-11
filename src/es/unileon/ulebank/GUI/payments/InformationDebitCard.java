@@ -17,19 +17,16 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 import es.unileon.ulebank.account.Account;
-import es.unileon.ulebank.account.AccountHandler;
 import es.unileon.ulebank.client.Client;
 import es.unileon.ulebank.exceptions.CommissionException;
 import es.unileon.ulebank.exceptions.IncorrectLimitException;
+import es.unileon.ulebank.fees.FeeStrategy;
 import es.unileon.ulebank.handler.CardHandler;
 import es.unileon.ulebank.handler.DNIHandler;
-import es.unileon.ulebank.handler.GenericHandler;
-import es.unileon.ulebank.handler.OfficeHandler;
 import es.unileon.ulebank.payments.DebitCard;
-import es.unileon.ulebank.strategy.StrategyCommission;
-import es.unileon.ulebank.strategy.StrategyCommissionDebitEmission;
-import es.unileon.ulebank.strategy.StrategyCommissionDebitMaintenance;
-import es.unileon.ulebank.strategy.StrategyCommissionDebitRenovate;
+import es.unileon.ulebank.fees.DebitMaintenanceFee;
+import es.unileon.ulebank.fees.InvalidFeeException;
+import es.unileon.ulebank.fees.LinearFee;
 
 /**
  *
@@ -43,16 +40,19 @@ public class InformationDebitCard extends javax.swing.JFrame {
     CardHandler handler = new CardHandler();
 	Client client;
 	Account account;
-	StrategyCommission commissionEmission = new StrategyCommissionDebitEmission(25);
-	StrategyCommission commissionMaintenance = new StrategyCommissionDebitMaintenance(client, 0);
-	StrategyCommission commissionRenovate = new StrategyCommissionDebitRenovate(0);
+	   FeeStrategy commissionEmission ;
+	FeeStrategy commissionMaintenance ;
+	FeeStrategy commissionRenovate ;
 	
     
     /**
      * Creates new form InformationDevitCard1
      */
 
-    public InformationDebitCard(int buyLimitDiary, int cashLimitDiary, int buyLimitMonthly, int cashLimitMonthly, String dni, String accountNumber) throws NumberFormatException, CommissionException, IOException {
+    public InformationDebitCard(int buyLimitDiary, int cashLimitDiary, int buyLimitMonthly, int cashLimitMonthly, String dni, String accountNumber) throws NumberFormatException, CommissionException, IOException, InvalidFeeException {
+           commissionEmission = new LinearFee(25,0);
+	 commissionMaintenance = new DebitMaintenanceFee(client, 0);
+	 commissionRenovate = new LinearFee(0,0);
         handler = new CardHandler();
 //        account = new Account(new AccountHandler(new OfficeHandler("0001"), new GenericHandler("1234"), "1234567890"));
         initComponents();
@@ -71,7 +71,7 @@ public class InformationDebitCard extends javax.swing.JFrame {
         DNIHandler Nif = new DNIHandler(numberDNI, letter);
         client = new Client(Nif, 25);
         
-        card = new DebitCard(handler, client, account, buyLimitDiary, buyLimitMonthly, cashLimitDiary, cashLimitMonthly, commissionEmission.calculateCommission(), commissionMaintenance.calculateCommission(), commissionRenovate.calculateCommission(), 0);
+        card = new DebitCard(handler, client, account, buyLimitDiary, buyLimitMonthly, cashLimitDiary, cashLimitMonthly, 25,0,0, 0);
 
         
         try {
@@ -93,9 +93,9 @@ public class InformationDebitCard extends javax.swing.JFrame {
         this.jTextField7.setText(this.card.getCvv());
         this.jTextField9.setText(String.valueOf(this.card.getCashLimitMonthly()));
         this.jTextField10.setText(String.valueOf(this.card.getBuyLimitMonthly()));
-        this.jTextField8.setText(String.valueOf(commissionEmission.calculateCommission()));
-        this.jTextField11.setText(String.valueOf(commissionMaintenance.calculateCommission()));
-        this.jTextField12.setText(String.valueOf(commissionRenovate.calculateCommission()));
+        this.jTextField8.setText(String.valueOf(25));//commissionEmission.calculateCommission()));
+        this.jTextField11.setText(String.valueOf(0));//commissionMaintenance.calculateCommission()));
+        this.jTextField12.setText(String.valueOf(0));//commissionRenovate.calculateCommission()));
 //        this.jTextField8.setText(String.valueOf(card.getCommission()));
     }
     
@@ -367,7 +367,7 @@ public class InformationDebitCard extends javax.swing.JFrame {
     private void jTextField8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField8ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField8ActionPerformed
-    //Abrimos el contrato de la tarjeta de d������������������bito
+    //Abrimos el contrato de la tarjeta de débito
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
        
         try {

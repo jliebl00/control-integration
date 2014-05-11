@@ -16,7 +16,8 @@ import org.junit.runners.Suite;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({es.unileon.ulebank.brokerage.BagSimulatorTest.class,
 es.unileon.ulebank.brokerage.pack.PackageBrokeragePackTest.class,
-es.unileon.ulebank.brokerage.fees.PackageBrokerageFeesTest.class})
+es.unileon.ulebank.brokerage.fees.PackageBrokerageFeesTest.class,
+es.unileon.ulebank.brokerage.buyable.PackageBrokerageBuyableTest.class})
 
 public class PackageBrokerageTest {
     

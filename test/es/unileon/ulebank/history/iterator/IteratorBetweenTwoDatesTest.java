@@ -4,6 +4,7 @@ package es.unileon.ulebank.history.iterator;
 
 import es.unileon.ulebank.history.GenericTransaction;
 import es.unileon.ulebank.history.Transaction;
+import es.unileon.ulebank.history.TransactionException;
 import es.unileon.ulebank.history.TransactionType;
 import es.unileon.ulebank.history.conditions.WrongArgsException;
 import java.util.ArrayList;
@@ -29,7 +30,7 @@ public class IteratorBetweenTwoDatesTest {
     private long max;
 
     @Before
-    public void setup() throws WrongArgsException {
+    public void setup() throws WrongArgsException, TransactionException {
         this.min = 100;
         this.max = 2000;
         this.elements = new ArrayList<>();
@@ -100,7 +101,7 @@ public class IteratorBetweenTwoDatesTest {
         assertEquals(this.iteratorFromList.next(), null);
     }
 
-    public Transaction getTransaction(long timestamp) {
+    public Transaction getTransaction(long timestamp) throws TransactionException {
         Transaction t = new GenericTransaction(0, null, null, TransactionType.CHARGE);
         t.setEffectiveDate(new Date(timestamp));
         return t;

@@ -1,9 +1,8 @@
 package es.unileon.ulebank.brokerage;
 
-import es.unileon.ulebank.Employee;
+import es.unileon.ulebank.users.Employee;
 import es.unileon.ulebank.account.Account;
 import es.unileon.ulebank.account.exception.BalanceException;
-import es.unileon.ulebank.exceptions.TransactionException;
 import es.unileon.ulebank.brokerage.buyable.Enterprise;
 import es.unileon.ulebank.brokerage.buyable.InvalidBuyableException;
 import es.unileon.ulebank.brokerage.buyable.InvestmentFund;
@@ -16,6 +15,7 @@ import es.unileon.ulebank.fees.DefaultFeeProvider;
 import es.unileon.ulebank.fees.FeeStrategy;
 import es.unileon.ulebank.fees.FeeTransaction;
 import es.unileon.ulebank.history.History;
+import es.unileon.ulebank.history.TransactionException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Level;

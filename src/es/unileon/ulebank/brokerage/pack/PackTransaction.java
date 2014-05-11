@@ -5,7 +5,7 @@
  */
 package es.unileon.ulebank.brokerage.pack;
 
-import es.unileon.ulebank.Employee;
+import es.unileon.ulebank.users.Employee;
 import es.unileon.ulebank.history.Transaction;
 import es.unileon.ulebank.history.TransactionException;
 import es.unileon.ulebank.history.TransactionType;

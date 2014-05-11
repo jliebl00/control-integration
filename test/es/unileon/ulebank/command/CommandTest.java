@@ -4,11 +4,7 @@
  */
 package es.unileon.ulebank.command;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import static org.junit.Assert.fail;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
@@ -17,24 +13,11 @@ import org.junit.Test;
  */
 public class CommandTest {
     
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
-        public CommandTest() {
-        }
     
     @Before
     public void setUp() {
     }
     
-    @After
-    public void tearDown() {
-    }
 
     /**
      * Test of execute method, of class Command.

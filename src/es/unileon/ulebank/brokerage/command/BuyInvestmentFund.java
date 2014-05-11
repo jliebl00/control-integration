@@ -1,6 +1,6 @@
 package es.unileon.ulebank.brokerage.command;
 
-import es.unileon.ulebank.Employee;
+import es.unileon.ulebank.users.Employee;
 import es.unileon.ulebank.brokerage.InvestmentAccount;
 import es.unileon.ulebank.brokerage.buyable.InvalidBuyableException;
 import es.unileon.ulebank.brokerage.buyable.InvestmentFund;

@@ -2,7 +2,6 @@
  group.*/
 package es.unileon.ulebank.account;
 
-import es.unileon.ulebank.exceptions.TransactionException;
 import es.unileon.ulebank.bank.Bank;
 import es.unileon.ulebank.client.Client;
 import es.unileon.ulebank.handler.GenericHandler;
@@ -10,9 +9,10 @@ import es.unileon.ulebank.handler.Handler;
 import es.unileon.ulebank.exceptions.MalformedHandlerException;
 import es.unileon.ulebank.history.GenericTransaction;
 import es.unileon.ulebank.history.TransactionType;
-import es.unileon.ulebank.Office;
-import es.unileon.ulebank.transacionManager.TransactionManager;
+import es.unileon.ulebank.office.Office;
+import es.unileon.ulebank.transactionManager.TransactionManager;
 import es.unileon.ulebank.history.History;
+import es.unileon.ulebank.history.TransactionException;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
