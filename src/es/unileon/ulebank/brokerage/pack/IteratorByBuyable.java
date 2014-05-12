@@ -44,5 +44,10 @@ public class IteratorByBuyable implements Iterator {
         this.calcNext();
         return n;
     }
+
+    @Override
+    public void remove() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
     
 }
