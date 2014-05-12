@@ -7,6 +7,7 @@
 package es.unileon.ulebank.GUI.payments;
 
 import es.unileon.ulebank.exceptions.CommissionException;
+import es.unileon.ulebank.fees.InvalidFeeException;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -154,6 +155,8 @@ public class NewCardWindow extends javax.swing.JFrame {
         } catch (CommissionException ex) {
             Logger.getLogger(NewCardWindow.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
+            Logger.getLogger(NewCardWindow.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InvalidFeeException ex) {
             Logger.getLogger(NewCardWindow.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton1ActionPerformed

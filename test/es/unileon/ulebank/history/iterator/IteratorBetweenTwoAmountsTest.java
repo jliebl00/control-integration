@@ -4,9 +4,9 @@ package es.unileon.ulebank.history.iterator;
 
 import es.unileon.ulebank.history.GenericTransaction;
 import es.unileon.ulebank.history.Transaction;
+import es.unileon.ulebank.history.TransactionException;
 import es.unileon.ulebank.history.conditions.WrongArgsException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import static org.junit.Assert.assertEquals;
@@ -28,7 +28,7 @@ public class IteratorBetweenTwoAmountsTest {
     private double max;
 
     @Before
-    public void setup() throws WrongArgsException {
+    public void setup() throws WrongArgsException, TransactionException {
         this.min = 100;
         this.max = 2000;
         this.elements = new ArrayList<>();
@@ -99,7 +99,7 @@ public class IteratorBetweenTwoAmountsTest {
         assertEquals(this.iteratorFromList.next(), null);
     }
 
-    public Transaction getTransaction(double amount) {
+    public Transaction getTransaction(double amount) throws TransactionException {
         return new GenericTransaction(amount, null, null, null);
     }
 }

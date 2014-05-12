@@ -1,6 +1,6 @@
 package es.unileon.ulebank.brokerage.buyable;
 
-import es.unileon.ulebank.Employee;
+import es.unileon.ulebank.users.Employee;
 import es.unileon.ulebank.brokerage.pack.InvestmentFundPack;
 import es.unileon.ulebank.fees.FeeStrategy;
 import es.unileon.ulebank.handler.Handler;
@@ -73,7 +73,7 @@ public class InvestmentFund extends Buyable {
     }
 
     @Override
-    public InvestmentFundPack buy(int amount, Employee operator) throws NotEnoughParticipationsException {
+    public InvestmentFundPack buy(long amount, Employee operator) throws NotEnoughParticipationsException {
         if (amount > (this.amount - this.purchasedAmount)) {
             throw new NotEnoughParticipationsException();
         }

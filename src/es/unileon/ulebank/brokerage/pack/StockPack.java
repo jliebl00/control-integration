@@ -9,7 +9,7 @@ public class StockPack extends Pack {
     private final double price;
     private final Date date;    
 
-    public StockPack(Buyable product, int amount, double price, Date date) {
+    public StockPack(Buyable product, long amount, double price, Date date) {
         super(product, amount);
         
         this.price = price;
@@ -31,8 +31,8 @@ public class StockPack extends Pack {
         return date;
     }
     
-    public void sell(int amount) throws NotEnoughParticipationsException {
-        int stockage = this.amount - amount;
+    public void sell(long amount) throws NotEnoughParticipationsException {
+        long stockage = this.amount - amount;
         if(stockage < 0) {
             throw new NotEnoughParticipationsException();
         }

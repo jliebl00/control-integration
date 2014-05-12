@@ -11,7 +11,6 @@ import java.util.List;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -33,7 +32,7 @@ public class HistoryTest {
      * Test of add method, of class AccountHistory.
      */
     @Test
-    public void testAddGenericTransaction() {
+    public void testAddGenericTransaction() throws TransactionException {
         Transaction transaction = new GenericTransaction(10.5d, new Date(), "Imposicion", TransactionType.CHARGE);
         assertTrue(this.accountHistory.add(transaction));
     }
@@ -42,7 +41,7 @@ public class HistoryTest {
      * Test of getTransactions method, of class AccountHistory.
      */
     @Test
-    public void testGetTransactions() throws ParseException {
+    public void testGetTransactions() throws ParseException, TransactionException {
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd/M/yyyy");
         Date date1 = sdf.parse("01/01/2014");

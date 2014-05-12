@@ -1,18 +1,15 @@
 package es.unileon.ulebank.brokerage.pack;
 
-import static org.junit.Assert.*;
-
+import es.unileon.ulebank.brokerage.buyable.Buyable;
+import es.unileon.ulebank.brokerage.buyable.Enterprise;
+import es.unileon.ulebank.brokerage.buyable.EnterpriseHandler;
+import es.unileon.ulebank.brokerage.buyable.NotEnoughParticipationsException;
 import java.text.ParseException;
 import java.util.Date;
-
+import static org.junit.Assert.*;
 
 import org.junit.Before;
 import org.junit.Test;
-
-import es.unileon.ulebank.brokerage.buyable.Buyable;
-import es.unileon.ulebank.brokerage.buyable.Enterprise;
-import es.unileon.ulebank.brokerage.buyable.NotEnoughParticipationsException;
-import es.unileon.ulebank.handler.Handler;
 
 /**
  * 
@@ -25,7 +22,7 @@ public class StockPackTest {
 	private StockPack stockPack2;
 	private Date date;
 	private Buyable product1;
-	private Handler id1;
+	private EnterpriseHandler id1;
 	private int amount;
 	
 	@SuppressWarnings("deprecation")

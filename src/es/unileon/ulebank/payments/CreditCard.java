@@ -3,10 +3,9 @@ package es.unileon.ulebank.payments;
 import es.unileon.ulebank.account.Account;
 import es.unileon.ulebank.client.Client;
 import es.unileon.ulebank.exceptions.CommissionException;
+import es.unileon.ulebank.fees.InvalidFeeException;
 import es.unileon.ulebank.handler.CardHandler;
-import es.unileon.ulebank.strategy.StrategyCommissionCreditEmission;
-import es.unileon.ulebank.strategy.StrategyCommissionCreditMaintenance;
-import es.unileon.ulebank.strategy.StrategyCommissionCreditRenovate;
+import es.unileon.ulebank.fees.LinearFee;
 
 /**
  * @author Israel
@@ -31,10 +30,10 @@ public class CreditCard extends Card {
 	 */
 	public CreditCard(CardHandler cardId, Client owner, Account account, double buyLimitDiary, double buyLimitMonthly, 
 			double cashLimitDiary, double cashLimitMonthly, float commissionEmission, 
-			float commissionMaintenance, float commissionRenovate, double limitDebit) throws CommissionException {
+			float commissionMaintenance, float commissionRenovate, double limitDebit) throws InvalidFeeException  {
 		super(cardId, CardType.CREDIT, buyLimitDiary, buyLimitMonthly, cashLimitDiary, cashLimitMonthly,
-				new StrategyCommissionCreditEmission(commissionEmission),
-				new StrategyCommissionCreditMaintenance(commissionMaintenance),
-				new StrategyCommissionCreditRenovate(commissionRenovate), limitDebit);
+				new LinearFee(commissionEmission,0),
+				new LinearFee(commissionMaintenance,0),
+				new LinearFee(commissionRenovate,0), limitDebit);
 	}
 }

@@ -3,15 +3,15 @@
 package es.unileon.ulebank.bank;
 
 import es.unileon.ulebank.account.Account;
-import es.unileon.ulebank.exceptions.TransactionException;
 import es.unileon.ulebank.handler.GenericHandler;
 import es.unileon.ulebank.handler.Handler;
 import es.unileon.ulebank.exceptions.MalformedHandlerException;
 import es.unileon.ulebank.history.GenericTransaction;
 import es.unileon.ulebank.history.Transaction;
+import es.unileon.ulebank.history.TransactionException;
 import es.unileon.ulebank.history.TransactionType;
-import es.unileon.ulebank.Office;
-import es.unileon.ulebank.transacionManager.TransactionManager;
+import es.unileon.ulebank.office.Office;
+import es.unileon.ulebank.transactionManager.TransactionManager;
 import java.util.Date;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
