@@ -5,8 +5,6 @@ import es.unileon.ulebank.brokerage.buyable.Enterprise;
 import es.unileon.ulebank.brokerage.buyable.EnterpriseHandler;
 import es.unileon.ulebank.brokerage.buyable.InvalidBuyableException;
 import es.unileon.ulebank.exceptions.MalformedHandlerException;
-import es.unileon.ulebank.handler.Handler;
-import es.unileon.ulebank.handler.ShareHandler;
 import java.util.ArrayList;
 import java.util.Iterator;
 
