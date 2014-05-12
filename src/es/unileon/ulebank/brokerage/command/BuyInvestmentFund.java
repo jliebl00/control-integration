@@ -17,7 +17,6 @@ import java.util.logging.Logger;
  *
  * @author steinbeck
  */
-
 public class BuyInvestmentFund implements Command {
 
     private InvestmentFund investmentFund;
@@ -54,7 +53,6 @@ public class BuyInvestmentFund implements Command {
 //    public Date getEffectiveDate() {
 //        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 //    }
-    
     @Override
     public void execute() {
         try {
@@ -65,8 +63,16 @@ public class BuyInvestmentFund implements Command {
     }
 
     @Override
+
+    //Esto es temporal ya que se queja porque esta override y habría que
+    //modificarlo en el padre. SE comprobará estos dias proximos
+    //
     public void undo() {
-        //no confirmado como realizarlo  
+        try {
+            throw new NotUndoCommandException("This action is not avai");
+        } catch (NotUndoCommandException ex) {
+            Logger.getLogger(BuyInvestmentFund.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override

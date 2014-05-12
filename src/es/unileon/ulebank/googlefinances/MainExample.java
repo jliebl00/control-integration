@@ -12,6 +12,7 @@ public class MainExample {
         GoogleFinancesApi gf = GoogleFinancesApi.getInstance();
         //Lookup Google
         EnterpriseData google = gf.searchToEnterpriseData("GOOG");
+        
         //Add listener
         google.addListener(new AboveValueListener(google, 552.5));
         //Every second, basic information(getBasicInfo) is checked and decides the event must be thrown or not(callEnterprises)

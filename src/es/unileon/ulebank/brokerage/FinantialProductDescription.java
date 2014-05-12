@@ -35,7 +35,26 @@ public class FinantialProductDescription {
 	private void addRequirement(int requirements){
 		this.requirements.add(requirements);
 	}
+	
+	public static void main(String[] args) {
+		//Mis respuestas afirmativas
+		ArrayList<Integer> arr = new ArrayList<>();
+		arr.add(3);
+		arr.add(4);
+		
+		//Lista de productos
+		ArrayList<FinantialProductDescription> productos = new ArrayList<>();
+		productos.add(new FinantialProductDescription(TypeFinancialProducts.Share));
+		productos.add(new FinantialProductDescription(TypeFinancialProducts.Funds));
+		
+		for(FinantialProductDescription p : productos){
+			if(p.canOffer(arr)){
+				System.out.println("puedo acceder a :" + p);
+			}
+		}
+		
 
+	}
 	
 	@Override
 	public String toString() {

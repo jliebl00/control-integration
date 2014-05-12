@@ -8,7 +8,7 @@ public class EnterpriseHandler implements Handler{
     private String ticker;
     
     public EnterpriseHandler(String ticker) throws MalformedHandlerException {
-        if(ticker.length() == 5){
+        if(ticker.length() < 6){
             this.ticker = ticker;
         }else{
             throw new MalformedHandlerException("Invalid ticker");
