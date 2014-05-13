@@ -48,6 +48,13 @@ public class EnterpriseData<T> {
         }
         return new JSONValue((T) map.get(key).toString());
     }
+    
+    public void setValue(String key, String value) throws ElementNotFoundException {
+        if (!map.containsKey(key) || map.get(key).equals("")) {
+            throw new ElementNotFoundException(key);
+        }
+        map.put(key, value);
+    }
 
     public void refresh() throws IOException, ParseException, ElementNotFoundException {
         this.map = GoogleFinancesApi.getInstance().searchToParsedMap(getValue("t").getString());
