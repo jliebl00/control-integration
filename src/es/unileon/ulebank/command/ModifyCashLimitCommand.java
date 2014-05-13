@@ -1,9 +1,8 @@
 package es.unileon.ulebank.command;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-import es.unileon.ulebank.office.Office;
+import org.apache.log4j.Logger;
+
 import es.unileon.ulebank.account.Account;
 import es.unileon.ulebank.account.AccountHandler;
 import es.unileon.ulebank.exceptions.ClientNotFoundException;
@@ -12,25 +11,44 @@ import es.unileon.ulebank.handler.CardHandler;
 import es.unileon.ulebank.handler.CommandHandler;
 import es.unileon.ulebank.handler.DNIHandler;
 import es.unileon.ulebank.handler.Handler;
+import es.unileon.ulebank.office.Office;
 import es.unileon.ulebank.payments.Card;
 
 /**
  * @author Israel
  */
 public class ModifyCashLimitCommand implements Command {
-	//Identificador del comando
+	/**
+	 * Logger de la clase
+	 */
+	private static final Logger LOG = Logger.getLogger(ModifyCashLimitCommand.class.getName());
+	/**
+	 * Identificador del comando
+	 */
 	private Handler id;
-	//Objeto tarjeta cuyos limites se van a modificar
+	/**
+	 * Objeto tarjeta cuyos limites se van a modificar
+	 */
 	private Card card;
-	//Cuenta a la que esta asociada la tarjeta que vamos a modificar
+	/**
+	 * Cuenta a la que esta asociada la tarjeta que vamos a modificar
+	 */
 	private Account account;
-	//Identificador de la tarjeta que se va a modificar
-	private CardHandler cardId;
-	//Nueva cantidad a modificar
+	/**
+	 * Identificador de la tarjeta que se va a modificar
+	 */
+	private Handler cardId;
+	/**
+	 * Nueva cantidad a modificar
+	 */
 	private double newAmount;
-	//Cantidad antes de la modificacion
+	/**
+	 * Cantidad antes de la modificacion
+	 */
 	private double oldAmount;
-	//Tipo de limite a modificar (diario o mensual)
+	/**
+	 * Tipo de limite a modificar (diario o mensual)
+	 */
 	private String type;
 	
 	/**
@@ -42,16 +60,20 @@ public class ModifyCashLimitCommand implements Command {
 	 * @param amount
 	 * @param type
 	 */
-	public ModifyCashLimitCommand(CardHandler cardId, Office office, DNIHandler dni, AccountHandler accountHandler, double amount, String type) {
+	public ModifyCashLimitCommand(Handler cardId, Office office, Handler dni, Handler accountHandler, double amount, String type) {
 		try {
 			this.id = new CommandHandler(cardId);
 			this.cardId = cardId;
-			this.account = office.searchClient(dni).searchAccount(accountHandler);
+			this.account = office.searchClient((DNIHandler) dni).searchAccount((AccountHandler) accountHandler);
 			this.newAmount = amount;
 			this.type = type;
 		} catch (ClientNotFoundException e) {
-			Logger.getLogger(ModifyCashLimitCommand.class.toString()).log(Level.SEVERE, null, e);
-		}
+			LOG.info("Client with dni " + dni.toString() + " is not found");
+		} catch (NullPointerException e) {
+			LOG.info(e.getMessage());
+		}/* catch (AccountNotFoundException e) {
+			LOG.info("Account with number " + accountHandler.toString() + " is not found");
+		}*/
 	}
 	
 	/**
@@ -60,32 +82,32 @@ public class ModifyCashLimitCommand implements Command {
 	@Override
 	public void execute() {
 		//Buscamos la tarjeta con el identificador de la misma en la lista de tarjetas de la cuenta
-		this.card = account.searchCard(cardId);
-		
-		//Si el limite a modificar es diario
-		if (type.equalsIgnoreCase("diary")) {
-			try {
-				//Guardamos la cantidad anterior para poder deshacer la operacion
-				this.oldAmount = this.card.getCashLimitDiary();
-				//Cambiamos el limite por el indicado
-				this.card.setCashLimitDiary(newAmount);
-			} catch (IncorrectLimitException e) {
-				Logger.getLogger(ModifyCashLimitCommand.class.toString()).log(Level.SEVERE, null, e);
+		try {
+			this.card = account.searchCard((CardHandler) cardId);
+			
+			//Si el limite a modificar es diario
+			if (type.equalsIgnoreCase("diary")) {
+					//Guardamos la cantidad anterior para poder deshacer la operacion
+					this.oldAmount = this.card.getCashLimitDiary();
+					//Cambiamos el limite por el indicado
+					this.card.setCashLimitDiary(newAmount);
+				//Si el limite a modificar es mensual
+			} else if (type.equalsIgnoreCase("monthly")) {
+					//Guardamos la cantidad anterior para poder deshacer la operacion
+					this.oldAmount = this.card.getCashLimitMonthly();
+					//Cambiamos el limite por el indicado
+					this.card.setCashLimitMonthly(newAmount);
+				//Si no se indica el tipo de limite a modificar adecuadamente no va a realizar la operacion
+			} else {
+				LOG.info("Limit type not defined");
 			}
-			//Si el limite a modificar es mensual
-		} else if (type.equalsIgnoreCase("monthly")) {
-			try {
-				//Guardamos la cantidad anterior para poder deshacer la operacion
-				this.oldAmount = this.card.getCashLimitMonthly();
-				//Cambiamos el limite por el indicado
-				this.card.setCashLimitMonthly(newAmount);
-			} catch (IncorrectLimitException e) {
-				Logger.getLogger(ModifyBuyLimitCommand.class.toString()).log(Level.SEVERE, "Monthly limit cannot be smaller than diary", e);
-			}
-			//Si no se indica el tipo de limite a modificar adecuadamente no va a realizar la operacion
-		} else {
-			Logger.getLogger(ModifyBuyLimitCommand.class.toString()).log(Level.SEVERE, "Limit type not defined");
-		}
+		} catch (NullPointerException e) {
+			LOG.info(e.getMessage());
+		} /*catch (CardNotFoundException e) {
+			LOG.info("Card with number " + cardId.toString() + " is not found");
+		}*/ catch (IncorrectLimitException e) {
+			LOG.info(e.getMessage());
+		}		
 	}
 
 	/**
@@ -99,7 +121,7 @@ public class ModifyCashLimitCommand implements Command {
 				//Recuperamos el limite anterior
 				this.card.setCashLimitDiary(oldAmount);
 			} catch (IncorrectLimitException e) {
-				Logger.getLogger(ModifyCashLimitCommand.class.toString()).log(Level.SEVERE, null, e);
+				LOG.info(e.getMessage());
 			}
 			//Si el tipo es mensual
 		} else if (type.equalsIgnoreCase("monthly")) {
@@ -107,11 +129,11 @@ public class ModifyCashLimitCommand implements Command {
 				//Recuperamos el limite anterior
 				this.card.setCashLimitMonthly(oldAmount);
 			} catch (IncorrectLimitException e) {
-				Logger.getLogger(ModifyBuyLimitCommand.class.toString()).log(Level.SEVERE, "Monthly limit cannot be smaller than diary", e);
+				LOG.info(e.getMessage());
 			}
 			//Si no se indica el tipo de limite a modificar adecuadamente no va a realizar la operacion
 		} else {
-			Logger.getLogger(ModifyBuyLimitCommand.class.toString()).log(Level.SEVERE, "Limit type not defined");
+			LOG.info("Limit type not defined");
 		}
 	}
 
@@ -126,7 +148,7 @@ public class ModifyCashLimitCommand implements Command {
 				//Volvemos a cambiar el limite por el que lo habiamos cambiado anteriormente
 				this.card.setCashLimitDiary(newAmount);
 			} catch (IncorrectLimitException e) {
-				Logger.getLogger(ModifyCashLimitCommand.class.toString()).log(Level.SEVERE, null, e);
+				LOG.info(e.getMessage());
 			}
 			//Si el tipo es mensual
 		} else if (type.equalsIgnoreCase("monthly")) {
@@ -134,11 +156,11 @@ public class ModifyCashLimitCommand implements Command {
 				//Volvemos a cambiar el limite por el que lo habiamos cambiado anteriormente
 				this.card.setCashLimitMonthly(newAmount);
 			} catch (IncorrectLimitException e) {
-				Logger.getLogger(ModifyBuyLimitCommand.class.toString()).log(Level.SEVERE, "Monthly limit cannot be smaller than diary", e);
+				LOG.info(e.getMessage());
 			}
 			//Si no se indica el tipo de limite a modificar adecuadamente no va a realizar la operacion
 		} else {
-			Logger.getLogger(ModifyBuyLimitCommand.class.toString()).log(Level.SEVERE, "Limit type not defined");
+			LOG.info("Limit type not defined");
 		}
 	}
 	

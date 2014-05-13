@@ -1,10 +1,9 @@
 package es.unileon.ulebank.command;
 
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-import es.unileon.ulebank.office.Office;
+import org.apache.log4j.Logger;
+
 import es.unileon.ulebank.account.Account;
 import es.unileon.ulebank.account.AccountHandler;
 import es.unileon.ulebank.exceptions.ClientNotFoundException;
@@ -12,6 +11,7 @@ import es.unileon.ulebank.handler.CardHandler;
 import es.unileon.ulebank.handler.CommandHandler;
 import es.unileon.ulebank.handler.DNIHandler;
 import es.unileon.ulebank.handler.Handler;
+import es.unileon.ulebank.office.Office;
 import es.unileon.ulebank.payments.Card;
 
 /**
@@ -19,25 +19,49 @@ import es.unileon.ulebank.payments.Card;
  * Comando para la sustitucion de la tarjeta
  */
 public class ReplacementCardCommand implements Command {
-	//Identificador del comando
+	/**
+	 * Logger de la clase
+	 */
+	private static final Logger LOG = Logger.getLogger(ReplacementCardCommand.class.getName());
+	/**
+	 * Identificador del comando
+	 */
 	private Handler id;
-	//Tarjeta que vamos a sustituir
+	/**
+	 * Tarjeta que vamos a sustituir
+	 */
 	private Card card;
-	//Identificador de la tarjeta a sustituir
-	private CardHandler cardId;
-	//Cuenta a la que esta asociada la tarjeta
+	/**
+	 * Identificador de la tarjeta a sustituir
+	 */
+	private Handler cardId;
+	/**
+	 * Cuenta a la que esta asociada la tarjeta
+	 */
 	private Account account;
-	//PIN antes de la sustitucion
+	/**
+	 * PIN antes de la sustitucion
+	 */
 	private String oldPin;
-	//PIN nuevo que es generado
+	/**
+	 * PIN nuevo que es generado
+	 */
 	private String newPin;
-	//CVV antes de la sustitucion
+	/**
+	 * CVV antes de la sustitucion
+	 */
 	private String oldCvv;
-	//CVV nuevo que es generado
+	/**
+	 * CVV nuevo que es generado
+	 */
 	private String newCvv;
-	//Anterior fecha de caducidad
+	/**
+	 * Anterior fecha de caducidad
+	 */
 	private String oldExpirationDate;
-	//Nueva fecha de caducidad
+	/**
+	 * Nueva fecha de caducidad
+	 */
 	private String newExpirationDate;
 	
 	/**
@@ -47,14 +71,18 @@ public class ReplacementCardCommand implements Command {
 	 * @param dni
 	 * @param accountHandler
 	 */
-	public ReplacementCardCommand(CardHandler cardId, Office office, DNIHandler dni, AccountHandler accountHandler) {
+	public ReplacementCardCommand(Handler cardId, Office office, Handler dni, Handler accountHandler) {
 		try {
 			this.id = new CommandHandler(cardId);
 			this.cardId = cardId;
-			this.account = office.searchClient(dni).searchAccount(accountHandler);
+			this.account = office.searchClient((DNIHandler) dni).searchAccount((AccountHandler) accountHandler);
 		} catch (ClientNotFoundException e) {
-			Logger.getLogger(ReplacementCardCommand.class.toString()).log(Level.SEVERE, null, e);
-		}
+			LOG.info("Client with DNI " + dni.toString() + " does not exists");
+		} catch (NullPointerException e) {
+			LOG.info(e.getMessage());
+		}/* catch (AccountNotFoundException e) {
+			LOG.info("Account with number " + accountHandler.toString() + " does not exists");
+		}*/
 	}
 	
 	/**
@@ -64,7 +92,7 @@ public class ReplacementCardCommand implements Command {
 	public void execute() {
 		try {
 			//Buscamos la tarjeta en la cuenta a la que esta asociada a traves del identificador
-			this.card = account.searchCard(cardId);
+			this.card = account.searchCard((CardHandler) cardId);
 			//Guardamos el PIN anterior
 			this.oldPin = card.getPin();
 			//Generamos el nuevo PIN y lo almacenamos
@@ -84,8 +112,12 @@ public class ReplacementCardCommand implements Command {
 			//Cambiamos la fecha de caducidad por la nueva
 			this.card.setExpirationDate(newExpirationDate);
 		} catch (IOException e) {
-			Logger.getLogger(ReplacementCardCommand.class.toString()).log(Level.SEVERE, "Incorrect Pin");
-		}
+			LOG.info(e.getMessage());
+		} catch (NullPointerException e) {
+			LOG.info(e.getMessage());
+		}/* catch (CardNotFoundException e) {
+			LOG.info("Card with number " + cardId.toString() + " does not exists");
+		}*/
 		
 	}
 
@@ -102,7 +134,7 @@ public class ReplacementCardCommand implements Command {
 			//Restaura la fecha de caducidad
 			this.card.setExpirationDate(oldExpirationDate);
 		} catch (IOException e) {
-			Logger.getLogger(ReplacementCardCommand.class.toString()).log(Level.SEVERE, null, e);
+			LOG.info(e.getMessage());
 		}
 	}
 
@@ -119,7 +151,7 @@ public class ReplacementCardCommand implements Command {
 			//Vuelve a cambiar la fecha de caducidad por la nueva
 			this.card.setExpirationDate(newExpirationDate);
 		} catch (IOException e) {
-			Logger.getLogger(ReplacementCardCommand.class.toString()).log(Level.SEVERE, null, e);
+			LOG.info(e.getMessage());
 		}
 	}
 

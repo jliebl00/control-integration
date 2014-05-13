@@ -1,5 +1,9 @@
 package es.unileon.ulebank.payments;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Properties;
 import java.util.Random;
 
 import es.unileon.ulebank.exceptions.SecurityCardException;
@@ -13,17 +17,44 @@ import es.unileon.ulebank.exceptions.SecurityCardException;
  */
 public class SecurityCard {
 
-	private boolean activate; //Value that indicates if the SecurityCard is given to the owner
-	private final int ROW = 4; //Number of the rows in the matrix
-	private final int COLUMNS = 10; //Number of the columns in the matrix
-	private Integer[][] coordinates; //Matrix which store the coordinates of the security card
-	private Card associatedCard; //Card which owns this security card
+	/**
+	 * Global variable for search the row dimension in card.properties
+	 */
+	private final String DIMENSION_ROW = "row";
+	/**
+	 * Global variable for search the column dimension in card.properties
+	 */
+	private final String DIMENSION_COLUMNS = "columns";
+	/**
+	 * Value that indicates if the SecurityCard is given to the owner
+	 */
+	private boolean activate;
+	/**
+	 * Number of the rows in the matrix
+	 */
+	private int row;
+	/**
+	 * Number of the columns in the matrix
+	 */
+	private int columns;
+	/**
+	 * Matrix which store the coordinates of the security card
+	 */
+	private Integer[][] coordinates;
+	/**
+	 * Card which owns this security card
+	 */
+	private Card associatedCard;
 	
 	/**
+	 * @throws IOException 
+	 * @throws NumberFormatException 
 	 * @brief Security Card constructor
 	 */
-	public SecurityCard(Card card){
-		this.coordinates = new Integer[ROW][COLUMNS];
+	public SecurityCard(Card card) throws NumberFormatException, IOException{
+		this.setDefaultRow();
+		this.setDefaultColumns();
+		this.coordinates = new Integer[row][columns];
 		this.createCoordinates(this.coordinates);
 		this.associatedCard = card;
 		this.activate = false;
@@ -36,8 +67,8 @@ public class SecurityCard {
 	private void createCoordinates(Integer[][] coordinates){
 		Random randomGenerator = new Random();
 		
-		for (int i = 0; i < this.ROW; i++ ){
-			for (int j = 0; j < this.COLUMNS; j++){		
+		for (int i = 0; i < this.row; i++ ){
+			for (int j = 0; j < this.columns; j++){		
 				this.coordinates[i][j] = randomGenerator.nextInt(100);
 			}
 		}
@@ -51,7 +82,7 @@ public class SecurityCard {
 	 * @throws SecurityCardException 
 	 */
 	private Integer getCoordinate(int row, int column) throws SecurityCardException{
-		if ( ( (row >= 0) && (row < this.ROW) ) && ( (column >= 0) && (column < this.COLUMNS) ) )
+		if ( ( (row >= 0) && (row < this.row) ) && ( (column >= 0) && (column < this.columns) ) )
 			return this.coordinates[row][column];
 		else
 			throw new SecurityCardException("Index out of range");
@@ -73,7 +104,7 @@ public class SecurityCard {
 	 * Method that deliver to the owner the security card coordinates only one time
 	 * if cardPin is correct
 	 * @param cardPin
-	 * @return 
+	 * @return Array of Integers
 	 * @throws SecurityCardException 
 	 */
 	public Integer[][] deliverSecurityCard(String cardPin) throws SecurityCardException{
@@ -93,6 +124,50 @@ public class SecurityCard {
 	 */
 	public Card getAssociatedCard(){
 		return this.associatedCard;
+	}
+	
+	/**
+	 * Method that establish the number of the rows specified in card.properties
+	 * @throws NumberFormatException
+	 * @throws IOException
+	 */
+	private void setDefaultRow() throws NumberFormatException, IOException{
+
+		try {
+			Properties commissionProperty = new Properties();
+			commissionProperty.load(new FileInputStream("src/es/unileon/ulebank/properties/card.properties"));
+
+			/**Obtenemos los parametros definidos en el archivo*/
+			this.row = Integer.parseInt(commissionProperty.getProperty(this.DIMENSION_ROW));
+		}
+		catch(FileNotFoundException e){
+			e.printStackTrace();
+		}catch (IOException e2) {
+			e2.printStackTrace();
+		}
+
+	}
+	
+	/**
+	 * Method that establish the number of the columns specified in card.properties 
+	 * @throws NumberFormatException
+	 * @throws IOException
+	 */
+	private void setDefaultColumns() throws NumberFormatException, IOException{
+
+		try {
+			Properties commissionProperty = new Properties();
+			commissionProperty.load(new FileInputStream("src/es/unileon/ulebank/properties/card.properties"));
+
+			/**Obtenemos los parametros definidos en el archivo*/
+			this.columns = Integer.parseInt(commissionProperty.getProperty(this.DIMENSION_COLUMNS));
+		}
+		catch(FileNotFoundException e){
+			e.printStackTrace();
+		}catch (IOException e2) {
+			e2.printStackTrace();
+		}
+
 	}
 		
 }

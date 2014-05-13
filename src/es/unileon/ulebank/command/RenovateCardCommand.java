@@ -1,10 +1,9 @@
 package es.unileon.ulebank.command;
 
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-import es.unileon.ulebank.office.Office;
+import org.apache.log4j.Logger;
+
 import es.unileon.ulebank.account.Account;
 import es.unileon.ulebank.account.AccountHandler;
 import es.unileon.ulebank.exceptions.ClientNotFoundException;
@@ -12,6 +11,7 @@ import es.unileon.ulebank.handler.CardHandler;
 import es.unileon.ulebank.handler.CommandHandler;
 import es.unileon.ulebank.handler.DNIHandler;
 import es.unileon.ulebank.handler.Handler;
+import es.unileon.ulebank.office.Office;
 import es.unileon.ulebank.payments.Card;
 
 /**
@@ -19,21 +19,41 @@ import es.unileon.ulebank.payments.Card;
  * Comando para la renovacion de la tarjeta
  */
 public class RenovateCardCommand implements Command {
-	//Identificador del comando
+	/**
+	 * Logger de la clase
+	 */
+	private static final Logger LOG = Logger.getLogger(RenovateCardCommand.class.getName());
+	/**
+	 * Identificador del comando
+	 */
 	private Handler id;
-	//Identificador de la tarjeta a renovar
-	private CardHandler cardId;
-	//Cuenta a la que esta asociada la tarjeta que se va a renovar
+	/**
+	 * Identificador de la tarjeta a renovar
+	 */
+	private Handler cardId;
+	/**
+	 * Cuenta a la que esta asociada la tarjeta que se va a renovar
+	 */
 	private Account account;
-	//Tarjeta que se va a renovar
+	/**
+	 * Tarjeta que se va a renovar
+	 */
 	private Card card;
-	//Antiguo CVV antes de realizar la renovacion
+	/**
+	 * Antiguo CVV antes de realizar la renovacion
+	 */
 	private String oldCvv;
-	//Nuevo CVV que se va a asignar
+	/**
+	 * Nuevo CVV que se va a asignar
+	 */
 	private String newCvv;
-	//Antigua fecha de caducidad de la tarjeta
+	/**
+	 * Antigua fecha de caducidad de la tarjeta
+	 */
 	private String oldExpirationDate;
-	//Nueva fecha de caducidad de la tarjeta
+	/**
+	 * Nueva fecha de caducidad de la tarjeta
+	 */
 	private String newExpirationDate;
 	
 	/**
@@ -43,14 +63,18 @@ public class RenovateCardCommand implements Command {
 	 * @param dni
 	 * @param accountHandler
 	 */
-	public RenovateCardCommand(CardHandler cardId, Office office, DNIHandler dni, AccountHandler accountHandler) {
+	public RenovateCardCommand(Handler cardId, Office office, Handler dni, Handler accountHandler) {
 		try {
 			this.id = new CommandHandler(cardId);
 			this.cardId = cardId;
-			this.account = office.searchClient(dni).searchAccount(accountHandler);
+			this.account = office.searchClient((DNIHandler) dni).searchAccount((AccountHandler) accountHandler);
 		} catch (ClientNotFoundException e) {
-			Logger.getLogger(RenovateCardCommand.class.toString()).log(Level.SEVERE, null, e);
-		}
+			LOG.info("Client with dni " + dni.toString() + " does not exists");
+		} catch (NullPointerException e) {
+			LOG.info(e.getMessage());
+		}/* catch (AccountNotFoundException e) {
+			LOG.info("Account with number " + accountHandler.toString() + " does not exists");
+		}*/
 	}
 	
 	/**
@@ -60,7 +84,7 @@ public class RenovateCardCommand implements Command {
 	public void execute() {
 		try {
 			//Buscamos la tarjeta en la cuenta con el identificador de la misma
-			this.card = this.account.searchCard(cardId);
+			this.card = this.account.searchCard((CardHandler) cardId);
 			//Guardamos el CVV para poder deshacer la operacion
 			this.oldCvv = this.card.getCvv();
 			//Guardamos la fecha de caducidad para poder deshacer la operacion
@@ -74,8 +98,12 @@ public class RenovateCardCommand implements Command {
 			//Cambiamos el CVV por el nuevo que se genera
 			this.card.setCvv(newCvv);
 		} catch (IOException e) {
-			Logger.getLogger(RenovateCardCommand.class.toString()).log(Level.SEVERE, null, e);
-		}
+			LOG.info(e.getMessage());
+		} catch (NullPointerException e) {
+			LOG.info(e.getMessage());
+		}/* catch (CardNotFoundException e) {
+			LOG.info("Card with number " + cardId.toString() + " does not exists");
+		}*/
 	}
 
 	/**
@@ -89,7 +117,7 @@ public class RenovateCardCommand implements Command {
 			//Restaura la antigua fecha de caducidad
 			this.card.setExpirationDate(oldExpirationDate);
 		} catch (IOException e) {
-			Logger.getLogger(RenovateCardCommand.class.toString()).log(Level.SEVERE, null, e);
+			LOG.info(e.getMessage());
 		}
 	}
 
@@ -104,7 +132,7 @@ public class RenovateCardCommand implements Command {
 			//Vuelve a cambiar la fecha de caducidad por la nueva
 			this.card.setExpirationDate(newExpirationDate);
 		} catch (IOException e) {
-			Logger.getLogger(RenovateCardCommand.class.toString()).log(Level.SEVERE, null, e);
+			LOG.info(e.getMessage());
 		}
 	}
 
