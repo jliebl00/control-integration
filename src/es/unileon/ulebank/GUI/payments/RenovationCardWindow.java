@@ -18,16 +18,23 @@ import java.util.logging.Logger;
 
 import javax.swing.JOptionPane;
 
+import es.unileon.ulebank.account.Account;
+import es.unileon.ulebank.bank.Bank;
+import es.unileon.ulebank.bank.BankHandler;
 import es.unileon.ulebank.client.Client;
 import es.unileon.ulebank.exceptions.CommissionException;
 import es.unileon.ulebank.exceptions.IncorrectLimitException;
-import es.unileon.ulebank.fees.FeeStrategy;
+import es.unileon.ulebank.fees.InvalidFeeException;
 import es.unileon.ulebank.handler.CardHandler;
 import es.unileon.ulebank.handler.DNIHandler;
+import es.unileon.ulebank.handler.GenericHandler;
+import es.unileon.ulebank.office.Office;
 import es.unileon.ulebank.payments.DebitCard;
-import es.unileon.ulebank.fees.DebitMaintenanceFee;
-import es.unileon.ulebank.fees.InvalidFeeException;
-import es.unileon.ulebank.fees.LinearFee;
+import es.unileon.ulebank.strategy.StrategyCommission;
+import es.unileon.ulebank.strategy.StrategyCommissionDebitEmission;
+import es.unileon.ulebank.strategy.StrategyCommissionDebitMaintenance;
+import es.unileon.ulebank.strategy.StrategyCommissionDebitRenovate;
+import es.unileon.ulebank.transactionManager.TransactionManager;
 
 /**
  *
@@ -36,6 +43,10 @@ import es.unileon.ulebank.fees.LinearFee;
 public class RenovationCardWindow extends javax.swing.JInternalFrame {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	/**
      * Creates new  form RenovationCardWindow
      */
     public RenovationCardWindow() {
@@ -117,7 +128,12 @@ public class RenovationCardWindow extends javax.swing.JInternalFrame {
         button2.setLabel("Renovation");
         button2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                button2ActionPerformed(evt);
+                try {
+					button2ActionPerformed(evt);
+				} catch (NumberFormatException | InvalidFeeException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             }
         });
 
@@ -343,9 +359,9 @@ public class RenovationCardWindow extends javax.swing.JInternalFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-//Al darle a este bot������������������������������������������������������n y dependiendo de la tarjeta seleccionada en el combobox
+//Al darle a este bot������������������������������������������������������������������������������������������������������������������������������������������������������������������n y dependiendo de la tarjeta seleccionada en el combobox
 //renovaremos la tarjeta, modificando la fecha, el cvv.
-    private void button2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button2ActionPerformed
+    private void button2ActionPerformed(java.awt.event.ActionEvent evt) throws NumberFormatException, InvalidFeeException {//GEN-FIRST:event_button2ActionPerformed
         String DNI = textField1.getText();
         
         String number = "" + textField1.getText().charAt(0);
@@ -376,13 +392,18 @@ public class RenovationCardWindow extends javax.swing.JInternalFrame {
             commission=line.readLine();
 
             DebitCard debitCard = null;
-            CardHandler handler = new CardHandler();
-        	Client client = new Client(dni,25);
-//        	Account account = new Account(new AccountHandler(new IdOffice("0001"), new GenericHandler("1234"), "1234567890"));
-                FeeStrategy commissionEmission = new LinearFee(25,0);
-                FeeStrategy commissionMaintenance = new DebitMaintenanceFee(client, 0);
-                FeeStrategy commissionRenovate = new LinearFee(0,0);
-        	debitCard = new DebitCard(handler, client, null, buyLimitDiary, buyLimitMonthly, cashLimitDiary, cashLimitMonthly, 25, 0, 0, 0);
+            CardHandler handler = new CardHandler(new BankHandler("1234"), "01", "123456789");
+        	TransactionManager manager = new TransactionManager();
+            Bank bank = new Bank(manager, new GenericHandler("1234"));
+            Office office = new Office(new GenericHandler("1234"), bank);
+    		DNIHandler dniHandler = new DNIHandler("71557005A");
+    		Client client = new Client(dniHandler, 20);
+    		office.addClient(client);
+    		Account account = new Account(office, bank, accountNumber);
+                StrategyCommission commissionEmission = new StrategyCommissionDebitEmission(25);
+                StrategyCommission commissionMaintenance = new StrategyCommissionDebitMaintenance(client, 0);
+                StrategyCommission commissionRenovate = new StrategyCommissionDebitRenovate(0);
+        	debitCard = new DebitCard(handler, client, account, buyLimitDiary, buyLimitMonthly, cashLimitDiary, cashLimitMonthly, commissionEmission.calculateCommission(), commissionMaintenance.calculateCommission(), commissionRenovate.calculateCommission());
             try {
                 debitCard.setBuyLimitDiary(buyLimitDiary);
                 debitCard.setCashLimitDiary(cashLimitDiary);
@@ -438,8 +459,6 @@ public class RenovationCardWindow extends javax.swing.JInternalFrame {
         } catch (IOException ex) {
             Logger.getLogger(DebitWindow.class.getName()).log(Level.SEVERE, null, ex);
         } catch (CommissionException ex) {
-            Logger.getLogger(RenovationCardWindow.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InvalidFeeException ex) {
             Logger.getLogger(RenovationCardWindow.class.getName()).log(Level.SEVERE, null, ex);
         }
         
@@ -547,7 +566,7 @@ public class RenovationCardWindow extends javax.swing.JInternalFrame {
             FileReader doc1 = new FileReader(archiveCard);
             BufferedReader line = new BufferedReader(doc1);
             
-                    //--Leemos hasta el n������������������������������������������������������mero de tarjeta que es lo que queremos mostrar en el comboBox
+                    //--Leemos hasta el n������������������������������������������������������������������������������������������������������������������������������������������������������������������mero de tarjeta que es lo que queremos mostrar en el comboBox
                     accountNumber=line.readLine();
                     cardType=line.readLine();
                     cardNumber=line.readLine();

@@ -17,16 +17,25 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
 import es.unileon.ulebank.account.Account;
+import es.unileon.ulebank.bank.Bank;
+import es.unileon.ulebank.bank.BankHandler;
 import es.unileon.ulebank.client.Client;
 import es.unileon.ulebank.exceptions.CommissionException;
 import es.unileon.ulebank.exceptions.IncorrectLimitException;
-import es.unileon.ulebank.fees.FeeStrategy;
-import es.unileon.ulebank.handler.CardHandler;
-import es.unileon.ulebank.handler.DNIHandler;
-import es.unileon.ulebank.payments.DebitCard;
 import es.unileon.ulebank.fees.DebitMaintenanceFee;
+import es.unileon.ulebank.fees.FeeStrategy;
 import es.unileon.ulebank.fees.InvalidFeeException;
 import es.unileon.ulebank.fees.LinearFee;
+import es.unileon.ulebank.handler.CardHandler;
+import es.unileon.ulebank.handler.DNIHandler;
+import es.unileon.ulebank.handler.GenericHandler;
+import es.unileon.ulebank.office.Office;
+import es.unileon.ulebank.payments.DebitCard;
+import es.unileon.ulebank.strategy.StrategyCommission;
+import es.unileon.ulebank.strategy.StrategyCommissionDebitEmission;
+import es.unileon.ulebank.strategy.StrategyCommissionDebitMaintenance;
+import es.unileon.ulebank.strategy.StrategyCommissionDebitRenovate;
+import es.unileon.ulebank.transactionManager.TransactionManager;
 
 /**
  *
@@ -34,27 +43,35 @@ import es.unileon.ulebank.fees.LinearFee;
  */
 public class InformationDebitCard extends javax.swing.JFrame {
 
-    String dni;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	String dni;
     String accountNumber;
     DebitCard card;
-    CardHandler handler = new CardHandler();
+    //TODO agnadir funcionalidad para poder introducir la informacion del numero de tarjeta
+    CardHandler handler = new CardHandler(new BankHandler("1234"), "01", "123456789");
 	Client client;
 	Account account;
-	   FeeStrategy commissionEmission ;
-	FeeStrategy commissionMaintenance ;
-	FeeStrategy commissionRenovate ;
+	FeeStrategy commissionEmission = new LinearFee(0, 25);
+	FeeStrategy commissionMaintenance = new DebitMaintenanceFee(client, 0);
+	FeeStrategy commissionRenovate = new LinearFee(0, 0);
 	
     
     /**
      * Creates new form InformationDevitCard1
+     * @throws InvalidFeeException 
      */
 
     public InformationDebitCard(int buyLimitDiary, int cashLimitDiary, int buyLimitMonthly, int cashLimitMonthly, String dni, String accountNumber) throws NumberFormatException, CommissionException, IOException, InvalidFeeException {
-           commissionEmission = new LinearFee(25,0);
-	 commissionMaintenance = new DebitMaintenanceFee(client, 0);
-	 commissionRenovate = new LinearFee(0,0);
-        handler = new CardHandler();
-//        account = new Account(new AccountHandler(new OfficeHandler("0001"), new GenericHandler("1234"), "1234567890"));
+        TransactionManager manager = new TransactionManager();
+        Bank bank = new Bank(manager, new GenericHandler("1234"));
+        Office office = new Office(new GenericHandler("1234"), bank);
+		DNIHandler dniHandler = new DNIHandler("71557005A");
+		Client client = new Client(dniHandler, 20);
+		office.addClient(client);
+		this.account = new Account(office, bank, accountNumber);
         initComponents();
         this.dni=dni;
         this.accountNumber=accountNumber;
@@ -71,7 +88,7 @@ public class InformationDebitCard extends javax.swing.JFrame {
         DNIHandler Nif = new DNIHandler(numberDNI, letter);
         client = new Client(Nif, 25);
         
-        card = new DebitCard(handler, client, account, buyLimitDiary, buyLimitMonthly, cashLimitDiary, cashLimitMonthly, 25,0,0, 0);
+        card = new DebitCard(handler, client, account, buyLimitDiary, buyLimitMonthly, cashLimitDiary, cashLimitMonthly, commissionEmission.getFee(0), commissionMaintenance.getFee(0), commissionRenovate.getFee(0));
 
         
         try {
@@ -93,9 +110,9 @@ public class InformationDebitCard extends javax.swing.JFrame {
         this.jTextField7.setText(this.card.getCvv());
         this.jTextField9.setText(String.valueOf(this.card.getCashLimitMonthly()));
         this.jTextField10.setText(String.valueOf(this.card.getBuyLimitMonthly()));
-        this.jTextField8.setText(String.valueOf(25));//commissionEmission.calculateCommission()));
-        this.jTextField11.setText(String.valueOf(0));//commissionMaintenance.calculateCommission()));
-        this.jTextField12.setText(String.valueOf(0));//commissionRenovate.calculateCommission()));
+        this.jTextField8.setText(String.valueOf(commissionEmission.getFee(0)));
+        this.jTextField11.setText(String.valueOf(commissionMaintenance.getFee(0)));
+        this.jTextField12.setText(String.valueOf(commissionRenovate.getFee(0)));
 //        this.jTextField8.setText(String.valueOf(card.getCommission()));
     }
     
@@ -367,7 +384,7 @@ public class InformationDebitCard extends javax.swing.JFrame {
     private void jTextField8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField8ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField8ActionPerformed
-    //Abrimos el contrato de la tarjeta de débito
+    //Abrimos el contrato de la tarjeta de d������������������������������������������������������bito
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
        
         try {
@@ -381,7 +398,7 @@ public class InformationDebitCard extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-         // Creamos un fichero de nombre el dni del usuario y dentro tendr������������������ el numero de cuenta y  toda la informacion de la tarjeta.
+         // Creamos un fichero de nombre el dni del usuario y dentro tendr������������������������������������������������������ el numero de cuenta y  toda la informacion de la tarjeta.
         if(jCheckBox1.isSelected()==true){
         FileWriter fichero = null;
         PrintWriter pw = null;

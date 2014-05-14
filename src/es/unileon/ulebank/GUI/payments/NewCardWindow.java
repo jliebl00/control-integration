@@ -8,6 +8,7 @@ package es.unileon.ulebank.GUI.payments;
 
 import es.unileon.ulebank.exceptions.CommissionException;
 import es.unileon.ulebank.fees.InvalidFeeException;
+
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -58,7 +59,12 @@ public class NewCardWindow extends javax.swing.JFrame {
         jButton1.setText("Create a new Card");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                try {
+					jButton1ActionPerformed(evt);
+				} catch (InvalidFeeException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
             }
         });
 
@@ -139,7 +145,7 @@ public class NewCardWindow extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) throws InvalidFeeException {//GEN-FIRST:event_jButton1ActionPerformed
        
         int buyLimitDiary = Integer.parseInt(jTextField1.getText());
         int cashLimitDiary = Integer.parseInt(jTextField2.getText());
@@ -155,8 +161,6 @@ public class NewCardWindow extends javax.swing.JFrame {
         } catch (CommissionException ex) {
             Logger.getLogger(NewCardWindow.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
-            Logger.getLogger(NewCardWindow.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InvalidFeeException ex) {
             Logger.getLogger(NewCardWindow.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
