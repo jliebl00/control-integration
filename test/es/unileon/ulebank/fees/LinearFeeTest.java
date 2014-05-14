@@ -35,8 +35,8 @@ public class LinearFeeTest {
 
     @Test
     public void testGetFee() {
-        assertEquals(100*0.2+10, linearFee1.getFee(100), 0.0);
-        assertEquals(100*0.2+0, linearFee2.getFee(100), 0.0);
+        assertEquals(10, linearFee1.getFee(1), 0.0);
+        assertEquals(100*0.2, linearFee2.getFee(100), 0.0);
     }
     
     @Test (expected = InvalidFeeException.class)
