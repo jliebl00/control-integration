@@ -8,23 +8,33 @@ import es.unileon.ulebank.account.Account;
 import es.unileon.ulebank.client.Client;
 import es.unileon.ulebank.exceptions.CommissionException;
 import es.unileon.ulebank.exceptions.PaymentException;
-import es.unileon.ulebank.exceptions.TransactionException;
 import es.unileon.ulebank.fees.InvalidFeeException;
 import es.unileon.ulebank.fees.LinearFee;
 import es.unileon.ulebank.handler.Handler;
-import es.unileon.ulebank.taskList.TaskList;
 import es.unileon.ulebank.history.CardTransaction;
+import es.unileon.ulebank.history.TransactionException;
 
 /**
  * @author Israel, Rober dCR
  * Clase que representa la tarjeta de credito
  */
 public class CreditCard extends Card {
-	
+	/**
+	 * Cuenta a la que esta asociada la tarjeta
+	 */
 	private Account account;
+	/**
+	 * Duegno de la tarjeta
+	 */
 	private Client owner;
+	/**
+	 * Dia del mes en el que se carga los gastos de la tarjeta
+	 */
+	private int monthDay;
+	/**
+	 * Lista de transacciones de la tarjeta
+	 */
 	private List<CardTransaction> transactionList;
-	private TaskList transactionTask;
 	
 	/**
 	 * Constructor de la clase
@@ -52,21 +62,20 @@ public class CreditCard extends Card {
 		this.owner = owner;
 		this.transactionList = new ArrayList<CardTransaction>();
 	}
-		
+	
 	/**
 	 * Method that makes the payment
-	 * @param receiverAccount Account which receives the money from the card
 	 * @param quantity Amount of the payment
 	 * @param payConcept Concept of the payment
 	 * @throws PaymentException 
-	 * @throws es.unileon.ulebank.history.TransactionException 
+	 * @throws TransactionException 
 	 */
-	public void makeTransaction(Account receiverAccount, double quantity, String payConcept) throws PaymentException, TransactionException, es.unileon.ulebank.history.TransactionException{
-		//TODO - Actualizar con las nuevas transacciones
-		//A�adimos la transaccion a la lista
-		this.transactionList.add(new CardTransaction(quantity, new Date(), payConcept, receiverAccount, this.account));
-		//LLegada la fecha hay que descontar el dinero de la cuenta
-		//Pagar los importes a la cuenta
+	@Override
+	public void makeTransaction(double quantity, String payConcept) throws PaymentException, TransactionException {
+		//Agyadimos la transaccion a la lista
+		CardTransaction transaction = new CardTransaction(quantity, new Date(), payConcept);
+		transaction.setEffectiveDate(this.obtainEffectiveDate());
+		this.transactionList.add(transaction);
 	}
 	
 	/**
@@ -75,5 +84,65 @@ public class CreditCard extends Card {
 	 */
 	public Client getOwner() {
 		return owner;
+	}
+	
+	/**
+	 * Method that obtain the day when the amount of the purchases is done.
+	 * @return
+	 */
+	public int getMonthDay() {
+		return monthDay;
+	}
+
+	/**
+	 * Method that sets the day when the amount of the purchases is done.
+	 * @param monthDay
+	 */
+	public void setMonthDay(int monthDay) {
+		this.monthDay = monthDay;
+	}
+	
+	/**
+	 * Method that get the account associated to the card
+	 * @return account
+	 */
+	public Account getAccount() {
+		return account;
+	}
+
+	/**
+	 * Method that calculate the effective day when the payment is taken
+	 * @return date
+	 */
+	@SuppressWarnings("deprecation")
+	private Date obtainEffectiveDate(){
+		Date effectiveDate = new Date();
+		effectiveDate.setDate(this.monthDay);
+		if (effectiveDate.getMonth() != 11)
+			effectiveDate.setMonth(effectiveDate.getMonth()+1);
+		else {
+			effectiveDate.setMonth(0);
+			effectiveDate.setYear(effectiveDate.getYear()+1);
+		}
+		
+		return effectiveDate;
+	}
+	
+	/**
+	 * Method that calculate the amount of all transaction which have the effectiveDate
+	 * @param effectiveDate
+	 * @return amount of purchases
+	 */
+	public double getAmount(Date effectiveDate){
+		double amount = 0.0;
+		
+		//Recorremos todas las transacciones de la lista acumulando las cantidades de dichas transacciones
+		for ( int i = 0; i < this.transactionList.size(); i++){
+			if ( this.transactionList.get(i).getEffectiveDate().compareTo(effectiveDate) == 0 ) {
+				amount += this.transactionList.get(i).getAmount();
+			}
+		}
+		
+		return amount;
 	}
 }

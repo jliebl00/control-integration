@@ -3,8 +3,8 @@ package es.unileon.ulebank.payments;
 import java.util.Date;
 
 import es.unileon.ulebank.account.Account;
-import es.unileon.ulebank.exceptions.TransactionException;
 import es.unileon.ulebank.exceptions.TransferException;
+import es.unileon.ulebank.history.TransactionException;
 import es.unileon.ulebank.history.TransferTransaction;
 
 /**
@@ -80,7 +80,7 @@ public class Transfer {
 	 * @param quantity
 	 * @throws es.unileon.ulebank.history.TransactionException 
 	 */
-	public void makeTransfer(String concept) throws TransferException, es.unileon.ulebank.history.TransactionException{
+	public void make(String concept) throws TransferException, TransactionException{
 		
 		try{
 			//Discount the quantity from sender account
@@ -88,7 +88,6 @@ public class Transfer {
 			//Add the money to receiver account
 			this.receiverAccount.doDeposit(new TransferTransaction(quantity, new Date(), concept, this.receiverAccount, this.senderAccount));
 		}catch(TransactionException e){
-			e.printStackTrace();
 			throw new TransferException("Denegate Transaction");
 		}
 	}

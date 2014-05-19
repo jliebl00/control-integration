@@ -7,7 +7,10 @@ import es.unileon.ulebank.fees.FeeStrategy;
 import es.unileon.ulebank.handler.Handler;
 
 /**
+ * Purse Card Class
  * @author Israel
+ * @date 14/05/2014
+ * @brief Class which implements the features of the purse card
  */
 public class PurseCard extends Card {
 
@@ -38,12 +41,12 @@ public class PurseCard extends Card {
 	
 	/**
 	 * Method that makes the payment
-	 * @param receiverAccount Account which receives the money from the card
 	 * @param quantity Amount of the payment
 	 * @param payConcept Concept of the payment
 	 * @throws PaymentException
 	 */
-	public void makeTransaction(Account receiverAccount, double quantity, String payConcept) throws PaymentException{
+	@Override
+	public void makeTransaction(double quantity, String payConcept) throws PaymentException{
 		//TODO
 	}
 }
