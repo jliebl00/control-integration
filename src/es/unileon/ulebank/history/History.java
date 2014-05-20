@@ -45,7 +45,6 @@ public class History<T extends Transaction> {
 
     /**
      *
-     * @param args
      * @return
      */
     public Iterator<T> getIterator() {
@@ -68,5 +67,9 @@ public class History<T extends Transaction> {
             }
         }
         return found;
+    }
+
+    public Iterator iterator() {
+        return this.transactions.iterator();
     }
 }
