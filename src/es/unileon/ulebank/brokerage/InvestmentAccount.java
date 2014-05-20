@@ -1,21 +1,24 @@
 package es.unileon.ulebank.brokerage;
 
-import es.unileon.ulebank.users.Employee;
 import es.unileon.ulebank.account.Account;
 import es.unileon.ulebank.account.exception.BalanceException;
 import es.unileon.ulebank.brokerage.buyable.Enterprise;
 import es.unileon.ulebank.brokerage.buyable.InvalidBuyableException;
 import es.unileon.ulebank.brokerage.buyable.InvestmentFund;
 import es.unileon.ulebank.brokerage.buyable.NotEnoughParticipationsException;
+import es.unileon.ulebank.brokerage.history.PackTransaction;
 import es.unileon.ulebank.brokerage.pack.InvestmentFundPack;
 import es.unileon.ulebank.brokerage.pack.Pack;
-import es.unileon.ulebank.brokerage.history.PackTransaction;
 import es.unileon.ulebank.brokerage.pack.StockPack;
-import es.unileon.ulebank.fees.DefaultFeeProvider;
+import es.unileon.ulebank.client.Client;
+import es.unileon.ulebank.exceptions.AccountNotBelongingToUserException;
 import es.unileon.ulebank.fees.FeeStrategy;
 import es.unileon.ulebank.fees.FeeTransaction;
+import es.unileon.ulebank.fees.InvalidFeeException;
+import es.unileon.ulebank.fees.LinearFee;
 import es.unileon.ulebank.history.History;
 import es.unileon.ulebank.history.TransactionException;
+import es.unileon.ulebank.users.Employee;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Level;
@@ -23,19 +26,30 @@ import java.util.logging.Logger;
 
 public class InvestmentAccount {
 
+    private final Client client;
+    private final Account account;
     private final ArrayList<Pack> stockPacks;
     private final ArrayList<Pack> fundPacks;
     private final History<PackTransaction> history;
-    private final FeeStrategy buyStockageFee, sellStockageFee;
+    private FeeStrategy buyStockageFee, sellStockageFee;
 
-    public InvestmentAccount() {
+    public InvestmentAccount(Client c, Account acc) {
         this.stockPacks = new ArrayList<>();
         this.fundPacks = new ArrayList<>();
 
         this.history = new History<>();
 
-        this.buyStockageFee = DefaultFeeProvider.getInstance().getDefaultFee();
-        this.sellStockageFee = DefaultFeeProvider.getInstance().getDefaultFee();
+        this.client = c;
+        this.account = acc;
+
+        try {
+            this.buyStockageFee = new LinearFee(5, 0.01);
+            this.sellStockageFee = new LinearFee(5, 0.01);
+        } catch (InvalidFeeException ex) {
+            // This will NEVER happen.
+            // At least I hope so.
+            Logger.getLogger(InvestmentAccount.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
@@ -52,15 +66,20 @@ public class InvestmentAccount {
      * @throws
      * es.unileon.ulebank.brokerage.buyable.NotEnoughParticipationsException
      * @throws es.unileon.ulebank.history.TransactionException
+     * @throws es.unileon.ulebank.exceptions.AccountNotBelongingToUserException
      */
-    public void buyStockage(Enterprise e, Account acc, int amount, Employee operator) throws InvalidBuyableException, BalanceException, NotEnoughParticipationsException, es.unileon.ulebank.history.TransactionException {
+    public void buyStockage(Enterprise e, Account acc, int amount, Employee operator) throws InvalidBuyableException, BalanceException, NotEnoughParticipationsException, TransactionException, AccountNotBelongingToUserException {
+        if (this.client.existsAccount(this.account.getID())) {
+            throw new AccountNotBelongingToUserException(this.client, this.account);
+        }
+
         StockPack p = e.buy(amount, operator);
         p.setAccount(acc);
         stockPacks.add(p);
 
         double price = amount * e.getPPP();
         PackTransaction transaction = new PackTransaction(price, new Date(), "Compra de acciones", p, operator);
-        FeeTransaction feeTransaction = new FeeTransaction(this.sellStockageFee.getFee(price), new Date(), transaction);
+        FeeTransaction feeTransaction = new FeeTransaction(this.getSellStockageFee().getFee(price), new Date(), transaction);
 
         try {
             p.getAccount().doWithdrawal(transaction);
@@ -73,7 +92,11 @@ public class InvestmentAccount {
         this.history.add(transaction);
     }
 
-    public void sellStockage(StockPack p, int amount, Employee operator) throws NotEnoughParticipationsException, es.unileon.ulebank.history.TransactionException {
+    public void sellStockage(StockPack p, int amount, Employee operator) throws NotEnoughParticipationsException, TransactionException, AccountNotBelongingToUserException {
+        if (this.client.existsAccount(this.account.getID())) {
+            throw new AccountNotBelongingToUserException(this.client, this.account);
+        }
+
         if (p.getAmount() < amount) {
             throw new NotEnoughParticipationsException();
         }
@@ -82,7 +105,7 @@ public class InvestmentAccount {
 
         double price = p.getProduct().getPPP() * amount;
         PackTransaction transaction = new PackTransaction(price, new Date(), "Venta de acciones", p, operator);
-        FeeTransaction feeTransaction = new FeeTransaction(this.sellStockageFee.getFee(price), new Date(), transaction);
+        FeeTransaction feeTransaction = new FeeTransaction(this.getSellStockageFee().getFee(price), new Date(), transaction);
 
         try {
             p.getAccount().doDeposit(transaction);
@@ -97,7 +120,11 @@ public class InvestmentAccount {
         this.prunePacks();
     }
 
-    public void buyInvestmentFund(InvestmentFund i, Account acc, int amount, Employee operator) throws InvalidBuyableException, BalanceException, NotEnoughParticipationsException, es.unileon.ulebank.history.TransactionException {
+    public void buyInvestmentFund(InvestmentFund i, Account acc, int amount, Employee operator) throws InvalidBuyableException, BalanceException, NotEnoughParticipationsException, TransactionException, AccountNotBelongingToUserException {
+        if (this.client.existsAccount(this.account.getID())) {
+            throw new AccountNotBelongingToUserException(this.client, this.account);
+        }
+
         InvestmentFundPack ifp = i.buy(amount, operator);
         fundPacks.add(ifp);
         double price = amount * i.getPPP();
@@ -124,5 +151,40 @@ public class InvestmentAccount {
 
     private void prunePacks() {
         // TODO: Delete 0-participations packs.
+    }
+
+    /**
+     * @return the client
+     */
+    public Client getClient() {
+        return client;
+    }
+
+    /**
+     * @return the buyStockageFee
+     */
+    public FeeStrategy getBuyStockageFee() {
+        return buyStockageFee;
+    }
+
+    /**
+     * @param buyStockageFee the buyStockageFee to set
+     */
+    public void setBuyStockageFee(FeeStrategy buyStockageFee) {
+        this.buyStockageFee = buyStockageFee;
+    }
+
+    /**
+     * @return the sellStockageFee
+     */
+    public FeeStrategy getSellStockageFee() {
+        return sellStockageFee;
+    }
+
+    /**
+     * @param sellStockageFee the sellStockageFee to set
+     */
+    public void setSellStockageFee(FeeStrategy sellStockageFee) {
+        this.sellStockageFee = sellStockageFee;
     }
 }
