@@ -26,6 +26,10 @@ public class PackTransaction extends Transaction {
         this.pack = pack;
         this.operator = operator;
     }
+    
+    public Pack getPack() {
+        return this.pack;
+    }
 
     @Override
     public String toString() {
