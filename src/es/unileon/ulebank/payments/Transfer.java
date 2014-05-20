@@ -1,8 +1,11 @@
 package es.unileon.ulebank.payments;
 
+import java.util.Date;
+
 import es.unileon.ulebank.account.Account;
 import es.unileon.ulebank.exceptions.TransferException;
-import es.unileon.ulebank.handler.TransferHandler;
+import es.unileon.ulebank.history.TransactionException;
+import es.unileon.ulebank.history.TransferTransaction;
 
 /**
  * Transfer Class
@@ -12,11 +15,22 @@ import es.unileon.ulebank.handler.TransferHandler;
  */
 public class Transfer {
 
-	private Account senderAccount; //Account from transfer the money
-	private Account receiverAccount; //Account which receives the money
-	private float quantity; //Quantity of the transfer
-	private TransferHandler id; //Identifier
-	private Transference transaction; //Transaction of the transfer
+	/**
+	 * Account from transfer the money
+	 */
+	private Account senderAccount;
+	/**
+	 * Account which receives the money
+	 */
+	private Account receiverAccount;
+	/**
+	 * Quantity of the transfer
+	 */
+	private double quantity;
+	/**
+	 * Transaction of the transfer
+	 */
+	private TransferTransaction transaction;
 
 	/**
 	 * Class constructor
@@ -25,12 +39,11 @@ public class Transfer {
 	 * @param quantity
 	 * @throws TransferException 
 	 */
-	public Transfer(Account sender, Account receiver, float quantity) throws TransferException{
+	public Transfer(Account sender, Account receiver, double quantity) throws TransferException{
 		if (!sender.equals(receiver)){
 			this.senderAccount = sender;
 			this.receiverAccount = receiver;
 			this.quantity = quantity;
-			this.id = new TransferHandler(sender.getID().toString(), receiver.getID().toString());
 		}
 		else
 			throw new TransferException("Sender Account number and Receiver Account number are the same.");
@@ -46,7 +59,7 @@ public class Transfer {
 	
 	/**
 	 * Getter receiverAccount
-	 * @return receiverAccount
+	 * @return Account
 	 */
 	public Account getReceiverAccount() {
 		return receiverAccount;
@@ -54,18 +67,10 @@ public class Transfer {
 
 	/**
 	 * Getter quantity
-	 * @return quantity
+	 * @return double
 	 */
-	public float getQuantity() {
+	public double getQuantity() {
 		return quantity;
-	}
-	
-	/**
-	 * Setter quantity
-	 * @param quantity
-	 */
-	public void setQuantity(float quantity) {
-		this.quantity = quantity;
 	}
 	
 	/**
@@ -73,31 +78,25 @@ public class Transfer {
 	 * @param sender
 	 * @param receiver
 	 * @param quantity
-	 * @throws TransferException 
+	 * @throws es.unileon.ulebank.history.TransactionException 
 	 */
-	public void transferMoney(String concept) throws TransferException{
-		if (this.senderAccount.getBalance() >= quantity){
-			this.senderAccount.setBalance(this.senderAccount.getBalance() - quantity);
-			this.receiverAccount.setBalance(this.receiverAccount.getBalance() + quantity);
-			this.setTransaction(new Transference(this, concept)); //TODO - Actualizar a Transaction
+	public void make(String concept) throws TransferException, TransactionException{
+		
+		try{
+			//Discount the quantity from sender account
+			this.senderAccount.doWithdrawal(new TransferTransaction(quantity, new Date(), concept, this.receiverAccount, this.senderAccount));
+			//Add the money to receiver account
+			this.receiverAccount.doDeposit(new TransferTransaction(quantity, new Date(), concept, this.receiverAccount, this.senderAccount));
+		}catch(TransactionException e){
+			throw new TransferException("Denegate Transaction");
 		}
-		else
-			throw new TransferException("Sender Account has not the balance necessary.");
-	}
-
-	/**
-	 * Getter id
-	 * @return id
-	 */
-	public String getId() {
-		return id.toString();
 	}
 
 	/**
 	 * Getter transaction
-	 * @return the annotation of the transfer
+	 * @return TransferTransaction
 	 */
-	public Transference getTransaction() {
+	public TransferTransaction getTransaction() {
 		return transaction;
 	}
 
@@ -105,7 +104,7 @@ public class Transfer {
 	 * Setter transaction
 	 * @param transaction
 	 */
-	public void setTransaction(Transference transaction) {
+	public void setTransaction(TransferTransaction transaction) {
 		this.transaction = transaction;
 	}
 

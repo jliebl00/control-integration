@@ -1,9 +1,5 @@
 package es.unileon.ulebank.command;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import es.unileon.ulebank.office.Office;
 import es.unileon.ulebank.account.Account;
 import es.unileon.ulebank.account.AccountHandler;
 import es.unileon.ulebank.exceptions.ClientNotFoundException;
@@ -11,17 +7,25 @@ import es.unileon.ulebank.handler.CardHandler;
 import es.unileon.ulebank.handler.CommandHandler;
 import es.unileon.ulebank.handler.DNIHandler;
 import es.unileon.ulebank.handler.Handler;
+import es.unileon.ulebank.office.Office;
+
 
 /**
  * @author Israel
  * Comando para realizar la cancelacion de la tarjeta
  */
 public class CancelCardCommand implements Command {
-	//Identificador del comando
+	/**
+	 * Identificador del comando
+	 */
 	private Handler id;
-	//Identificador de la tarjeta a cancelar
-	private CardHandler cardId;
-	//Cuenta a la que esta asociada la tarjeta que se va a cancelar
+	/**
+	 * Identificador de la tarjeta a cancelar
+	 */
+	private Handler cardId;
+	/**
+	 * Cuenta a la que esta asociada la tarjeta que se va a cancelar
+	 */
 	private Account account;
 	
 	/**
@@ -30,15 +34,12 @@ public class CancelCardCommand implements Command {
 	 * @param office
 	 * @param dni
 	 * @param account
+	 * @throws ClientNotFoundException 
 	 */
-	public CancelCardCommand(CardHandler cardId, Office office, DNIHandler dni, AccountHandler account) {
+	public CancelCardCommand(Handler cardId, Office office, Handler dni, Handler account) throws ClientNotFoundException {
 		this.id = new CommandHandler(cardId);
-		this.cardId = cardId;
-		try {
-			this.account = office.searchClient(dni).searchAccount(account);
-		} catch (ClientNotFoundException e) {
-			Logger.getLogger(CancelCardCommand.class.toString()).log(Level.SEVERE, null, e);
-		}
+		this.cardId = (CardHandler) cardId;
+		this.account = office.searchClient((DNIHandler) dni).searchAccount((AccountHandler) account);	
 	}
 	
 	/**
@@ -47,7 +48,7 @@ public class CancelCardCommand implements Command {
 	@Override
 	public void execute() {
 		//Se borra la tarjeta de la lista de tarjetas de la cuenta
-		account.removeCard(this.cardId);
+		account.removeCard((CardHandler) this.cardId);		
 	}
 
 	/**
