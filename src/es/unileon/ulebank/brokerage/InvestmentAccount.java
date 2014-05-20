@@ -9,7 +9,7 @@ import es.unileon.ulebank.brokerage.buyable.InvestmentFund;
 import es.unileon.ulebank.brokerage.buyable.NotEnoughParticipationsException;
 import es.unileon.ulebank.brokerage.pack.InvestmentFundPack;
 import es.unileon.ulebank.brokerage.pack.Pack;
-import es.unileon.ulebank.brokerage.pack.PackTransaction;
+import es.unileon.ulebank.brokerage.history.PackTransaction;
 import es.unileon.ulebank.brokerage.pack.StockPack;
 import es.unileon.ulebank.fees.DefaultFeeProvider;
 import es.unileon.ulebank.fees.FeeStrategy;

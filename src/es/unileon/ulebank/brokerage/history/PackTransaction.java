@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package es.unileon.ulebank.brokerage.pack;
+package es.unileon.ulebank.brokerage.history;
 
+import es.unileon.ulebank.brokerage.pack.Pack;
 import es.unileon.ulebank.users.Employee;
 import es.unileon.ulebank.history.Transaction;
 import es.unileon.ulebank.history.TransactionException;
